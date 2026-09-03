@@ -56,11 +56,20 @@ consigáis la fotografía. Así la galería nunca se ve rota.
 
 ## 🚀 Cómo publicar la web (solo la primera vez)
 
-1. Lleva estos archivos a la rama **`main`** (fusionando la rama de trabajo o
-   marcándola como rama principal en *Settings → General → Default branch*).
-2. En GitHub, entra en **Settings → Pages**.
-3. En *Build and deployment → Source*, elige **GitHub Actions**.
-4. Listo. Cada vez que se guarde un cambio en `main`, la web se republica sola.
+El código ya está en la rama **`main`** y el flujo de publicación está listo.
+Solo falta **un paso manual**, porque GitHub no permite que un robot active
+Pages por primera vez:
+
+1. Entra en **Settings → Pages** del repositorio.
+2. En *Build and deployment → Source*, elige **GitHub Actions**.
+3. Ve a la pestaña **Actions → Publicar en GitHub Pages → Run workflow**
+   (o guarda cualquier cambio en `main`: se publica solo).
+
+A partir de ahí, cada cambio en `main` republica la web automáticamente.
+
+> **Recomendado:** en *Settings → General → Default branch*, marca `main` como
+> rama principal. Ahora mismo la rama por defecto es la de trabajo, porque fue
+> la primera que se subió al repositorio.
 
 > El despliegue está configurado para la rama `main`. Si prefieres publicar desde
 > otra rama, cambia el nombre en `.github/workflows/deploy.yml` (línea `branches:`).
