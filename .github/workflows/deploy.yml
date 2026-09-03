@@ -16,14 +16,15 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
   publicar:
     if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
+    # La concurrencia va dentro del trabajo: así una ejecución que se omite
+    # (por venir de otra rama) no cancela un despliegue que ya está en marcha.
+    concurrency:
+      group: pages
+      cancel-in-progress: true
     environment:
       name: github-pages
       url: ${{ steps.despliegue.outputs.page_url }}
