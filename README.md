@@ -43,15 +43,41 @@ comillas, y guarda con *Commit changes*. En 1–2 minutos la web se actualiza so
 
 ## 📷 Cómo añadir fotos
 
-1. Sube las imágenes a la carpeta `assets/galeria/` (en GitHub: *Add file → Upload files*).
-2. Añade cada una en el apartado `galeria` de `js/datos.js`:
+**Solo hay que subir el archivo.** En GitHub: entra en `assets/galeria/`, pulsa
+*Add file → Upload files*, arrastra las fotos y guarda. Nada más.
 
-```js
-{ src: "assets/galeria/patio-2004.jpg", titulo: "El patio en obras", anio: "2004" },
+A partir de ahí se hace todo solo, en un par de minutos:
+
+| Paso automático | Por qué importa |
+|---|---|
+| Endereza la foto | Las de móvil se publican giradas si no se corrige |
+| **Borra los metadatos** | Las fotos de móvil llevan **las coordenadas GPS** del lugar donde se tomaron |
+| Reduce el tamaño (máx. 1600 px) | Una foto de 8 MB haría la web inusable con datos móviles |
+| Crea una miniatura (600 px) | La rejilla carga ligera; la foto grande solo al ampliarla |
+| Actualiza la galería | Sin editar código, así que no se puede romper nada |
+
+### El nombre del archivo es el título
+
+```
+2004-el-patio-en-obras.jpg   →   "El patio en obras", año 2004
+merienda-de-antiguos.jpg     →   "Merienda de antiguos", sin año
 ```
 
-Si dejas `src: ""`, se muestra una tarjeta ilustrada con anillos de árbol hasta que
-consigáis la fotografía. Así la galería nunca se ve rota.
+Empieza por el año en cuatro cifras si lo conoces y separa las palabras con
+guiones. Para cambiar un título, renombra la foto. Las fotos se ordenan solas
+por año, y las que no lo llevan van al final.
+
+Se admiten `.jpg`, `.png`, `.webp` y `.heic` (iPhone). Sube el original del
+tamaño que sea. La carpeta `mini/` se genera sola: no la toques.
+
+Mientras no haya ninguna foto subida, la galería muestra las tarjetas
+ilustradas de `js/datos.js`, para que nunca se vea vacía. En cuanto subas la
+primera foto real, esas tarjetas desaparecen.
+
+> ⚠️ **Esto no es el archivo del centro.** Aquí solo van las fotos que se
+> publican; guardad los originales en vuestra carpeta privada. Y comprobad la
+> autorización de imagen antes de subir nada: lo que se publica aquí es
+> público en internet e indexable por los buscadores.
 
 ---
 

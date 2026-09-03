@@ -220,13 +220,16 @@
   function pintarGaleria() {
     const cont = $("#galeria-rejilla");
     if (!cont) return;
-    const fotos = DATOS.galeria || [];
+
+    // Si hay fotos reales subidas a assets/galeria/, mandan sobre los ejemplos
+    const subidas = typeof GALERIA_AUTO !== "undefined" ? GALERIA_AUTO : [];
+    const fotos = subidas.length ? subidas : (DATOS.galeria || []);
 
     cont.innerHTML = fotos.map((f, i) => `
       <button class="foto reveal" type="button" data-indice="${i}"
-              aria-label="Ampliar: ${esc(f.titulo)}, ${esc(f.anio)}">
+              aria-label="Ampliar: ${esc(f.titulo)}${f.anio ? ", " + esc(f.anio) : ""}">
         ${f.src
-          ? `<img src="${esc(f.src)}" alt="${esc(f.titulo)}" loading="lazy" decoding="async">`
+          ? `<img src="${esc(f.mini || f.src)}" alt="${esc(f.titulo)}" loading="lazy" decoding="async">`
           : marcoIlustrado(f.anio, i)}
         <span class="foto__pie">
           <span class="foto__titulo">${esc(f.titulo)}</span>
@@ -246,7 +249,7 @@
       medio.innerHTML = f.src
         ? `<img src="${esc(f.src)}" alt="${esc(f.titulo)}">`
         : marcoIlustrado(f.anio, Number(boton.dataset.indice));
-      pie.textContent = `${f.titulo} · ${f.anio}`;
+      pie.textContent = f.anio ? `${f.titulo} · ${f.anio}` : f.titulo;
       if (typeof visor.showModal === "function") visor.showModal();
     });
 

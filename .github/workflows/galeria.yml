@@ -1,0 +1,50 @@
+# Prepara las fotos de la galería en cuanto se suben.
+#
+# Vosotros solo tenéis que arrastrar las imágenes a assets/galeria/. Esto se
+# encarga del resto: enderezarlas, quitarles los metadatos (incluida la
+# ubicación GPS), reducirlas para que la web vaya rápida y actualizar la
+# galería. No hay que tocar ni una línea de código.
+name: Preparar las fotos de la galería
+
+on:
+  push:
+    paths:
+      - 'assets/galeria/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  preparar:
+    # Solo en la rama principal, y nunca sobre su propio commit (evita bucles).
+    if: >-
+      github.ref_name == github.event.repository.default_branch &&
+      !contains(github.event.head_commit.message, '[galería]')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependencias
+        run: pip install --quiet Pillow pillow-heif
+
+      - name: Procesar las fotografías
+        run: python3 herramientas/preparar-galeria.py
+
+      - name: Guardar los cambios
+        run: |
+          git config user.name  'Galería del aniversario'
+          git config user.email 'actions@github.com'
+          git add assets/galeria js/galeria.js
+          if git diff --staged --quiet; then
+            echo 'No hay fotos nuevas que preparar.'
+          else
+            git commit -m 'Prepara las fotos de la galería [galería]'
+            git push
+          fi

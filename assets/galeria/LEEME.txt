@@ -1,6 +1,35 @@
-Guarda aquí las fotografías de la galería.
+CARPETA DE FOTOGRAFÍAS DE LA GALERÍA
+====================================
 
-Consejos:
-- Formato .jpg y un ancho máximo de 1600 píxeles (así la web carga rápido).
-- Nombres sin acentos ni espacios: patio-2004.jpg, teatro-navidad-2005.jpg
-- Después añade cada foto en js/datos.js, en el apartado "galeria".
+Arrastra aquí las fotos y ya está. No hay que tocar código.
+
+Al subirlas, GitHub las prepara solo:
+  · Las endereza (las fotos de móvil se ven giradas si no).
+  · Les borra los metadatos, incluida la ubicación GPS.
+  · Las reduce para que la web cargue rápido y crea su miniatura.
+  · Las coloca en la galería, ordenadas por año.
+
+EL NOMBRE DEL ARCHIVO ES EL TÍTULO
+----------------------------------
+  2004-el-patio-en-obras.jpg      ->  "El patio en obras", año 2004
+  2012-inauguracion-biblioteca.jpg ->  "Inauguración biblioteca", año 2012
+  merienda-de-antiguos-alumnos.jpg ->  "Merienda de antiguos alumnos", sin año
+
+Empieza por el año (cuatro cifras) si lo conoces, separa las palabras con
+guiones y evita acentos y eñes en el nombre del archivo. Para cambiar un
+título después, basta con renombrar la foto.
+
+FORMATOS ADMITIDOS
+------------------
+  .jpg  .jpeg  .png  .webp  .heic (fotos de iPhone)
+
+Sube el original tal cual, del tamaño que sea: ya se encarga el sistema de
+ajustarlo. La carpeta "mini" se genera sola; no la toques.
+
+IMPORTANTE
+----------
+Esto no es el archivo del centro: aquí solo van las fotos que se publican.
+Guardad siempre los originales en vuestra carpeta privada.
+
+Y antes de subir nada, comprobad que tenéis la autorización de imagen de las
+personas que aparecen. Lo que se publica aquí es público en internet.
