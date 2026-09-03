@@ -56,20 +56,24 @@ consigáis la fotografía. Así la galería nunca se ve rota.
 
 ## 🚀 Cómo publicar la web (solo la primera vez)
 
-El código ya está en la rama **`main`** y el flujo de publicación está listo.
-Solo falta **un paso manual**, porque GitHub no permite que un robot active
-Pages por primera vez:
+✅ **La web ya está publicada:** https://damp83.github.io/Aniversario-Arboleda/
 
-1. Entra en **Settings → Pages** del repositorio.
-2. En *Build and deployment → Source*, elige **GitHub Actions**.
-3. Ve a la pestaña **Actions → Publicar en GitHub Pages → Run workflow**
-   (o guarda cualquier cambio en `main`: se publica solo).
+### Falta un último clic para que las actualizaciones se publiquen solas
 
-A partir de ahí, cada cambio en `main` republica la web automáticamente.
+En **Settings → General → Default branch**, marca **`main`** como rama principal.
 
-> **Recomendado:** en *Settings → General → Default branch*, marca `main` como
-> rama principal. Ahora mismo la rama por defecto es la de trabajo, porque fue
-> la primera que se subió al repositorio.
+¿Por qué hace falta? Al activar GitHub Pages, GitHub crea un entorno protegido
+que **solo acepta despliegues desde la rama por defecto**. Ahora mismo la rama
+por defecto es `claude/web-designer-creator-1nv135` (fue la primera que se subió
+al repositorio vacío), así que los cambios guardados en `main` no llegan a
+publicarse. Además, cuando editas un archivo desde la web de GitHub, el cambio
+se guarda en la rama por defecto.
+
+Con `main` como rama por defecto, todo encaja: editas `js/datos.js`, guardas, y
+la web se republica sola en un par de minutos.
+
+Mientras tanto, puedes publicar a mano en cualquier momento desde
+**Actions → Publicar en GitHub Pages → Run workflow**.
 
 > El despliegue está configurado para la rama `main`. Si prefieres publicar desde
 > otra rama, cambia el nombre en `.github/workflows/deploy.yml` (línea `branches:`).
