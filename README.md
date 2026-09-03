@@ -85,15 +85,24 @@ python3 -m http.server 8000
 
 ---
 
-## 🖼️ Imagen de previsualización (WhatsApp, redes)
+## 🖼️ Identidad visual
 
-`assets/og.svg` es la imagen que se ve al compartir el enlace. Muchas apps
-—WhatsApp entre ellas— **no admiten SVG**. Para que se vea la previsualización:
+El **escudo oficial del centro** aparece en la cabecera y, con su rótulo
+completo, en el pie de página. Los **anillos de crecimiento** (uno por curso)
+se mantienen como emblema propio del aniversario: portada, línea del tiempo y
+tarjetas de la galería.
 
-1. Abre `assets/og.svg` en el navegador y guárdalo como **PNG de 1200 × 630 px**
-   (o pásalo por cualquier conversor SVG → PNG).
-2. Sube el resultado como `assets/og.png`.
-3. En `index.html`, cambia `content="assets/og.svg"` por `content="assets/og.png"`.
+| Archivo | Para qué sirve |
+|---|---|
+| `assets/escudo.png` | El árbol del logotipo, en la cabecera |
+| `assets/logo-centro.png` | El logotipo completo con su rótulo, en el pie |
+| `assets/favicon.png` | Icono de la pestaña del navegador |
+| `assets/icono-180.png` | Icono al guardar la web en el móvil |
+| `assets/og.png` | Vista previa al compartir el enlace (1200 × 630 px) |
+
+Todos se han generado a partir del logotipo oficial, recortado y con el fondo
+blanco eliminado. Si el centro os facilita el logotipo en **SVG**, avisad: se
+sustituye y ganará nitidez en pantallas grandes.
 
 ---
 

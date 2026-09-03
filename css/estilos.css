@@ -127,12 +127,13 @@ a:hover { text-decoration-color: currentColor; }
 .cabecera__int { display: flex; align-items: center; gap: 1.5rem; }
 
 .marca { display: flex; align-items: center; gap: .7rem; text-decoration: none; color: inherit; flex-shrink: 0; }
-.marca__logo { width: 40px; height: 40px; flex-shrink: 0; }
-.marca__logo circle { fill: none; stroke-width: 2; }
-.marca__logo .anillo-a { stroke: var(--acento); }
-.marca__logo .anillo-b { stroke: var(--destacado); }
-.marca__logo .nucleo { fill: var(--destacado); stroke: none; }
-.marca:hover .marca__logo { rotate: 12deg; transition: rotate 400ms ease; }
+.marca__escudo {
+  width: 46px; height: 46px; flex-shrink: 0;
+  object-fit: contain; padding: 4px;
+  background: var(--crema); border-radius: 13px;
+  transition: transform var(--transicion);
+}
+.marca:hover .marca__escudo { transform: scale(1.06) rotate(-3deg); }
 
 .marca__texto { display: flex; flex-direction: column; line-height: 1.15; }
 .marca__texto strong { font-family: var(--fuente-titulo); font-size: 1.12rem; }
@@ -478,12 +479,13 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
 /* ─────────────────────────── 13. PIE ─────────────────────────── */
 .pie { background: var(--verde-950); color: var(--verde-50); padding: 4rem 0 2rem; margin-top: 0; }
 .pie__int { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2.5rem; }
-.pie__marca { display: flex; gap: 1rem; align-items: flex-start; }
-.pie__marca .marca__logo { width: 48px; height: 48px; }
-.pie__marca .anillo-a { stroke: var(--verde-200); }
-.pie__marca .anillo-b { stroke: var(--oro-300); }
-.pie__marca .nucleo { fill: var(--oro-300); }
-.pie__marca p { color: color-mix(in srgb, var(--verde-50) 72%, transparent); }
+.pie__marca { display: flex; gap: 1.3rem; align-items: center; }
+.pie__logo {
+  width: 116px; height: auto; flex-shrink: 0;
+  background: var(--crema); border-radius: 16px; padding: 14px 12px;
+}
+.pie__marca p { color: color-mix(in srgb, var(--verde-50) 72%, transparent); margin: 0; }
+.pie__curso { font-size: .88rem; color: var(--oro-300); font-weight: 600; }
 .pie__bloque h2 { font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; font-family: var(--fuente-texto); color: var(--oro-300); margin-bottom: 1rem; }
 .pie__bloque ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
 .pie__bloque a { color: color-mix(in srgb, var(--verde-50) 82%, transparent); text-decoration: none; }

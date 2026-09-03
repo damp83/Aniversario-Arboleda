@@ -11,14 +11,18 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="25 Aniversario · CEIP La Arboleda">
 <meta property="og:description" content="25 años sembrando futuro. Descubre el programa de la semana conmemorativa y los proyectos del curso.">
-<meta property="og:image" content="assets/og.svg">
+<meta property="og:image" content="https://damp83.github.io/Aniversario-Arboleda/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="25 años sembrando futuro · CEIP La Arboleda">
 <meta property="og:url" content="https://damp83.github.io/Aniversario-Arboleda/">
 <meta property="og:site_name" content="CEIP La Arboleda">
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="canonical" href="https://damp83.github.io/Aniversario-Arboleda/">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icono-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -46,12 +50,8 @@
 <header class="cabecera" id="cabecera">
   <div class="contenedor cabecera__int">
     <a class="marca" href="#inicio">
-      <svg class="marca__logo" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-        <circle cx="24" cy="24" r="21" class="anillo-a"/>
-        <circle cx="24" cy="24" r="15" class="anillo-b"/>
-        <circle cx="24" cy="24" r="9"  class="anillo-a"/>
-        <circle cx="24" cy="24" r="3.5" class="nucleo"/>
-      </svg>
+      <img class="marca__escudo" src="assets/escudo.png" width="180" height="200"
+           alt="" decoding="async">
       <span class="marca__texto">
         <strong data-dato="centro.nombreCorto">La Arboleda</strong>
         <span data-dato="aniversario.numero-aniversario">25 aniversario</span>
@@ -232,14 +232,10 @@
 <footer class="pie" id="contacto">
   <div class="contenedor pie__int">
     <div class="pie__marca">
-      <svg class="marca__logo" viewBox="0 0 48 48" aria-hidden="true">
-        <circle cx="24" cy="24" r="21" class="anillo-a"/>
-        <circle cx="24" cy="24" r="15" class="anillo-b"/>
-        <circle cx="24" cy="24" r="9"  class="anillo-a"/>
-        <circle cx="24" cy="24" r="3.5" class="nucleo"/>
-      </svg>
-      <p><strong data-dato="centro.nombre">CEIP La Arboleda</strong><br>
-      <span data-dato="centro.localidad"></span></p>
+      <img class="pie__logo" src="assets/logo-centro.png" width="247" height="320"
+           alt="CEIP La Arboleda" loading="lazy" decoding="async">
+      <p><span data-dato="centro.localidad"></span><br>
+      <span class="pie__curso">Curso <span data-dato="centro.curso"></span></span></p>
     </div>
 
     <div class="pie__bloque">
