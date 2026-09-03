@@ -58,25 +58,18 @@ consigáis la fotografía. Así la galería nunca se ve rota.
 
 ✅ **La web ya está publicada:** https://damp83.github.io/Aniversario-Arboleda/
 
-### Falta un último clic para que las actualizaciones se publiquen solas
+### ¿Cómo se actualiza?
 
-En **Settings → General → Default branch**, marca **`main`** como rama principal.
+Editas `js/datos.js` desde la web de GitHub (icono del lápiz ✏️), guardas con
+*Commit changes*, y en un par de minutos la web se republica sola.
 
-¿Por qué hace falta? Al activar GitHub Pages, GitHub crea un entorno protegido
-que **solo acepta despliegues desde la rama por defecto**. Ahora mismo la rama
-por defecto es `claude/web-designer-creator-1nv135` (fue la primera que se subió
-al repositorio vacío), así que los cambios guardados en `main` no llegan a
-publicarse. Además, cuando editas un archivo desde la web de GitHub, el cambio
-se guarda en la rama por defecto.
+GitHub Pages solo permite publicar desde la **rama por defecto** del
+repositorio, que es justamente donde se guardan los cambios que haces desde la
+web. El flujo de publicación detecta esa rama automáticamente, así que funciona
+sin tocar nada aunque más adelante cambies cuál es la principal.
 
-Con `main` como rama por defecto, todo encaja: editas `js/datos.js`, guardas, y
-la web se republica sola en un par de minutos.
-
-Mientras tanto, puedes publicar a mano en cualquier momento desde
+También puedes lanzar la publicación a mano desde
 **Actions → Publicar en GitHub Pages → Run workflow**.
-
-> El despliegue está configurado para la rama `main`. Si prefieres publicar desde
-> otra rama, cambia el nombre en `.github/workflows/deploy.yml` (línea `branches:`).
 
 La dirección será:
 `https://damp83.github.io/Aniversario-Arboleda/`
