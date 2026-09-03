@@ -27,6 +27,9 @@ jobs:
 
       - name: Preparar GitHub Pages
         uses: actions/configure-pages@v5
+        with:
+          # Activa GitHub Pages automáticamente la primera vez
+          enablement: true
 
       - name: Empaquetar el sitio
         uses: actions/upload-pages-artifact@v3

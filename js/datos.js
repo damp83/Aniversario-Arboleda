@@ -16,12 +16,12 @@ const DATOS = {
   centro: {
     nombre: "CEIP La Arboleda",
     nombreCorto: "La Arboleda",
-    localidad: "Región de Murcia",
+    localidad: "Santiago y Zaraíche · Murcia",
     curso: "2026 / 2027",
-    web: "",                                  // web oficial del centro (opcional)
-    email: "aniversario@laarboleda.es",       // EJEMPLO · correo de contacto
-    telefono: "",                             // opcional
-    direccion: ""                             // opcional
+    web: "https://ceiplaarboleda.murciaeduca.es/",
+    email: "30013682@murciaeduca.es",
+    telefono: "968 230 411",
+    direccion: "Calle Guerreros, 6 · 30007 Murcia"
   },
 
   /* ---------------------------------------------------------------------------
@@ -223,8 +223,8 @@ const DATOS = {
      --------------------------------------------------------------------------- */
   cifras: [
     { valor: "25", texto: "cursos escolares" },
-    { valor: "+2.000", texto: "alumnas y alumnos" },
-    { valor: "+150", texto: "docentes" },
+    { valor: "18", texto: "unidades de Infantil y Primaria" },
+    { valor: "2001", texto: "año de apertura" },      // ⚠️ confirmar en secretaría
     { valor: "1", texto: "comunidad educativa" }
   ]
 };
