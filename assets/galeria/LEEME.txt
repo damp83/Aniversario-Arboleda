@@ -1,0 +1,6 @@
+Guarda aquí las fotografías de la galería.
+
+Consejos:
+- Formato .jpg y un ancho máximo de 1600 píxeles (así la web carga rápido).
+- Nombres sin acentos ni espacios: patio-2004.jpg, teatro-navidad-2005.jpg
+- Después añade cada foto en js/datos.js, en el apartado "galeria".

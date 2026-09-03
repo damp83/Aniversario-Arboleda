@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>25 Aniversario · CEIP La Arboleda</title>
+<meta name="description" content="Celebramos 25 años de comunidad educativa. Programa de la semana conmemorativa, historia del centro, proyectos del curso y galería de recuerdos.">
+<meta name="theme-color" content="#12341f">
+
+<!-- Compartir en redes y WhatsApp -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="25 Aniversario · CEIP La Arboleda">
+<meta property="og:description" content="25 años sembrando futuro. Descubre el programa de la semana conmemorativa y los proyectos del curso.">
+<meta property="og:image" content="assets/og.svg">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+
+<script>
+  /* Se ejecuta antes de pintar: evita el parpadeo de color y permite que el
+     contenido sea visible aunque el resto del JavaScript falle. */
+  (function () {
+    var raiz = document.documentElement;
+    raiz.classList.add("js");
+    try {
+      var guardado = localStorage.getItem("tema-aniversario");
+      var oscuro = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      raiz.dataset.tema = guardado || (oscuro ? "oscuro" : "claro");
+    } catch (e) { raiz.dataset.tema = "claro"; }
+  })();
+</script>
+</head>
+<body>
+
+<a class="salto-contenido" href="#contenido">Saltar al contenido principal</a>
+
+<!-- ═══════════════════ CABECERA ═══════════════════ -->
+<header class="cabecera" id="cabecera">
+  <div class="contenedor cabecera__int">
+    <a class="marca" href="#inicio">
+      <svg class="marca__logo" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+        <circle cx="24" cy="24" r="21" class="anillo-a"/>
+        <circle cx="24" cy="24" r="15" class="anillo-b"/>
+        <circle cx="24" cy="24" r="9"  class="anillo-a"/>
+        <circle cx="24" cy="24" r="3.5" class="nucleo"/>
+      </svg>
+      <span class="marca__texto">
+        <strong data-dato="centro.nombreCorto">La Arboleda</strong>
+        <span data-dato="aniversario.numero-aniversario">25 aniversario</span>
+      </span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Navegación principal">
+      <ul class="nav__lista">
+        <li><a href="#historia">Historia</a></li>
+        <li><a href="#semana">La semana</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#galeria">Galería</a></li>
+        <li><a href="#participa">Participa</a></li>
+      </ul>
+    </nav>
+
+    <div class="cabecera__acciones">
+      <button class="btn-icono" id="btn-tema" type="button" aria-label="Cambiar a modo oscuro">
+        <svg class="icono-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g class="rayos"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></g></svg>
+        <svg class="icono-luna" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+      </button>
+      <button class="btn-menu" id="btn-menu" type="button" aria-expanded="false" aria-controls="nav" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <!-- ═══════════════════ PORTADA ═══════════════════ -->
+  <section class="portada" id="inicio">
+    <div class="portada__anillos" id="anillos" aria-hidden="true"></div>
+    <div class="portada__hojas" aria-hidden="true">
+      <svg viewBox="0 0 100 100" class="hoja hoja--1"><path d="M50 5C25 25 15 55 50 95 85 55 75 25 50 5z"/></svg>
+      <svg viewBox="0 0 100 100" class="hoja hoja--2"><path d="M50 5C25 25 15 55 50 95 85 55 75 25 50 5z"/></svg>
+      <svg viewBox="0 0 100 100" class="hoja hoja--3"><path d="M50 5C25 25 15 55 50 95 85 55 75 25 50 5z"/></svg>
+    </div>
+
+    <div class="contenedor portada__int">
+      <p class="portada__super">
+        <span data-dato="centro.nombre">CEIP La Arboleda</span>
+        <span class="punto">·</span>
+        <span data-dato="centro.curso">Curso 2026/2027</span>
+      </p>
+
+      <h1 class="portada__titulo">
+        <span class="portada__cifra" data-dato="aniversario.numero">25</span>
+        <span class="portada__anios">años</span>
+        <span class="portada__lema" data-dato="aniversario.lema">sembrando futuro</span>
+      </h1>
+
+      <p class="portada__texto" data-dato="aniversario.entradilla"></p>
+
+      <!-- Cuenta atrás -->
+      <div class="cuenta" id="cuenta" aria-live="polite">
+        <p class="cuenta__titulo">
+          <span data-dato="semana.titulo">Semana conmemorativa</span>
+          <strong data-dato="semana.fechaTexto"></strong>
+        </p>
+        <div class="cuenta__reloj" id="reloj">
+          <div class="cuenta__bloque"><span class="cuenta__num" data-reloj="dias">--</span><span class="cuenta__eti">días</span></div>
+          <div class="cuenta__bloque"><span class="cuenta__num" data-reloj="horas">--</span><span class="cuenta__eti">horas</span></div>
+          <div class="cuenta__bloque"><span class="cuenta__num" data-reloj="minutos">--</span><span class="cuenta__eti">minutos</span></div>
+          <div class="cuenta__bloque"><span class="cuenta__num" data-reloj="segundos">--</span><span class="cuenta__eti">segundos</span></div>
+        </div>
+      </div>
+
+      <div class="portada__botones">
+        <a class="btn btn--principal" href="#semana">Ver el programa</a>
+        <a class="btn btn--fantasma" href="#participa">Participa</a>
+      </div>
+    </div>
+
+    <a class="portada__flecha" href="#historia" aria-label="Ir a la sección de historia">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"/></svg>
+    </a>
+  </section>
+
+  <!-- ═══════════════════ CIFRAS ═══════════════════ -->
+  <section class="cifras" aria-label="El aniversario en cifras">
+    <div class="contenedor cifras__rejilla" id="cifras"></div>
+  </section>
+
+  <!-- ═══════════════════ HISTORIA ═══════════════════ -->
+  <section class="seccion seccion--historia" id="historia">
+    <div class="contenedor">
+      <header class="seccion__cab reveal">
+        <p class="seccion__eti">Nuestra historia</p>
+        <h2 class="seccion__titulo">Un anillo por cada curso</h2>
+        <p class="seccion__intro">
+          Como los árboles que dan nombre al centro, cada año ha dejado su marca.
+          Este es el recorrido desde que abrimos las puertas.
+        </p>
+      </header>
+      <ol class="tiempo" id="tiempo"></ol>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SEMANA CONMEMORATIVA ═══════════════════ -->
+  <section class="seccion seccion--semana" id="semana">
+    <div class="contenedor">
+      <header class="seccion__cab reveal">
+        <p class="seccion__eti">Finales de octubre</p>
+        <h2 class="seccion__titulo" data-dato="semana.titulo">Semana del 25 Aniversario</h2>
+        <p class="seccion__intro" data-dato="semana.descripcion"></p>
+      </header>
+
+      <div class="programa">
+        <div class="programa__dias" id="programa-dias" role="tablist" aria-label="Días de la semana conmemorativa"></div>
+        <div class="programa__paneles" id="programa-paneles"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ PROYECTOS DEL CURSO ═══════════════════ -->
+  <section class="seccion seccion--proyectos" id="proyectos">
+    <div class="contenedor">
+      <header class="seccion__cab reveal">
+        <p class="seccion__eti">Hilo conductor del curso</p>
+        <h2 class="seccion__titulo">Raíces, tronco y ramas</h2>
+        <p class="seccion__intro">
+          El aniversario no dura una semana: vertebra todo el curso. Cada trimestre
+          abre una línea de trabajo que implica a aulas, familias y barrio.
+        </p>
+      </header>
+      <div class="proyectos" id="proyectos-lista"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ GALERÍA ═══════════════════ -->
+  <section class="seccion seccion--galeria" id="galeria">
+    <div class="contenedor">
+      <header class="seccion__cab reveal">
+        <p class="seccion__eti">Álbum colectivo</p>
+        <h2 class="seccion__titulo">25 años en imágenes</h2>
+        <p class="seccion__intro">
+          Un archivo vivo que crece con lo que aportan las familias. ¿Tienes fotos
+          de tu paso por el centro? <a href="#participa">Compártelas con nosotros</a>.
+        </p>
+      </header>
+      <div class="galeria" id="galeria-rejilla"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ PARTICIPA ═══════════════════ -->
+  <section class="seccion seccion--participa" id="participa">
+    <div class="contenedor">
+      <header class="seccion__cab reveal">
+        <p class="seccion__eti">Te necesitamos</p>
+        <h2 class="seccion__titulo">Esto lo escribimos entre todas y todos</h2>
+        <p class="seccion__intro">
+          El 25 aniversario se construye con la memoria de quienes han pasado por
+          aquí. Hay muchas formas de sumarse.
+        </p>
+      </header>
+      <div class="participa" id="participa-lista"></div>
+
+      <div class="capsula reveal">
+        <div class="capsula__texto">
+          <h3>La cápsula del tiempo</h3>
+          <p>
+            Durante la semana conmemorativa sellaremos una cápsula con cartas, dibujos
+            y objetos del alumnado actual. Se abrirá en el <strong>50 aniversario</strong>.
+            Quien quiera dejar algo dentro, puede entregarlo en secretaría.
+          </p>
+        </div>
+        <div class="capsula__anio" aria-hidden="true">
+          <span>Se abre en</span>
+          <strong id="anio-capsula">2051</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ═══════════════════ PIE ═══════════════════ -->
+<footer class="pie" id="contacto">
+  <div class="contenedor pie__int">
+    <div class="pie__marca">
+      <svg class="marca__logo" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="21" class="anillo-a"/>
+        <circle cx="24" cy="24" r="15" class="anillo-b"/>
+        <circle cx="24" cy="24" r="9"  class="anillo-a"/>
+        <circle cx="24" cy="24" r="3.5" class="nucleo"/>
+      </svg>
+      <p><strong data-dato="centro.nombre">CEIP La Arboleda</strong><br>
+      <span data-dato="centro.localidad"></span></p>
+    </div>
+
+    <div class="pie__bloque">
+      <h2>Comisión del aniversario</h2>
+      <ul id="pie-contacto"></ul>
+    </div>
+
+    <div class="pie__bloque">
+      <h2>Secciones</h2>
+      <ul>
+        <li><a href="#historia">Historia</a></li>
+        <li><a href="#semana">La semana</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#galeria">Galería</a></li>
+        <li><a href="#participa">Participa</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="contenedor pie__legal">
+    <p><span data-dato="aniversario.hashtag">#25AñosArboleda</span></p>
+    <p>Hecha con cariño por la comunidad educativa.</p>
+  </div>
+</footer>
+
+<!-- Visor de la galería -->
+<dialog class="visor" id="visor" aria-label="Imagen ampliada">
+  <button class="visor__cerrar" id="visor-cerrar" type="button" aria-label="Cerrar imagen">&times;</button>
+  <figure class="visor__figura">
+    <div class="visor__medio" id="visor-medio"></div>
+    <figcaption id="visor-pie"></figcaption>
+  </figure>
+</dialog>
+
+<noscript>
+  <div class="contenedor aviso-js">
+    <p><strong>Activa JavaScript</strong> para ver el programa completo, la línea del tiempo y la galería.</p>
+  </div>
+</noscript>
+
+<script src="js/datos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

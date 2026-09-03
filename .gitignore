@@ -1,0 +1,8 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Dependencias de herramientas de desarrollo (la web no las necesita)
+node_modules/
+package.json
+package-lock.json
