@@ -28,9 +28,10 @@ comillas, y guarda con *Commit changes*. En 1–2 minutos la web se actualiza so
 | Formularios y llamadas a participar | `participa` |
 | Cifras destacadas (alumnado, docentes…) | `cifras` |
 
-> ⚠️ **Antes de publicar**, revisa los textos marcados como *EJEMPLO*: el nombre del
-> centro, el correo de contacto y sobre todo los **hitos de la línea del tiempo**,
-> que ahora contienen fechas inventadas de muestra.
+> ⚠️ **Pendiente de sustituir por contenido real:** los **hitos de la línea del
+> tiempo** de 2004 en adelante y el **programa de la semana**, que ahora son
+> ejemplos inventados. Los datos del centro (nombre, dirección, contacto) y el
+> año de apertura (curso 2001/2002) sí están confirmados.
 
 ### Reglas de oro al editar
 

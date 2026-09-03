@@ -29,7 +29,7 @@ const DATOS = {
      --------------------------------------------------------------------------- */
   aniversario: {
     numero: 25,
-    anioFundacion: 2001,
+    anioFundacion: 2001,        // confirmado: el colegio abrió en el curso 2001/2002
     lema: "25 años sembrando futuro",
     entradilla:
       "Un cuarto de siglo de patios, de primeras letras, de excursiones y de " +
@@ -123,10 +123,12 @@ const DATOS = {
   ],
 
   /* ---------------------------------------------------------------------------
-     5. LÍNEA DEL TIEMPO  ·  Los hitos del centro (⚠️ EJEMPLOS: sustitúyelos)
+     5. LÍNEA DEL TIEMPO  ·  Los hitos del centro
+        El primero (2001, la apertura) está confirmado.
+        ⚠️ Los demás son EJEMPLOS inventados: sustitúyelos por los hitos reales.
      --------------------------------------------------------------------------- */
   hitos: [
-    { anio: "2001", titulo: "Se abren las puertas", texto: "El centro recibe a su primera promoción de alumnado de Infantil y Primaria." },
+    { anio: "2001", titulo: "Se abren las puertas", texto: "El colegio abre en el curso 2001/2002 y recibe a su primera promoción de alumnado de Infantil y Primaria." },
     { anio: "2004", titulo: "Nace la AMPA", texto: "Las familias se organizan y ponen en marcha las primeras actividades extraescolares." },
     { anio: "2008", titulo: "La biblioteca escolar", texto: "Se inaugura la biblioteca y arranca el plan lector que aún hoy nos define." },
     { anio: "2012", titulo: "Centro bilingüe", texto: "Comienza el programa de enseñanza en lenguas extranjeras en Educación Primaria." },
@@ -224,7 +226,7 @@ const DATOS = {
   cifras: [
     { valor: "25", texto: "cursos escolares" },
     { valor: "18", texto: "unidades de Infantil y Primaria" },
-    { valor: "2001", texto: "año de apertura" },      // ⚠️ confirmar en secretaría
+    { valor: "2001", texto: "año de apertura" },
     { valor: "1", texto: "comunidad educativa" }
   ]
 };
