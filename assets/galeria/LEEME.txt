@@ -15,6 +15,11 @@ EL NOMBRE DEL ARCHIVO ES EL TÍTULO
   2012-inauguracion-biblioteca.jpg ->  "Inauguración biblioteca", año 2012
   merienda-de-antiguos-alumnos.jpg ->  "Merienda de antiguos alumnos", sin año
 
+¿NO SABES NADA DE LA FOTO? Súbela tal cual. Si se llama como la pone el
+móvil o WhatsApp (IMG_2024..., WhatsApp Image...), saldrá en la web como
+"Recuerdo del centro", sin año. Si sabes al menos el año, renómbrala a
+2004.jpg y saldrá como "Recuerdo del centro", 2004.
+
 Empieza por el año (cuatro cifras) si lo conoces, separa las palabras con
 guiones y evita acentos y eñes en el nombre del archivo. Para cambiar un
 título después, basta con renombrar la foto.

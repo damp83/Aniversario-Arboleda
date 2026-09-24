@@ -65,6 +65,13 @@ A partir de ahí se hace todo solo, en un par de minutos:
 merienda-de-antiguos.jpg     →   "Merienda de antiguos", sin año
 ```
 
+**¿Una foto sin ninguna información?** Súbela tal cual. Los nombres que ponen
+solos el móvil, la cámara o WhatsApp (`IMG_20240312_101512.jpg`,
+`WhatsApp Image 2024-03-12 at 10.15.32.jpg`…) se detectan y la foto aparece
+como **«Recuerdo del centro»**, sin año: la fecha de esos nombres es la del
+archivo o la del envío, no la del recuerdo, y mostrarla sería dar una fecha
+falsa. Si conoces el año, basta con renombrarla a `2004.jpg`.
+
 Empieza por el año en cuatro cifras si lo conoces y separa las palabras con
 guiones. Para cambiar un título, renombra la foto. Las fotos se ordenan solas
 por año, y las que no lo llevan van al final.

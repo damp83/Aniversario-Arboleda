@@ -43,14 +43,39 @@ EXTENSIONES = {".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif"}
 ANIO = re.compile(r"^(1[89]\d{2}|20\d{2})[-_ .]+(.*)$")
 
 
+# Palabras que ponen solos el móvil, la cámara o WhatsApp: no describen nada
+PALABRAS_DE_CAMARA = {
+    "img", "dsc", "dscn", "dscf", "pxl", "mvimg", "vid", "photo", "foto", "fotos",
+    "image", "imagen", "whatsapp", "wa", "at", "screenshot", "captura", "de",
+    "pantalla", "p", "copia", "copy", "edited", "editada", "scan", "escaneo",
+}
+TITULO_GENERICO = "Recuerdo del centro"
+
+
+def es_nombre_automatico(texto: str) -> bool:
+    """True si el nombre lo puso el aparato y no una persona (IMG_2024..., etc.)."""
+    palabras = re.findall(r"[a-záéíóúñü]+", texto.lower())
+    return not any(p not in PALABRAS_DE_CAMARA for p in palabras)
+
+
 def titulo_desde_nombre(nombre: str) -> tuple[str, str]:
-    """'2004-el-patio-en-obras' -> ('El patio en obras', '2004')"""
+    """'2004-el-patio-en-obras' -> ('El patio en obras', '2004')
+       '2004'                   -> ('Recuerdo del centro', '2004')
+       'IMG_20240312_101512'    -> ('Recuerdo del centro', '')"""
+    nombre = nombre.strip()
+    if re.fullmatch(r"1[89]\d{2}|20\d{2}", nombre):          # solo el año
+        return TITULO_GENERICO, nombre
+
+    # Un año seguido de más cifras es una fecha que puso el móvil o WhatsApp
+    # (2024-03-12...): es la del archivo, no la del recuerdo, así que no se usa.
+    anio, resto = "", nombre
     coincide = ANIO.match(nombre)
-    anio, resto = (coincide.group(1), coincide.group(2)) if coincide else ("", nombre)
-    texto = re.sub(r"[-_]+", " ", resto).strip()
-    texto = re.sub(r"\s+", " ", texto)
-    if not texto:
-        texto = f"Recuerdo de {anio}" if anio else "Recuerdo"
+    if coincide and not coincide.group(2)[:1].isdigit():
+        anio, resto = coincide.group(1), coincide.group(2)
+
+    texto = re.sub(r"\s+", " ", re.sub(r"[-_]+", " ", resto)).strip()
+    if not texto or es_nombre_automatico(texto):
+        return TITULO_GENERICO, anio
     return texto[0].upper() + texto[1:], anio
 
 
