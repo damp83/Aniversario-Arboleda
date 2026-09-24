@@ -260,24 +260,60 @@
   /* ─── 9. Recuerdos ──────────────────────────────────────────────────────── */
   const RECUERDOS_VISIBLES = 6;   // los demás se despliegan con el botón
 
-  function pintarRecuerdos() {
+  // Lee un CSV respetando comillas, comas y saltos de línea dentro de los campos
+  function leerCSV(texto) {
+    const filas = [];
+    let fila = [], campo = "", entreComillas = false;
+    for (let i = 0; i < texto.length; i++) {
+      const c = texto[i];
+      if (entreComillas) {
+        if (c === '"' && texto[i + 1] === '"') { campo += '"'; i++; }
+        else if (c === '"') entreComillas = false;
+        else campo += c;
+      } else if (c === '"') entreComillas = true;
+      else if (c === ",") { fila.push(campo); campo = ""; }
+      else if (c === "\n" || c === "\r") {
+        if (c === "\r" && texto[i + 1] === "\n") i++;
+        fila.push(campo); filas.push(fila); fila = []; campo = "";
+      } else campo += c;
+    }
+    if (campo || fila.length) { fila.push(campo); filas.push(fila); }
+    return filas.filter((f) => f.some((v) => v.trim()));
+  }
+
+  // Convierte la hoja publicada en recuerdos. Las columnas se reconocen por su
+  // encabezado (texto, autor, relacion), sin importar el orden ni las tildes.
+  function recuerdosDesdeHoja(csv) {
+    const [cabecera, ...filas] = leerCSV(csv);
+    if (!cabecera) return [];
+    const norma = (t) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").trim().toLowerCase();
+    const col = (nombre) => cabecera.findIndex((h) => norma(h) === nombre);
+    const [iT, iA, iR] = ["texto", "autor", "relacion"].map(col);
+    if (iT < 0) return [];
+    return filas
+      .map((f) => ({ texto: (f[iT] || "").trim(), autor: (f[iA] || "").trim(), relacion: (f[iR] || "").trim() }))
+      .filter((r) => r.texto)
+      .reverse();                                   // los más recientes, primero
+  }
+
+  function pintarRecuerdos(lista) {
     const cont = $("#recuerdos-lista");
     const seccion = $("#recuerdos");
+    const boton = $("#mas-recuerdos");
     if (!cont || !seccion) return;
-
-    const lista = DATOS.recuerdos || [];
     const enlaceMenu = $$('a[href="#recuerdos"]');
+    const mostrar = (si) => enlaceMenu.forEach((a) => { (a.closest("li") || a).hidden = !si; });
 
     // Sin recuerdos no hay sección: ni el apartado ni su enlace en el menú
     if (!lista.length) {
       seccion.hidden = true;
-      enlaceMenu.forEach((a) => { const li = a.closest("li"); (li || a).hidden = true; });
+      mostrar(false);
       // Dentro de una sección oculta nadie las verá aparecer: se dan por reveladas
       $$(".reveal", seccion).forEach((el) => el.classList.add("visible"));
       return;
     }
     seccion.hidden = false;
-    enlaceMenu.forEach((a) => { const li = a.closest("li"); (li || a).hidden = false; });
+    mostrar(true);
 
     cont.innerHTML = lista.map((r, i) => `
       <figure class="recuerdo reveal${i >= RECUERDOS_VISIBLES ? " recuerdo--oculto" : ""}">
@@ -288,14 +324,13 @@
         </figcaption>
       </figure>`).join("");
 
-    const boton = $("#mas-recuerdos");
+    if (!boton) return;
     const ocultos = lista.length - RECUERDOS_VISIBLES;
-    if (!boton || ocultos <= 0) return;
-
-    boton.hidden = false;
-    boton.textContent = `Ver ${ocultos} recuerdo${ocultos > 1 ? "s" : ""} más`;
-
-    boton.addEventListener("click", () => {
+    const rotulo = () => `Ver ${ocultos} recuerdo${ocultos > 1 ? "s" : ""} más`;
+    boton.hidden = ocultos <= 0;
+    boton.setAttribute("aria-expanded", "false");
+    boton.textContent = rotulo();
+    boton.onclick = () => {
       const desplegado = boton.getAttribute("aria-expanded") === "true";
       $$(".recuerdo", cont).forEach((el, i) => {
         if (i >= RECUERDOS_VISIBLES) {
@@ -304,10 +339,29 @@
         }
       });
       boton.setAttribute("aria-expanded", String(!desplegado));
-      boton.textContent = desplegado
-        ? `Ver ${ocultos} recuerdo${ocultos > 1 ? "s" : ""} más`
-        : "Ver menos";
-    });
+      boton.textContent = desplegado ? rotulo() : "Ver menos";
+    };
+  }
+
+  // Primero los recuerdos escritos a mano en datos.js; después, si hay hoja
+  // publicada, se añaden los aprobados en ella. Si la hoja falla, la web
+  // sigue mostrando los de datos.js.
+  async function cargarRecuerdos() {
+    const manuales = DATOS.recuerdos || [];
+    pintarRecuerdos(manuales);
+
+    const url = (DATOS.aniversario.hojaRecuerdos || "").trim();
+    if (!url) return;
+    try {
+      const resp = await fetch(url, { cache: "no-store" });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const deHoja = recuerdosDesdeHoja(await resp.text());
+      if (!deHoja.length) return;
+      pintarRecuerdos([...manuales, ...deHoja]);
+      $$("#recuerdos .reveal:not(.visible)").forEach((el) => revelar(el));
+    } catch (error) {
+      console.warn("No se han podido cargar los recuerdos de la hoja:", error);
+    }
   }
 
   /* ─── 10. Participa ──────────────────────────────────────────────────────── */
@@ -428,21 +482,26 @@
   }
 
   /* ─── 13. Aparición al hacer scroll ─────────────────────────────────────── */
-  function iniciarRevelado() {
-    const elementos = $$(".reveal");
-    if (!("IntersectionObserver" in window)) {
-      elementos.forEach((el) => el.classList.add("visible"));
-      return;
-    }
-    const observador = new IntersectionObserver((entradas, obs) => {
-      entradas.forEach((entrada, i) => {
-        if (!entrada.isIntersecting) return;
-        setTimeout(() => entrada.target.classList.add("visible"), i * 70);
-        obs.unobserve(entrada.target);
-      });
-    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
-    elementos.forEach((el) => observador.observe(el));
+  let observadorRevelado = null;
 
+  // Observa un elemento para que aparezca al entrar en pantalla. Sirve también
+  // para contenido que llega después de cargar la página (recuerdos de la hoja).
+  function revelar(el) {
+    if (observadorRevelado) observadorRevelado.observe(el);
+    else el.classList.add("visible");
+  }
+
+  function iniciarRevelado() {
+    if ("IntersectionObserver" in window) {
+      observadorRevelado = new IntersectionObserver((entradas, obs) => {
+        entradas.forEach((entrada, i) => {
+          if (!entrada.isIntersecting) return;
+          setTimeout(() => entrada.target.classList.add("visible"), i * 70);
+          obs.unobserve(entrada.target);
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    }
+    $$(".reveal:not(.visible)").forEach(revelar);
   }
 
   /* ─── Arranque ──────────────────────────────────────────────────────────── */
@@ -456,7 +515,7 @@
       pintarPrograma();
       pintarProyectos();
       pintarGaleria();
-      pintarRecuerdos();
+      cargarRecuerdos();
       pintarParticipa();
       pintarPie();
       iniciarCuentaAtras();

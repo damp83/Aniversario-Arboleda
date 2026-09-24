@@ -107,6 +107,63 @@ Se muestran **los seis primeros** y el resto aparece con el botón *Ver más*.
 Mientras la lista esté vacía, **la sección no existe en la web**: ni el
 apartado ni su enlace en el menú. Aparece sola en cuanto añadas el primero.
 
+## 🤖 Recuerdos automáticos con un formulario de Google
+
+En lugar de copiar cada recuerdo a mano, la web puede leerlos de una hoja de
+cálculo. Solo aparecen los que tú marques. Se configura una vez, con la cuenta
+`25aniversarioarboleda@gmail.com`:
+
+### 1. El formulario
+
+En [forms.google.com](https://forms.google.com), crea un formulario con estas
+preguntas, **en este orden**:
+
+| # | Pregunta | Tipo | Ajustes |
+|---|---|---|---|
+| 1 | Tu recuerdo | Párrafo | Obligatoria · ⋮ → *Validación de respuestas* → *Longitud* → *Número máximo de caracteres* → `400` |
+| 2 | Nombre | Respuesta corta | Opcional |
+| 3 | Promoción o relación con el centro | Respuesta corta | Ej.: promoción 2009, familia, maestra 2003-2011 |
+| 4 | Autorizo a publicar este recuerdo y mi nombre en la web del 25 aniversario | Casillas | Obligatoria |
+
+En *Configuración → Respuestas*, deja **desactivado** «Limitar a 1 respuesta»:
+si lo activas, Google obliga a iniciar sesión y mucha gente no podrá responder.
+
+### 2. La hoja de respuestas
+
+1. En la pestaña *Respuestas* del formulario, pulsa **Vincular con Hojas**.
+2. En la hoja, en la primera columna libre (la **F**), escribe `Publicar` como
+   título y convierte la columna en casillas: selecciónala → *Insertar →
+   Casilla de verificación*.
+3. Crea una pestaña nueva llamada **`web`** y escribe en su celda A1:
+
+   ```
+   =QUERY('Respuestas de formulario 1'!A:F; "select B, C, D where F = true label B 'texto', C 'autor', D 'relacion'"; 1)
+   ```
+
+   Esa pestaña contiene solo los recuerdos con la casilla marcada, y solo
+   texto, nombre y relación: nunca la fecha ni nada más.
+
+### 3. Publicar la pestaña y conectarla a la web
+
+1. *Archivo → Compartir → Publicar en la web*.
+2. Elige **solo la pestaña `web`** (¡no «Todo el documento»!) y formato
+   **Valores separados por comas (.csv)**. Pulsa *Publicar* y copia el enlace.
+3. En `js/datos.js`, pega ese enlace en `hojaRecuerdos`, dentro de `aniversario`.
+4. Pega el enlace **del formulario** (el de *Enviar*) en el campo `enlace` de la
+   tarjeta «Cuéntanos tu recuerdo», dentro de `participa`. Así el botón de la web
+   lleva al formulario en vez de abrir el correo.
+
+### A partir de ahí
+
+Llega un recuerdo → marcas su casilla **Publicar** → aparece en la web en unos
+minutos (Google tarda hasta cinco en actualizar la versión publicada). Para
+retirarlo, desmarca la casilla. No hay que volver a tocar GitHub.
+
+Los recuerdos de la hoja se muestran después de los que haya escritos a mano en
+`recuerdos`, del más reciente al más antiguo. Si la hoja fallara, la web sigue
+funcionando con los de `datos.js`. Los textos se muestran siempre como texto:
+aunque alguien escribiera código en el formulario, no se ejecuta.
+
 ## 🚀 Cómo publicar la web (solo la primera vez)
 
 ✅ **La web ya está publicada:** https://damp83.github.io/Aniversario-Arboleda/

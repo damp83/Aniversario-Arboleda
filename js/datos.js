@@ -36,6 +36,10 @@ const DATOS = {
     // Es distinto del correo del centro (arriba), que sigue en el pie de página.
     email: "25aniversarioarboleda@gmail.com",
 
+    // Enlace CSV de la pestaña "web" de la hoja de recuerdos (Archivo → Compartir
+    // → Publicar en la web → pestaña "web" → CSV). Vacío = no se usa la hoja.
+    hojaRecuerdos: "",
+
     entradilla:
       "Un cuarto de siglo de patios, de primeras letras, de excursiones y de " +
       "abrazos en la puerta. Celebramos 25 cursos de comunidad educativa con " +
