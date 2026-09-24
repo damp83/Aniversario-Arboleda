@@ -26,6 +26,7 @@ comillas, y guarda con *Commit changes*. En 1–2 minutos la web se actualiza so
 | Hitos de la línea del tiempo | `hitos` |
 | Proyectos de cada trimestre | `proyectos` |
 | Fotos del álbum | `galeria` |
+| Recuerdos que se publican en la web | `recuerdos` |
 | Formularios y llamadas a participar | `participa` |
 | Cifras destacadas (alumnado, docentes…) | `cifras` |
 
@@ -81,6 +82,30 @@ primera foto real, esas tarjetas desaparecen.
 > público en internet e indexable por los buscadores.
 
 ---
+
+## 💬 Cómo publicar un recuerdo
+
+Los recuerdos llegan por correo a `25aniversarioarboleda@gmail.com`. El mensaje
+viene ya con el nombre, la promoción y **la autorización para publicarlo**,
+porque el botón de la web abre el correo con esa plantilla.
+
+Para publicar uno, añádelo al apartado `recuerdos` de `js/datos.js`:
+
+```js
+{ texto: "Aún me acuerdo del olor de la biblioteca recién estrenada.", autor: "María G.", relacion: "Promoción 2009" },
+```
+
+- `texto` — el recuerdo. **Recórtalo a unas cuatro líneas** (400 caracteres):
+  la gente escribe largo y en pantalla se lee mucho mejor lo breve. Ese límite
+  se le indica a quien escribe, pero conviene revisarlo igualmente.
+- `autor` — nombre. **Solo si lo ha autorizado.** Si no, déjalo vacío o pon
+  algo genérico como "Una familia".
+- `relacion` — "Promoción 2009", "Familia", "Maestra 2003-2011"… Lo que sitúe
+  a esa persona en la historia del centro.
+
+Se muestran **los seis primeros** y el resto aparece con el botón *Ver más*.
+Mientras la lista esté vacía, **la sección no existe en la web**: ni el
+apartado ni su enlace en el menú. Aparece sola en cuanto añadas el primero.
 
 ## 🚀 Cómo publicar la web (solo la primera vez)
 

@@ -257,7 +257,60 @@
     visor.addEventListener("click", (e) => { if (e.target === visor) visor.close(); });
   }
 
-  /* ─── 9. Participa ──────────────────────────────────────────────────────── */
+  /* ─── 9. Recuerdos ──────────────────────────────────────────────────────── */
+  const RECUERDOS_VISIBLES = 6;   // los demás se despliegan con el botón
+
+  function pintarRecuerdos() {
+    const cont = $("#recuerdos-lista");
+    const seccion = $("#recuerdos");
+    if (!cont || !seccion) return;
+
+    const lista = DATOS.recuerdos || [];
+    const enlaceMenu = $$('a[href="#recuerdos"]');
+
+    // Sin recuerdos no hay sección: ni el apartado ni su enlace en el menú
+    if (!lista.length) {
+      seccion.hidden = true;
+      enlaceMenu.forEach((a) => { const li = a.closest("li"); (li || a).hidden = true; });
+      // Dentro de una sección oculta nadie las verá aparecer: se dan por reveladas
+      $$(".reveal", seccion).forEach((el) => el.classList.add("visible"));
+      return;
+    }
+    seccion.hidden = false;
+    enlaceMenu.forEach((a) => { const li = a.closest("li"); (li || a).hidden = false; });
+
+    cont.innerHTML = lista.map((r, i) => `
+      <figure class="recuerdo reveal${i >= RECUERDOS_VISIBLES ? " recuerdo--oculto" : ""}">
+        <blockquote>${esc(r.texto)}</blockquote>
+        <figcaption>
+          ${r.autor ? `<span class="recuerdo__autor">${esc(r.autor)}</span>` : ""}
+          ${r.relacion ? `<span class="recuerdo__rel">${esc(r.relacion)}</span>` : ""}
+        </figcaption>
+      </figure>`).join("");
+
+    const boton = $("#mas-recuerdos");
+    const ocultos = lista.length - RECUERDOS_VISIBLES;
+    if (!boton || ocultos <= 0) return;
+
+    boton.hidden = false;
+    boton.textContent = `Ver ${ocultos} recuerdo${ocultos > 1 ? "s" : ""} más`;
+
+    boton.addEventListener("click", () => {
+      const desplegado = boton.getAttribute("aria-expanded") === "true";
+      $$(".recuerdo", cont).forEach((el, i) => {
+        if (i >= RECUERDOS_VISIBLES) {
+          el.classList.toggle("recuerdo--oculto", desplegado);
+          el.classList.add("visible");
+        }
+      });
+      boton.setAttribute("aria-expanded", String(!desplegado));
+      boton.textContent = desplegado
+        ? `Ver ${ocultos} recuerdo${ocultos > 1 ? "s" : ""} más`
+        : "Ver menos";
+    });
+  }
+
+  /* ─── 10. Participa ──────────────────────────────────────────────────────── */
   const ICONOS = {
     foto: '<rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12.5" r="3.6"/><path d="M8 5l1.4-2h5.2L16 5"/>',
     voz:  '<path d="M21 12a8 8 0 1 1-3.2-6.4"/><path d="M8 11h8M8 15h5"/>',
@@ -273,7 +326,8 @@
     const asunto = (titulo) => encodeURIComponent(`${DATOS.aniversario.numero} aniversario · ${titulo}`);
 
     cont.innerHTML = (DATOS.participa || []).map((p) => {
-      const destino = p.enlace || (correo ? `mailto:${correo}?subject=${asunto(p.titulo)}` : "");
+      const cuerpo = p.cuerpo ? `&body=${encodeURIComponent(p.cuerpo)}` : "";
+      const destino = p.enlace || (correo ? `mailto:${correo}?subject=${asunto(p.titulo)}${cuerpo}` : "");
       return `
       <article class="tarjeta reveal">
         <div class="tarjeta__icono">
@@ -281,6 +335,7 @@
         </div>
         <h3>${esc(p.titulo)}</h3>
         <p>${esc(p.texto)}</p>
+        ${p.nota ? `<p class="tarjeta__nota">${esc(p.nota)}</p>` : ""}
         ${destino ? `<a class="tarjeta__enlace" href="${esc(destino)}">${esc(p.textoEnlace || "Saber más")}</a>` : ""}
       </article>`;
     }).join("");
@@ -401,6 +456,7 @@
       pintarPrograma();
       pintarProyectos();
       pintarGaleria();
+      pintarRecuerdos();
       pintarParticipa();
       pintarPie();
       iniciarCuentaAtras();

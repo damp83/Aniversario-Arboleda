@@ -212,7 +212,14 @@ const DATOS = {
     {
       icono: "voz",
       titulo: "Cuéntanos tu recuerdo",
-      texto: "Un profesor, una excursión, un patio. Recogemos los recuerdos que formarán el libro del aniversario.",
+      texto: "Un profesor, una excursión, un patio. Los recuerdos se publican en esta web y formarán el libro del aniversario.",
+      nota: "Máximo 400 caracteres, unas cuatro líneas.",
+      // Texto con el que se abre el correo, para que lleguen ya ordenados
+      cuerpo:
+        "Escribe aquí tu recuerdo (máximo 400 caracteres, unas cuatro líneas):\n\n\n" +
+        "Nombre:\n" +
+        "Promoción o relación con el centro (por ejemplo: promoción 2009, familia, maestra 2003-2011):\n\n" +
+        "¿Autorizas a publicar este recuerdo y tu nombre en la web del 25 aniversario?  SÍ / NO\n",
       enlace: "",
       textoEnlace: "Escribir mi recuerdo"
     },
@@ -226,7 +233,20 @@ const DATOS = {
   ],
 
   /* ---------------------------------------------------------------------------
-     9. CIFRAS  ·  Datos destacados del cuarto de siglo
+     9. RECUERDOS  ·  Los testimonios que se publican en la web
+        Mientras esta lista esté vacía, la sección no aparece en la web.
+        Añade cada recuerdo así, y no olvides la coma final:
+
+          { texto: "Aquí el recuerdo.", autor: "María G.", relacion: "Promoción 2009" },
+
+        Recorta los textos a unas cuatro líneas: en pantalla se leen mejor.
+        Publica el nombre solo si esa persona lo ha autorizado.
+     --------------------------------------------------------------------------- */
+  recuerdos: [
+  ],
+
+  /* ---------------------------------------------------------------------------
+     10. CIFRAS  ·  Datos destacados del cuarto de siglo
      --------------------------------------------------------------------------- */
   cifras: [
     { valor: "25", texto: "cursos escolares" },
