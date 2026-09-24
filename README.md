@@ -110,9 +110,32 @@ Para publicar uno, añádelo al apartado `recuerdos` de `js/datos.js`:
 - `relacion` — "Promoción 2009", "Familia", "Maestra 2003-2011"… Lo que sitúe
   a esa persona en la historia del centro.
 
-Se muestran **los seis primeros** y el resto aparece con el botón *Ver más*.
-Mientras la lista esté vacía, **la sección no existe en la web**: ni el
-apartado ni su enlace en el menú. Aparece sola en cuanto añadas el primero.
+En la portada se ven **los seis primeros**, y el botón *Abrir el libro de
+visitas* lleva a todos (ver más abajo). Mientras no haya ningún recuerdo, **la
+sección no existe en la portada**: ni el apartado ni su enlace en el menú.
+Aparece sola en cuanto añadas el primero.
+
+## 📖 El libro de visitas
+
+`recuerdos.html` reúne **todos** los recuerdos en forma de libro: tapa verde con
+letras doradas, guardas con los anillos, portadilla con el escudo y hojas
+pautadas con la firma de cada persona. Las páginas se pasan pulsando sobre la
+hoja, con las flechas del teclado, con los botones o deslizando el dedo.
+
+- **En el ordenador** se ve abierto, a doble página. **En el móvil**, de una en una.
+- **Buscador**: por nombre, promoción o cualquier palabra. Es lo primero que
+  hará mucha gente: buscar su propio recuerdo.
+- **Leer todo seguido**: todos los recuerdos en una sola hoja larga, sin pasar
+  páginas. También es lo que sale al imprimir.
+- Los recuerdos se reparten solos en páginas según lo que ocupa cada uno, y
+  **nunca se cortan** entre una página y otra.
+
+No hay que mantenerlo aparte: lee exactamente los mismos recuerdos que la
+portada (los de `datos.js` y los de la hoja del formulario). Va en orden de
+llegada, como un libro de visitas de verdad: primero los escritos a mano y
+después los del formulario, del más antiguo al más reciente.
+
+Dirección: `https://damp83.github.io/Aniversario-Arboleda/recuerdos.html`
 
 ## 🤖 Recuerdos automáticos con un formulario de Google
 
@@ -144,11 +167,12 @@ si lo activas, Google obliga a iniciar sesión y mucha gente no podrá responder
 3. Crea una pestaña nueva llamada **`web`** y escribe en su celda A1:
 
    ```
-   =QUERY('Respuestas de formulario 1'!A:F; "select B, C, D where F = true label B 'texto', C 'autor', D 'relacion'"; 1)
+   =QUERY('Respuestas de formulario 1'!A:F; "select A, B, C, D where F = true label A 'fecha', B 'texto', C 'autor', D 'relacion' format A 'yyyy-mm-dd'"; 1)
    ```
 
    Esa pestaña contiene solo los recuerdos con la casilla marcada, y solo
-   texto, nombre y relación: nunca la fecha ni nada más.
+   texto, nombre, relación y el día en que se escribió (el libro de visitas lo
+   muestra junto a la firma). Nunca la hora, la autorización ni nada más.
 
 ### 3. Publicar la pestaña y conectarla a la web
 
@@ -166,8 +190,9 @@ Llega un recuerdo → marcas su casilla **Publicar** → aparece en la web en un
 minutos (Google tarda hasta cinco en actualizar la versión publicada). Para
 retirarlo, desmarca la casilla. No hay que volver a tocar GitHub.
 
-Los recuerdos de la hoja se muestran después de los que haya escritos a mano en
-`recuerdos`, del más reciente al más antiguo. Si la hoja fallara, la web sigue
+En la portada, los recuerdos de la hoja van después de los escritos a mano en
+`recuerdos`, del más reciente al más antiguo; en el libro de visitas, en orden
+de llegada. Si la hoja fallara, la web sigue
 funcionando con los de `datos.js`. Los textos se muestran siempre como texto:
 aunque alguien escribiera código en el formulario, no se ejecuta.
 
@@ -225,10 +250,16 @@ sustituye y ganará nitidez en pantallas grandes.
 ## 🗂️ Estructura del proyecto
 
 ```
-index.html                 La página completa
+index.html                 La portada del aniversario
+recuerdos.html             El libro de visitas
 css/estilos.css            Todo el diseño (colores, tipografías, responsive)
+css/libro.css              El diseño del libro de visitas
 js/datos.js                👈 EL CONTENIDO: aquí edita el equipo del centro
-js/app.js                  Funcionamiento (cuenta atrás, pestañas, galería…)
+js/comun.js                Lo que comparten portada y libro (recuerdos, tema…)
+js/app.js                  Funcionamiento de la portada (cuenta atrás, galería…)
+js/libro.js                Funcionamiento del libro (páginas, búsqueda…)
+js/galeria.js              Lista de fotos (se genera sola, no editar)
+herramientas/              Procesador automático de las fotos
 assets/                    Logo, favicon, imagen para compartir
 assets/galeria/            Fotografías del álbum
 .github/workflows/         Publicación automática en GitHub Pages

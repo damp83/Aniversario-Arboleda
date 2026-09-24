@@ -82,6 +82,10 @@ body {
 
 img { max-width: 100%; display: block; }
 
+/* Lo que se oculta con el atributo hidden se oculta siempre, aunque su clase
+   le dé otro display (flex, grid…). */
+[hidden] { display: none !important; }
+
 h1, h2, h3 {
   font-family: var(--fuente-titulo);
   font-weight: 700;
@@ -177,6 +181,8 @@ html[data-tema="oscuro"] .icono-luna { display: block; }
   transition: transform var(--transicion), box-shadow var(--transicion), background var(--transicion);
 }
 .btn:hover { transform: translateY(-2px); }
+/* Un <button> no hereda tipografía ni interlineado: así mide igual que un enlace */
+button.btn { font-family: inherit; line-height: inherit; }
 .btn--principal { background: var(--acento); color: var(--fondo); box-shadow: 0 10px 24px -12px var(--acento); }
 .btn--principal:hover { box-shadow: 0 16px 30px -12px var(--acento); }
 .btn--fantasma { border-color: currentColor; color: var(--texto); }
@@ -477,7 +483,6 @@ html[data-tema="oscuro"] .marco svg ellipse { stroke: var(--verde-200); }
   font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
   color: var(--destacado); font-weight: 600;
 }
-.recuerdo--oculto { display: none; }
 
 .recuerdos__mas { text-align: center; margin: 2.2rem 0 0; }
 

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Libro de visitas · 25 Aniversario · CEIP La Arboleda</title>
+<meta name="description" content="El libro de visitas del 25 aniversario del CEIP La Arboleda: los recuerdos de alumnado, familias y profesorado de estos 25 años.">
+<meta name="theme-color" content="#12341f">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Libro de visitas · 25 Aniversario · CEIP La Arboleda">
+<meta property="og:description" content="Los recuerdos de quienes han pasado por el colegio en sus primeros 25 años. Lee los de los demás y deja el tuyo.">
+<meta property="og:image" content="https://damp83.github.io/Aniversario-Arboleda/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://damp83.github.io/Aniversario-Arboleda/recuerdos.html">
+<meta property="og:site_name" content="CEIP La Arboleda">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="canonical" href="https://damp83.github.io/Aniversario-Arboleda/recuerdos.html">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icono-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+<link rel="stylesheet" href="css/libro.css">
+
+<script>
+  /* Antes de pintar: evita el parpadeo de color. */
+  (function () {
+    var raiz = document.documentElement;
+    raiz.classList.add("js");
+    try {
+      var guardado = localStorage.getItem("tema-aniversario");
+      var oscuro = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      raiz.dataset.tema = guardado || (oscuro ? "oscuro" : "claro");
+    } catch (e) { raiz.dataset.tema = "claro"; }
+  })();
+</script>
+</head>
+<body class="pagina-libro">
+
+<a class="salto-contenido" href="#escenario">Saltar al libro</a>
+
+<header class="cabecera cabecera--fija">
+  <div class="contenedor cabecera__int">
+    <a class="marca" href="index.html">
+      <img class="marca__escudo" src="assets/escudo.png" width="180" height="200" alt="" decoding="async">
+      <span class="marca__texto">
+        <strong>La Arboleda</strong>
+        <span>25 aniversario</span>
+      </span>
+    </a>
+    <a class="enlace-volver" href="index.html#recuerdos">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      Volver<span class="enlace-volver__resto">&nbsp;a la web</span>
+    </a>
+    <div class="cabecera__acciones">
+      <button class="btn-icono" id="btn-tema" type="button" aria-label="Cambiar a modo oscuro">
+        <svg class="icono-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g class="rayos"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></g></svg>
+        <svg class="icono-luna" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="libro-pagina">
+
+  <section class="libro-intro contenedor">
+    <p class="seccion__eti">25 aniversario · CEIP La Arboleda</p>
+    <h1 class="libro-intro__titulo">Libro de visitas</h1>
+    <p class="libro-intro__texto">
+      Los recuerdos de quienes han pasado por el colegio en estos veinticinco años.
+      El libro sigue abierto todo el curso: cada recuerdo nuevo se añade al final.
+    </p>
+
+    <div class="libro-herramientas">
+      <label class="buscador">
+        <span class="sr-solo">Buscar en el libro</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+        <input type="search" id="buscar" placeholder="Buscar por nombre, promoción o palabra" autocomplete="off">
+      </label>
+      <button class="btn btn--fantasma" id="modo-lista" type="button" aria-pressed="false">Leer todo seguido</button>
+      <a class="btn btn--principal" id="escribir" href="index.html#participa">Escribir mi recuerdo</a>
+    </div>
+    <p class="libro-estado" id="estado-busqueda" aria-live="polite"></p>
+  </section>
+
+  <section class="escenario" id="escenario" tabindex="0"
+           aria-label="Libro de visitas" aria-roledescription="libro">
+    <div class="libro libro--portada" id="libro">
+      <div class="libro__lado libro__lado--izq" id="lado-izq"></div>
+      <div class="libro__lado libro__lado--der" id="lado-der"></div>
+    </div>
+    <div class="sonda" id="sonda" aria-hidden="true"></div>
+  </section>
+
+  <nav class="paso" id="paso" aria-label="Pasar página">
+    <button class="paso__btn" id="anterior" type="button" aria-label="Página anterior" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <div class="paso__centro">
+      <span class="paso__posicion" id="posicion" aria-live="polite">Abriendo el libro…</span>
+      <div class="paso__barra"><span id="progreso"></span></div>
+    </div>
+    <button class="paso__btn" id="siguiente" type="button" aria-label="Página siguiente" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </nav>
+  <p class="paso__ayuda" id="ayuda">Pasa página pulsando sobre la hoja, con las flechas del teclado o deslizando el dedo.</p>
+
+  <section class="lista contenedor" id="lista" hidden aria-label="Todos los recuerdos">
+    <div class="lista__papel"></div>
+  </section>
+
+  <noscript>
+    <div class="contenedor aviso-js">
+      <p><strong>Activa JavaScript</strong> para leer el libro de visitas.</p>
+    </div>
+  </noscript>
+</main>
+
+<footer class="pie pie--libro">
+  <div class="contenedor pie__legal">
+    <p><span>#25AñosArboleda</span></p>
+    <p><a href="index.html">Volver a la web del 25 aniversario</a></p>
+  </div>
+</footer>
+
+<script src="js/datos.js"></script>
+<script src="js/comun.js"></script>
+<script src="js/libro.js"></script>
+</body>
+</html>

@@ -5,15 +5,11 @@
 (function () {
   "use strict";
 
-  const $  = (sel, ctx = document) => ctx.querySelector(sel);
-  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
-  const esc = (txt) => String(txt ?? "").replace(/[&<>"']/g, (c) =>
-    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-
-  if (typeof DATOS === "undefined") {
-    console.error("No se ha cargado datos.js");
+  if (typeof DATOS === "undefined" || typeof ANIV === "undefined") {
+    console.error("No se han cargado datos.js o comun.js");
     return;
   }
+  const { $, $$, esc } = ANIV;
 
   /* ─── 1. Textos enlazados con data-dato ─────────────────────────────────── */
   function pintarDatos() {
@@ -257,49 +253,12 @@
     visor.addEventListener("click", (e) => { if (e.target === visor) visor.close(); });
   }
 
-  /* ─── 9. Recuerdos ──────────────────────────────────────────────────────── */
-  const RECUERDOS_VISIBLES = 6;   // los demás se despliegan con el botón
-
-  // Lee un CSV respetando comillas, comas y saltos de línea dentro de los campos
-  function leerCSV(texto) {
-    const filas = [];
-    let fila = [], campo = "", entreComillas = false;
-    for (let i = 0; i < texto.length; i++) {
-      const c = texto[i];
-      if (entreComillas) {
-        if (c === '"' && texto[i + 1] === '"') { campo += '"'; i++; }
-        else if (c === '"') entreComillas = false;
-        else campo += c;
-      } else if (c === '"') entreComillas = true;
-      else if (c === ",") { fila.push(campo); campo = ""; }
-      else if (c === "\n" || c === "\r") {
-        if (c === "\r" && texto[i + 1] === "\n") i++;
-        fila.push(campo); filas.push(fila); fila = []; campo = "";
-      } else campo += c;
-    }
-    if (campo || fila.length) { fila.push(campo); filas.push(fila); }
-    return filas.filter((f) => f.some((v) => v.trim()));
-  }
-
-  // Convierte la hoja publicada en recuerdos. Las columnas se reconocen por su
-  // encabezado (texto, autor, relacion), sin importar el orden ni las tildes.
-  function recuerdosDesdeHoja(csv) {
-    const [cabecera, ...filas] = leerCSV(csv);
-    if (!cabecera) return [];
-    const norma = (t) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").trim().toLowerCase();
-    const col = (nombre) => cabecera.findIndex((h) => norma(h) === nombre);
-    const [iT, iA, iR] = ["texto", "autor", "relacion"].map(col);
-    if (iT < 0) return [];
-    return filas
-      .map((f) => ({ texto: (f[iT] || "").trim(), autor: (f[iA] || "").trim(), relacion: (f[iR] || "").trim() }))
-      .filter((r) => r.texto)
-      .reverse();                                   // los más recientes, primero
-  }
+  /* ─── 9. Recuerdos: vista previa y enlace al libro de visitas ───────────── */
+  const RECUERDOS_PORTADA = 6;    // el resto se lee en el libro de visitas
 
   function pintarRecuerdos(lista) {
     const cont = $("#recuerdos-lista");
     const seccion = $("#recuerdos");
-    const boton = $("#mas-recuerdos");
     if (!cont || !seccion) return;
     const enlaceMenu = $$('a[href="#recuerdos"]');
     const mostrar = (si) => enlaceMenu.forEach((a) => { (a.closest("li") || a).hidden = !si; });
@@ -315,8 +274,8 @@
     seccion.hidden = false;
     mostrar(true);
 
-    cont.innerHTML = lista.map((r, i) => `
-      <figure class="recuerdo reveal${i >= RECUERDOS_VISIBLES ? " recuerdo--oculto" : ""}">
+    cont.innerHTML = lista.slice(0, RECUERDOS_PORTADA).map((r) => `
+      <figure class="recuerdo reveal">
         <blockquote>${esc(r.texto)}</blockquote>
         <figcaption>
           ${r.autor ? `<span class="recuerdo__autor">${esc(r.autor)}</span>` : ""}
@@ -324,44 +283,21 @@
         </figcaption>
       </figure>`).join("");
 
-    if (!boton) return;
-    const ocultos = lista.length - RECUERDOS_VISIBLES;
-    const rotulo = () => `Ver ${ocultos} recuerdo${ocultos > 1 ? "s" : ""} más`;
-    boton.hidden = ocultos <= 0;
-    boton.setAttribute("aria-expanded", "false");
-    boton.textContent = rotulo();
-    boton.onclick = () => {
-      const desplegado = boton.getAttribute("aria-expanded") === "true";
-      $$(".recuerdo", cont).forEach((el, i) => {
-        if (i >= RECUERDOS_VISIBLES) {
-          el.classList.toggle("recuerdo--oculto", desplegado);
-          el.classList.add("visible");
-        }
-      });
-      boton.setAttribute("aria-expanded", String(!desplegado));
-      boton.textContent = desplegado ? rotulo() : "Ver menos";
-    };
+    const enlace = $("#abrir-libro");
+    if (enlace) {
+      const n = lista.length;
+      enlace.textContent = `Abrir el libro de visitas · ${n} recuerdo${n === 1 ? "" : "s"}`;
+    }
   }
 
-  // Primero los recuerdos escritos a mano en datos.js; después, si hay hoja
-  // publicada, se añaden los aprobados en ella. Si la hoja falla, la web
-  // sigue mostrando los de datos.js.
+  // Primero los escritos a mano en datos.js (los destacados); después los de
+  // la hoja, del más reciente al más antiguo.
   async function cargarRecuerdos() {
-    const manuales = DATOS.recuerdos || [];
-    pintarRecuerdos(manuales);
-
-    const url = (DATOS.aniversario.hojaRecuerdos || "").trim();
-    if (!url) return;
-    try {
-      const resp = await fetch(url, { cache: "no-store" });
-      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      const deHoja = recuerdosDesdeHoja(await resp.text());
-      if (!deHoja.length) return;
-      pintarRecuerdos([...manuales, ...deHoja]);
-      $$("#recuerdos .reveal:not(.visible)").forEach((el) => revelar(el));
-    } catch (error) {
-      console.warn("No se han podido cargar los recuerdos de la hoja:", error);
-    }
+    pintarRecuerdos((DATOS.recuerdos || []).filter((r) => r && r.texto));
+    const { manuales, deHoja } = await ANIV.obtenerRecuerdos();
+    if (!deHoja.length) return;
+    pintarRecuerdos([...manuales, ...deHoja.slice().reverse()]);
+    $$("#recuerdos .reveal:not(.visible)").forEach((el) => revelar(el));
   }
 
   /* ─── 10. Participa ──────────────────────────────────────────────────────── */
@@ -375,13 +311,8 @@
   function pintarParticipa() {
     const cont = $("#participa-lista");
     if (!cont) return;
-    // El correo del aniversario; si no se indica, se usa el del centro
-    const correo = DATOS.aniversario.email || DATOS.centro.email;
-    const asunto = (titulo) => encodeURIComponent(`${DATOS.aniversario.numero} aniversario · ${titulo}`);
-
     cont.innerHTML = (DATOS.participa || []).map((p) => {
-      const cuerpo = p.cuerpo ? `&body=${encodeURIComponent(p.cuerpo)}` : "";
-      const destino = p.enlace || (correo ? `mailto:${correo}?subject=${asunto(p.titulo)}${cuerpo}` : "");
+      const destino = ANIV.destinoParticipa(p);
       return `
       <article class="tarjeta reveal">
         <div class="tarjeta__icono">
@@ -458,29 +389,6 @@
     }
   }
 
-  /* ─── 12. Modo claro / oscuro ───────────────────────────────────────────── */
-  function iniciarTema() {
-    const raiz = document.documentElement;
-    const btn = $("#btn-tema");
-    const guardado = localStorage.getItem("tema-aniversario");
-    const prefiereOscuro = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    function aplicar(tema) {
-      raiz.dataset.tema = tema;
-      btn.setAttribute("aria-label", tema === "oscuro" ? "Cambiar a modo claro" : "Cambiar a modo oscuro");
-      const meta = $('meta[name="theme-color"]');
-      if (meta) meta.content = tema === "oscuro" ? "#0c1611" : "#12341f";
-    }
-
-    aplicar(guardado || (prefiereOscuro ? "oscuro" : "claro"));
-
-    btn.addEventListener("click", () => {
-      const nuevo = raiz.dataset.tema === "oscuro" ? "claro" : "oscuro";
-      aplicar(nuevo);
-      localStorage.setItem("tema-aniversario", nuevo);
-    });
-  }
-
   /* ─── 13. Aparición al hacer scroll ─────────────────────────────────────── */
   let observadorRevelado = null;
 
@@ -507,7 +415,7 @@
   /* ─── Arranque ──────────────────────────────────────────────────────────── */
   document.addEventListener("DOMContentLoaded", () => {
     try {
-      iniciarTema();
+      ANIV.iniciarTema();
       pintarDatos();
       pintarAnillos();
       pintarCifras();

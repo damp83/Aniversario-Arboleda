@@ -1,0 +1,408 @@
+/* =============================================================================
+   LIBRO DE VISITAS · Estilos propios de recuerdos.html
+   Se apoya en los colores y tipografías de estilos.css.
+   ============================================================================= */
+
+/* ─────────────────────────── 1. PAPEL Y TINTA ─────────────────────────── */
+:root {
+  --papel-libro: #fbf8f1;
+  --papel-borde: #e2d9c6;
+  --tinta-libro: #2a2118;
+  --tinta-suave-libro: #54483a;
+  --renglon-color: rgba(44, 76, 47, .15);
+  --firma-libro: #5b3b1d;
+  --meta-libro: #97772c;
+  --tapa-1: #2b5e39;
+  --tapa-2: #1c4428;
+  --tapa-3: #112b19;
+  --oro-foil: #e7c877;
+}
+/* En modo oscuro el papel se atenúa, como un libro leído con poca luz */
+html[data-tema="oscuro"] {
+  --papel-libro: #e6dfcd;
+  --papel-borde: #b8ad94;
+}
+
+.sr-solo {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.pagina-libro { overflow-x: clip; }
+.pagina-libro .cabecera__int { gap: 1rem; }
+
+.enlace-volver {
+  margin-left: auto;
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .5rem .9rem; border-radius: 999px;
+  color: var(--texto); text-decoration: none; font-weight: 500; font-size: .95rem;
+  white-space: nowrap;
+  transition: background var(--transicion);
+}
+.enlace-volver:hover { background: color-mix(in srgb, var(--acento) 12%, transparent); }
+.enlace-volver svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ─────────────────────────── 2. CABECERA DE LA PÁGINA ─────────────────────────── */
+.libro-intro { text-align: center; padding: clamp(1.1rem, 3.5vw, 2.2rem) 0 .2rem; }
+.libro-intro .seccion__eti { justify-content: center; }
+.libro-intro__titulo { font-size: clamp(2.2rem, 6vw, 3.4rem); margin-bottom: .2em; }
+.libro-intro__texto { max-width: 58ch; margin: 0 auto 1.2rem; color: var(--texto-suave); }
+
+.libro-herramientas { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; align-items: center; }
+.libro-herramientas .btn { padding: .78rem 1.4rem; }
+
+.buscador { position: relative; flex: 1 1 280px; max-width: 390px; }
+.buscador input {
+  width: 100%; padding: .8rem 1rem .8rem 2.8rem;
+  border: 1px solid var(--linea); border-radius: 999px;
+  background: var(--superficie); color: var(--texto);
+  font: inherit; font-size: .97rem;
+}
+.buscador input::placeholder { color: var(--texto-suave); opacity: .8; }
+.buscador input:focus-visible { outline: 3px solid var(--oro-500); outline-offset: 2px; }
+.buscador svg {
+  position: absolute; left: 1.05rem; top: 50%; translate: 0 -50%;
+  width: 18px; height: 18px; fill: none; stroke: var(--texto-suave); stroke-width: 2; stroke-linecap: round;
+  pointer-events: none;
+}
+.libro-estado { min-height: 1.4em; margin: .6rem 0 0; font-size: .92rem; font-weight: 500; color: var(--texto-suave); }
+
+@media (max-width: 560px) {
+  .enlace-volver__resto { display: none; }
+  .libro-intro .seccion__eti::before { display: none; }
+  .libro-intro__texto { font-size: .98rem; margin-bottom: 1rem; }
+  /* Búsqueda a todo el ancho y los dos botones compartiendo fila */
+  .libro-herramientas { gap: .55rem; }
+  .buscador { flex-basis: 100%; max-width: none; }
+  .libro-herramientas .btn { width: auto; flex: 1 1 0; padding: .72rem .5rem; font-size: .88rem; justify-content: center; white-space: nowrap; }
+}
+
+/* ─────────────────────────── 3. ESCENARIO Y MEDIDAS ─────────────────────────── */
+.escenario {
+  /* Ancho de una página: cabe en pantalla a lo ancho y a lo alto */
+  --pw: min(470px, calc((100vw - 64px) / 2), max(280px, calc((100svh - 250px) * .78)));
+  --ph: calc(var(--pw) / .78);
+  --renglon: clamp(23px, calc(var(--pw) / 17), 28px);
+  --letra: calc(var(--renglon) * .6);
+
+  position: relative;
+  display: grid; place-items: center;
+  padding: 1.4rem 0 1.2rem;
+  touch-action: pan-y;
+  -webkit-user-select: none; user-select: none;
+  outline: none;
+}
+.escenario:focus-visible .libro { outline: 2px solid color-mix(in srgb, var(--oro-500) 70%, transparent); outline-offset: 12px; border-radius: 14px; }
+
+@media (max-width: 819.98px) {
+  .escenario {
+    --pw: min(470px, calc(100vw - 32px), max(280px, calc((100svh - 230px) * .78)));
+    overflow: hidden;
+  }
+}
+
+.sonda { position: absolute; top: 0; left: 0; width: var(--pw); height: 0; visibility: hidden; pointer-events: none; }
+
+/* ─────────────────────────── 4. EL LIBRO ─────────────────────────── */
+.libro {
+  position: relative;
+  width: calc(var(--pw) * 2); height: var(--ph);
+  perspective: calc(var(--pw) * 3.6);
+  transition: transform .85s cubic-bezier(.45, .05, .3, 1);
+}
+/* Cerrado: se centra la tapa (delante) o la contratapa (detrás) */
+.libro--portada { transform: translateX(-25%); }
+.libro--contraportada { transform: translateX(25%); }
+
+.libro__lado { position: absolute; top: 0; width: var(--pw); height: var(--ph); cursor: pointer; }
+.libro__lado--izq { left: 0; }
+.libro__lado--der { left: 50%; }
+.libro__lado:empty { cursor: default; }
+
+.escenario[data-modo="simple"] .libro { width: var(--pw); }
+.escenario[data-modo="simple"] .libro__lado--izq { display: none; }
+.escenario[data-modo="simple"] .libro__lado--der { left: 0; }
+
+/* ─────────────────────────── 5. LA HOJA ─────────────────────────── */
+.folio {
+  position: absolute; top: 0; left: 0;
+  width: var(--pw); height: var(--ph);
+  display: grid; grid-template-rows: var(--renglon) 1fr var(--renglon); row-gap: var(--renglon);
+  padding: var(--renglon) calc(var(--renglon) * 1.2);
+  background-color: var(--papel-libro);
+  color: var(--tinta-libro);
+  font-size: var(--letra);
+  overflow: hidden;
+}
+/* Sombra del lomo y cantos de las hojas que quedan debajo */
+.folio--der {
+  border-radius: 2px 10px 10px 2px;
+  background-image: linear-gradient(to right, rgba(60, 40, 20, .16), rgba(60, 40, 20, 0) 10%);
+  box-shadow:
+    1px 1px 0 var(--papel-borde), 3px 2px 0 var(--papel-libro), 4px 3px 0 var(--papel-borde),
+    6px 4px 0 var(--papel-libro), 7px 5px 0 var(--papel-borde),
+    0 24px 40px -22px rgba(0, 0, 0, .55);
+}
+.folio--izq {
+  border-radius: 10px 2px 2px 10px;
+  background-image: linear-gradient(to left, rgba(60, 40, 20, .16), rgba(60, 40, 20, 0) 10%);
+  box-shadow:
+    -1px 1px 0 var(--papel-borde), -3px 2px 0 var(--papel-libro), -4px 3px 0 var(--papel-borde),
+    -6px 4px 0 var(--papel-libro), -7px 5px 0 var(--papel-borde),
+    0 24px 40px -22px rgba(0, 0, 0, .55);
+}
+/* Esquina que invita a pasar página */
+.libro__lado--der .folio--entradas::after,
+.libro__lado--der .folio--titulo::after {
+  content: ""; position: absolute; right: 0; bottom: 0;
+  width: 0; height: 0;
+  background: linear-gradient(135deg, var(--papel-libro) 45%, var(--papel-borde) 50%, #d4c9b1 100%);
+  box-shadow: -2px -2px 6px rgba(0, 0, 0, .12);
+  border-top-left-radius: 6px;
+  transition: width .25s ease, height .25s ease;
+}
+.libro__lado--der:hover .folio--entradas::after,
+.libro__lado--der:hover .folio--titulo::after { width: 34px; height: 34px; }
+
+.folio__cabeza {
+  font: 600 calc(var(--letra) * .6)/var(--renglon) var(--fuente-texto);
+  letter-spacing: .32em; text-transform: uppercase; text-align: center;
+  color: var(--meta-libro);
+}
+.folio__cuerpo {
+  min-height: 0; overflow: hidden;
+  /* Papel pautado: una raya por renglón, a la altura de la escritura */
+  background-image: linear-gradient(to bottom,
+    transparent calc(var(--renglon) - 1px),
+    var(--renglon-color) calc(var(--renglon) - 1px), var(--renglon-color) var(--renglon));
+  background-size: 100% var(--renglon);
+  background-position: 0 calc(var(--renglon) * -.2);
+}
+.folio__pie {
+  font: italic 500 calc(var(--letra) * .8)/var(--renglon) var(--fuente-titulo);
+  color: var(--meta-libro);
+}
+.folio--der .folio__pie { text-align: right; }
+.folio--izq .folio__pie { text-align: left; }
+
+/* ─────────────────────────── 6. CADA RECUERDO ─────────────────────────── */
+.entrada { margin: 0; }
+.entrada__texto {
+  margin: 0;
+  font: 400 var(--letra)/var(--renglon) var(--fuente-titulo);
+  color: var(--tinta-libro);
+  text-wrap: pretty; hyphens: auto; -webkit-hyphens: auto;
+}
+.entrada figcaption { display: block; text-align: right; line-height: var(--renglon); }
+.entrada__firma {
+  font: 600 calc(var(--renglon) * .95)/var(--renglon) "Caveat", "Segoe Script", "Bradley Hand", cursive;
+  color: var(--firma-libro);
+}
+.entrada__meta {
+  display: inline-block; margin-left: .7em;
+  font: 600 calc(var(--letra) * .6)/var(--renglon) var(--fuente-texto);
+  letter-spacing: .14em; text-transform: uppercase; white-space: nowrap;
+  color: var(--meta-libro);
+}
+/* Un pequeño anillo separa un recuerdo del siguiente, ocupando un renglón */
+.entrada:not(:last-child)::after {
+  content: ""; display: block; height: var(--renglon);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cg fill='none' stroke='%2397772c' stroke-width='1.2'%3E%3Ccircle cx='10' cy='10' r='8.5'/%3E%3Ccircle cx='10' cy='10' r='5'/%3E%3C/g%3E%3Ccircle cx='10' cy='10' r='1.6' fill='%2397772c'/%3E%3C/svg%3E")
+    center / calc(var(--renglon) * .5) no-repeat;
+  opacity: .75;
+}
+/* Solo para un recuerdo tan largo que no cabría ni solo en la página */
+.entrada--apretada .entrada__texto { font-size: calc(var(--letra) * .86); }
+
+/* ─────────────────────────── 7. TAPAS ─────────────────────────── */
+.folio--portada,
+.folio--contraportada {
+  display: grid; place-items: center; padding: 0;
+  grid-template-rows: 1fr; row-gap: 0;
+  color: var(--oro-foil);
+  background:
+    radial-gradient(120% 90% at 30% 18%, var(--tapa-1) 0%, var(--tapa-2) 55%, var(--tapa-3) 100%);
+}
+.folio--portada {
+  border-radius: 4px 14px 14px 4px;
+  box-shadow: inset 12px 0 18px -10px rgba(0, 0, 0, .6), 3px 3px 0 #0d2314, 0 26px 50px -20px rgba(0, 0, 0, .65);
+}
+.folio--contraportada {
+  border-radius: 14px 4px 4px 14px;
+  box-shadow: inset -12px 0 18px -10px rgba(0, 0, 0, .6), -3px 3px 0 #0d2314, 0 26px 50px -20px rgba(0, 0, 0, .65);
+}
+/* Marco dorado repujado */
+.folio--portada::before,
+.folio--contraportada::before {
+  content: ""; position: absolute; inset: calc(var(--renglon) * .85);
+  border: 1.5px solid rgba(231, 200, 119, .55); border-radius: 6px;
+  outline: 1px solid rgba(231, 200, 119, .22); outline-offset: 5px;
+  pointer-events: none;
+}
+
+.tapa { position: relative; display: grid; justify-items: center; text-align: center; gap: calc(var(--renglon) * .35); padding: var(--renglon); }
+.tapa__anillos { width: calc(var(--pw) * .3); height: auto; margin-bottom: calc(var(--renglon) * .3); }
+.tapa__anillos circle { fill: none; stroke: var(--oro-foil); stroke-width: 1.2; }
+.tapa__anillos .nucleo { fill: var(--oro-foil); stroke: none; }
+.tapa__super {
+  margin: 0; font: 600 calc(var(--letra) * .68)/1.3 var(--fuente-texto);
+  letter-spacing: .34em; text-transform: uppercase; color: rgba(231, 200, 119, .85);
+}
+.tapa__cifra {
+  margin: 0; font: 900 calc(var(--pw) * .29)/.86 var(--fuente-titulo); letter-spacing: -.03em;
+  background: linear-gradient(170deg, #f8e6ae 0%, #e0bc62 50%, #a8822e 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, .35));
+}
+.tapa__titulo { margin: 0; font: italic 500 calc(var(--pw) * .088)/1.1 var(--fuente-titulo); color: #f1d58c; }
+.tapa__fechas {
+  margin: calc(var(--renglon) * .3) 0 0;
+  font: 600 calc(var(--letra) * .72)/1 var(--fuente-texto); letter-spacing: .42em; color: rgba(231, 200, 119, .72);
+}
+.tapa__abrir {
+  position: absolute; left: 50%; bottom: calc(var(--renglon) * 1.7); translate: -50% 0;
+  font: 600 calc(var(--letra) * .62)/1 var(--fuente-texto); letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(231, 200, 119, .62); white-space: nowrap;
+  animation: latido 2.6s ease-in-out infinite;
+}
+@keyframes latido { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+.volante .tapa__abrir { display: none; }
+
+.contratapa { display: grid; justify-items: center; gap: calc(var(--renglon) * .5); text-align: center; }
+.contratapa .tapa__anillos { width: calc(var(--pw) * .16); margin: 0; }
+.contratapa p {
+  margin: 0; font: 600 calc(var(--letra) * .62)/1.6 var(--fuente-texto);
+  letter-spacing: .3em; text-transform: uppercase; color: rgba(231, 200, 119, .7);
+}
+
+/* ─────────────────────────── 8. GUARDAS Y PORTADILLA ─────────────────────────── */
+.folio--guarda {
+  background-color: #dfe7dc;
+  background-image:
+    linear-gradient(var(--sombra-lomo, to right), rgba(30, 50, 30, .18), rgba(30, 50, 30, 0) 12%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='76' height='76'%3E%3Cg fill='none' stroke='%232c4c2f' stroke-opacity='.17'%3E%3Ccircle cx='38' cy='38' r='32'/%3E%3Ccircle cx='38' cy='38' r='24'/%3E%3Ccircle cx='38' cy='38' r='16'/%3E%3Ccircle cx='38' cy='38' r='8'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 100%, 76px 76px;
+}
+.folio--guarda.folio--izq { --sombra-lomo: to left; }
+html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
+
+.folio--titulo {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: calc(var(--renglon) * .4); text-align: center;
+}
+.portadilla__escudo { width: calc(var(--pw) * .2); height: auto; margin-bottom: calc(var(--renglon) * .4); }
+.portadilla__titulo { margin: 0; font: italic 600 calc(var(--pw) * .092)/1.05 var(--fuente-titulo); color: var(--tinta-libro); }
+.portadilla__sub {
+  margin: 0; font: 600 calc(var(--letra) * .64)/1.5 var(--fuente-texto);
+  letter-spacing: .28em; text-transform: uppercase; color: var(--meta-libro);
+}
+.portadilla__raya { width: 42%; height: 1px; margin: calc(var(--renglon) * .5) 0; background: linear-gradient(90deg, transparent, var(--meta-libro), transparent); }
+.portadilla__texto { margin: 0; max-width: 29ch; font: 400 calc(var(--letra) * .94)/1.6 var(--fuente-titulo); color: var(--tinta-suave-libro); }
+.portadilla__cuenta {
+  margin: calc(var(--renglon) * .6) 0 0;
+  font: 600 calc(var(--renglon) * 1.05)/1 "Caveat", "Segoe Script", cursive; color: var(--firma-libro);
+}
+
+/* ─────────────────────────── 9. ÚLTIMA PÁGINA Y SIN RESULTADOS ─────────────────────────── */
+.folio--final .folio__cuerpo,
+.folio--sinresultados .folio__cuerpo {
+  background-image: none;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: calc(var(--renglon) * .6); text-align: center;
+}
+.cierre__titulo { margin: 0; font: italic 600 calc(var(--pw) * .068)/1.15 var(--fuente-titulo); color: var(--tinta-libro); }
+.cierre__texto { margin: 0; max-width: 28ch; font: 400 calc(var(--letra) * .94)/1.6 var(--fuente-titulo); color: var(--tinta-suave-libro); }
+.cierre__boton {
+  display: inline-block; padding: .75em 1.35em; border: 0; border-radius: 999px; cursor: pointer;
+  background: #1c6b3f; color: #fff; text-decoration: none;
+  font: 600 calc(var(--letra) * .82)/1 var(--fuente-texto);
+  box-shadow: 0 8px 18px -10px #1c6b3f;
+}
+.cierre__boton:hover { background: #17593a; }
+.cierre__nota { margin: 0; font: 600 calc(var(--letra) * .62)/1.4 var(--fuente-texto); color: var(--meta-libro); }
+.cierre__anillos { width: calc(var(--renglon) * 1.6); height: auto; }
+.cierre__anillos circle { fill: none; stroke: var(--meta-libro); stroke-width: 1.4; }
+.cierre__anillos .nucleo { fill: var(--meta-libro); stroke: none; }
+
+/* ─────────────────────────── 10. LA HOJA QUE SE PASA ─────────────────────────── */
+.volante {
+  position: absolute; top: 0; z-index: 5;
+  width: var(--pw); height: var(--ph);
+  transform: rotateY(0deg);
+  transform-style: preserve-3d;
+  transition: transform .85s cubic-bezier(.45, .05, .3, 1);
+  pointer-events: none;
+}
+.volante--der { left: 50%; transform-origin: 0 50%; }
+.volante--izq { left: 0; transform-origin: 100% 50%; }
+.escenario[data-modo="simple"] .volante { left: 0; transform-origin: 0 50%; }
+
+.volante__cara { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.volante__cara--dorso { transform: rotateY(180deg); }
+.volante .folio { box-shadow: 0 0 22px rgba(0, 0, 0, .16); }
+/* Sombra que cruza la hoja mientras gira */
+.volante__cara::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to right, rgba(0, 0, 0, .28), rgba(0, 0, 0, 0) 60%);
+  opacity: 0; animation: sombra-hoja .85s ease-in-out;
+}
+.volante__cara--dorso::after { background: linear-gradient(to left, rgba(0, 0, 0, .28), rgba(0, 0, 0, 0) 60%); }
+@keyframes sombra-hoja { 50% { opacity: 1; } }
+
+/* Medidor invisible para repartir los recuerdos en páginas */
+.folio--medidor { left: -10000px; visibility: hidden; pointer-events: none; }
+
+/* ─────────────────────────── 11. CONTROLES ─────────────────────────── */
+.paso {
+  display: flex; align-items: center; justify-content: center; gap: 1.1rem;
+  width: min(100% - 2rem, 520px); margin: .4rem auto 0;
+}
+.paso__btn {
+  flex-shrink: 0; width: 50px; height: 50px; border-radius: 50%;
+  display: grid; place-items: center;
+  border: 1px solid var(--linea); background: var(--superficie); color: var(--texto);
+  cursor: pointer; box-shadow: var(--sombra);
+  transition: transform var(--transicion), opacity var(--transicion);
+}
+.paso__btn:hover:not(:disabled) { transform: scale(1.06); }
+.paso__btn:disabled { opacity: .35; cursor: default; box-shadow: none; }
+.paso__btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.paso__centro { flex: 1; min-width: 0; text-align: center; }
+.paso__posicion { display: block; font-weight: 600; font-size: .95rem; font-variant-numeric: tabular-nums; }
+.paso__barra { height: 3px; margin-top: .55rem; border-radius: 3px; background: var(--linea); overflow: hidden; }
+.paso__barra span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--acento), var(--oro-500)); transition: width .5s ease; }
+.paso__ayuda { margin: .9rem auto 0; padding: 0 1rem; text-align: center; font-size: .86rem; color: var(--texto-suave); }
+
+/* ─────────────────────────── 12. LEER TODO SEGUIDO ─────────────────────────── */
+.lista { max-width: 720px; margin-top: 1.4rem; }
+.lista__papel {
+  --renglon: 28px; --letra: 17.5px;
+  padding: 28px clamp(20px, 6vw, 56px);
+  border-radius: 12px;
+  background-color: var(--papel-libro); color: var(--tinta-libro);
+  background-image: linear-gradient(to bottom,
+    transparent calc(var(--renglon) - 1px),
+    var(--renglon-color) calc(var(--renglon) - 1px), var(--renglon-color) var(--renglon));
+  background-size: 100% var(--renglon);
+  background-position: 0 calc(28px + var(--renglon) * -.2);
+  box-shadow: var(--sombra-alta);
+}
+.lista__vacia { margin: 0; font: italic 400 var(--letra)/var(--renglon) var(--fuente-titulo); text-align: center; color: var(--tinta-suave-libro); }
+
+/* ─────────────────────────── 13. PIE ─────────────────────────── */
+.pie--libro { padding: 0 0 2rem; margin-top: 3.5rem; }
+.pie--libro .pie__legal { margin-top: 0; }
+.pie--libro a { color: color-mix(in srgb, var(--verde-50) 80%, transparent); }
+
+/* ─────────────────────────── 14. MOVIMIENTO REDUCIDO E IMPRESIÓN ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .libro, .volante { transition: none !important; }
+  .tapa__abrir { animation: none; opacity: .8; }
+}
+
+@media print {
+  .libro-herramientas, .libro-estado, .escenario, .paso, .paso__ayuda, .pie--libro, .enlace-volver { display: none !important; }
+  .lista { display: block !important; max-width: none; }
+  .lista__papel { box-shadow: none; background-image: none; padding: 0; }
+  .entrada { break-inside: avoid; }
+}
