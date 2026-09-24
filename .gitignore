@@ -6,3 +6,6 @@ Thumbs.db
 node_modules/
 package.json
 package-lock.json
+
+# Caché de Python
+__pycache__/
