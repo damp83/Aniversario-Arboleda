@@ -64,7 +64,7 @@
         <li><a href="#semana">La semana</a></li>
         <li><a href="#proyectos">Proyectos</a></li>
         <li><a href="#galeria">Galería</a></li>
-        <li><a href="#recuerdos">Recuerdos</a></li>
+        <li><a href="recuerdos.html">Libro de visitas</a></li>
         <li><a href="#participa">Participa</a></li>
       </ul>
     </nav>
@@ -199,20 +199,39 @@
   </section>
 
   <!-- ═══════════════════ RECUERDOS ═══════════════════ -->
-  <section class="seccion seccion--recuerdos" id="recuerdos" hidden>
+  <section class="seccion seccion--recuerdos" id="recuerdos">
     <div class="contenedor">
       <header class="seccion__cab reveal">
         <p class="seccion__eti">Voces del centro</p>
-        <h2 class="seccion__titulo">Lo que nos habéis contado</h2>
+        <h2 class="seccion__titulo">El libro de visitas</h2>
         <p class="seccion__intro">
           Una maestra que marcó un curso, la excursión que no se olvida, el patio
-          de siempre. Los recuerdos que nos llegan de quienes han pasado por aquí.
+          de siempre. Los recuerdos de quienes han pasado por aquí, reunidos en un libro.
         </p>
       </header>
 
+      <!-- Mientras no haya recuerdos: invitación a abrir el libro y escribir el primero -->
+      <div class="invitacion-libro reveal" id="recuerdos-vacio" hidden>
+        <a class="invitacion-libro__tapa" href="recuerdos.html" tabindex="-1" aria-hidden="true">
+          <span class="invitacion-libro__cifra">25</span>
+          <span class="invitacion-libro__titulo">Libro de visitas</span>
+        </a>
+        <div class="invitacion-libro__texto">
+          <h3>El libro acaba de abrirse</h3>
+          <p>
+            Todavía no hay recuerdos publicados. Ábrelo, hojéalo y deja el primero:
+            una maestra, una excursión, un patio. Cabe todo.
+          </p>
+          <div class="invitacion-libro__botones">
+            <a class="btn btn--principal" href="recuerdos.html">Abrir el libro de visitas</a>
+            <a class="btn btn--fantasma" id="escribir-recuerdo" href="#participa">Escribir mi recuerdo</a>
+          </div>
+        </div>
+      </div>
+
       <div class="recuerdos" id="recuerdos-lista"></div>
 
-      <p class="recuerdos__mas">
+      <p class="recuerdos__mas" id="recuerdos-mas" hidden>
         <a class="btn btn--principal" id="abrir-libro" href="recuerdos.html">Abrir el libro de visitas</a>
       </p>
     </div>

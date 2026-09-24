@@ -146,7 +146,7 @@ a:hover { text-decoration-color: currentColor; }
 .nav { margin-left: auto; }
 .nav__lista { display: flex; gap: .3rem; list-style: none; margin: 0; padding: 0; }
 .nav__lista a {
-  display: block; padding: .5rem .85rem; border-radius: 999px;
+  display: block; padding: .5rem .85rem; border-radius: 999px; white-space: nowrap;
   text-decoration: none; color: var(--texto); font-weight: 500; font-size: .95rem;
   transition: background var(--transicion), color var(--transicion);
 }
@@ -486,6 +486,47 @@ html[data-tema="oscuro"] .marco svg ellipse { stroke: var(--verde-200); }
 
 .recuerdos__mas { text-align: center; margin: 2.2rem 0 0; }
 
+/* Invitación mientras el libro de visitas aún no tiene recuerdos */
+.invitacion-libro {
+  display: grid; grid-template-columns: auto 1fr; gap: clamp(1.6rem, 4vw, 3.2rem); align-items: center;
+  max-width: 860px; margin: 0 auto;
+  padding: clamp(1.6rem, 4vw, 2.6rem) clamp(1.4rem, 4vw, 3rem);
+  background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+.invitacion-libro__tapa {
+  position: relative; width: 150px; aspect-ratio: .78;
+  display: grid; place-content: center; justify-items: center; gap: .45rem;
+  border-radius: 3px 10px 10px 3px; text-decoration: none;
+  background: radial-gradient(120% 90% at 30% 18%, #2b5e39 0%, #1c4428 55%, #112b19 100%);
+  box-shadow: inset 8px 0 12px -8px rgba(0, 0, 0, .6), 3px 3px 0 #e2d9c6, 5px 5px 0 #0d2314,
+              0 18px 30px -14px rgba(0, 0, 0, .55);
+  transform: perspective(700px) rotateY(-16deg) rotate(-2deg);
+  transition: transform .45s ease;
+}
+.invitacion-libro__tapa::before {
+  content: ""; position: absolute; inset: 9px;
+  border: 1px solid rgba(231, 200, 119, .5); border-radius: 4px;
+}
+.invitacion-libro:hover .invitacion-libro__tapa { transform: perspective(700px) rotateY(-4deg) rotate(0deg); }
+.invitacion-libro__cifra {
+  font: 900 3.4rem/.9 var(--fuente-titulo);
+  background: linear-gradient(170deg, #f8e6ae, #e0bc62 50%, #a8822e);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.invitacion-libro__titulo { font: italic 500 .95rem/1.15 var(--fuente-titulo); color: #f1d58c; text-align: center; }
+.invitacion-libro__texto h3 { font-size: 1.65rem; margin-bottom: .45rem; }
+.invitacion-libro__texto p { color: var(--texto-suave); margin-bottom: 1.3rem; }
+.invitacion-libro__botones { display: flex; flex-wrap: wrap; gap: .7rem; }
+
+@media (max-width: 620px) {
+  .invitacion-libro { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .invitacion-libro__tapa { width: 118px; }
+  .invitacion-libro__cifra { font-size: 2.7rem; }
+  .invitacion-libro__titulo { font-size: .8rem; }
+  .invitacion-libro__botones { justify-content: center; }
+}
+
 @media (max-width: 900px) { .recuerdos { columns: 2; } }
 @media (max-width: 620px) { .recuerdos { columns: 1; } }
 
@@ -537,7 +578,7 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
 .pie__curso { font-size: .88rem; color: var(--oro-300); font-weight: 600; }
 .pie__bloque h2 { font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; font-family: var(--fuente-texto); color: var(--oro-300); margin-bottom: 1rem; }
 .pie__bloque ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
-.pie__bloque a { color: color-mix(in srgb, var(--verde-50) 82%, transparent); text-decoration: none; }
+.pie__bloque a { color: color-mix(in srgb, var(--verde-50) 82%, transparent); text-decoration: none; overflow-wrap: anywhere; }
 .pie__bloque a:hover { color: var(--oro-300); }
 .pie__legal {
   margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.12);
@@ -556,13 +597,18 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
 
 /* ─────────────────────────── 15. RESPONSIVE ─────────────────────────── */
 @media (max-width: 900px) {
-  .pie__int { grid-template-columns: 1fr 1fr; }
+  .pie__int { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .pie__marca { grid-column: 1 / -1; }
   .capsula { grid-template-columns: 1fr; }
   .capsula__anio { padding-left: 0; border-left: none; border-top: 1px solid rgba(255,255,255,.18); padding-top: 1.2rem; text-align: left; }
 }
 
-@media (max-width: 780px) {
+/* En el móvil, una sola columna: el correo del centro no cabe al lado de otra */
+@media (max-width: 560px) { .pie__int { grid-template-columns: minmax(0, 1fr); gap: 2rem; } }
+
+
+/* Menú desplegable: en cuanto las seis entradas dejan de caber en una línea */
+@media (max-width: 1060px) {
   .btn-menu { display: block; }
   .nav {
     position: fixed; inset: 0 0 auto 0; top: 0;
@@ -573,6 +619,11 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
   .nav.abierto { translate: 0 0; }
   .nav__lista { flex-direction: column; gap: .2rem; }
   .nav__lista a { padding: .9rem 1rem; font-size: 1.15rem; font-family: var(--fuente-titulo); }
+  /* Sin nada que empuje, los botones irían pegados a la marca */
+  .cabecera__acciones { margin-left: auto; }
+}
+
+@media (max-width: 780px) {
   .cuenta__bloque { min-width: 68px; }
   .acto { grid-template-columns: 1fr; gap: .5rem; }
   .foto:nth-child(6n+1) { grid-column: span 1; aspect-ratio: 4 / 3; }

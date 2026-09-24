@@ -258,21 +258,22 @@
 
   function pintarRecuerdos(lista) {
     const cont = $("#recuerdos-lista");
-    const seccion = $("#recuerdos");
-    if (!cont || !seccion) return;
-    const enlaceMenu = $$('a[href="#recuerdos"]');
-    const mostrar = (si) => enlaceMenu.forEach((a) => { (a.closest("li") || a).hidden = !si; });
+    const vacio = $("#recuerdos-vacio");
+    const mas = $("#recuerdos-mas");
+    if (!cont) return;
 
-    // Sin recuerdos no hay sección: ni el apartado ni su enlace en el menú
-    if (!lista.length) {
-      seccion.hidden = true;
-      mostrar(false);
-      // Dentro de una sección oculta nadie las verá aparecer: se dan por reveladas
-      $$(".reveal", seccion).forEach((el) => el.classList.add("visible"));
+    // Sin recuerdos, la sección invita a abrir el libro y escribir el primero
+    const hayRecuerdos = lista.length > 0;
+    if (vacio) vacio.hidden = hayRecuerdos;
+    if (mas) mas.hidden = !hayRecuerdos;
+    if (!hayRecuerdos) {
+      cont.replaceChildren();
+      const escribir = $("#escribir-recuerdo");
+      const voz = (DATOS.participa || []).find((p) => p.icono === "voz");
+      const destino = voz && ANIV.destinoParticipa(voz);
+      if (escribir && destino) escribir.href = destino;
       return;
     }
-    seccion.hidden = false;
-    mostrar(true);
 
     cont.innerHTML = lista.slice(0, RECUERDOS_PORTADA).map((r) => `
       <figure class="recuerdo reveal">

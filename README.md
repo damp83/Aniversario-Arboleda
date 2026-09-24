@@ -111,9 +111,9 @@ Para publicar uno, añádelo al apartado `recuerdos` de `js/datos.js`:
   a esa persona en la historia del centro.
 
 En la portada se ven **los seis primeros**, y el botón *Abrir el libro de
-visitas* lleva a todos (ver más abajo). Mientras no haya ningún recuerdo, **la
-sección no existe en la portada**: ni el apartado ni su enlace en el menú.
-Aparece sola en cuanto añadas el primero.
+visitas* lleva a todos (ver más abajo). Mientras no haya ningún recuerdo, la
+sección muestra en su lugar una invitación a abrir el libro y escribir el
+primero. El libro tiene además su propia entrada en el menú principal.
 
 ## 📖 El libro de visitas
 
