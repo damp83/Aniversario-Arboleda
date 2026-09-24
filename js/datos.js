@@ -31,6 +31,11 @@ const DATOS = {
     numero: 25,
     anioFundacion: 2001,        // confirmado: el colegio abrió en el curso 2001/2002
     lema: "25 años sembrando futuro",
+
+    // Correo al que llegan las fotos y los recuerdos (botones de "Participa").
+    // Es distinto del correo del centro (arriba), que sigue en el pie de página.
+    email: "25aniversarioarboleda@gmail.com",
+
     entradilla:
       "Un cuarto de siglo de patios, de primeras letras, de excursiones y de " +
       "abrazos en la puerta. Celebramos 25 cursos de comunidad educativa con " +

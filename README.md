@@ -18,8 +18,9 @@ comillas, y guarda con *Commit changes*. En 1–2 minutos la web se actualiza so
 
 | Qué quieres cambiar | Apartado en `js/datos.js` |
 |---|---|
-| Nombre del centro, localidad, curso, correo | `centro` |
+| Nombre del centro, localidad, curso, correo del centro | `centro` |
 | Lema, texto de presentación, año de fundación | `aniversario` |
+| **Correo al que llegan las fotos y los recuerdos** | `aniversario.email` |
 | Fechas de la semana de actos y la **cuenta atrás** | `semana` |
 | Actividades de cada día | `programa` |
 | Hitos de la línea del tiempo | `hitos` |

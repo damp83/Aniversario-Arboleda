@@ -268,10 +268,12 @@
   function pintarParticipa() {
     const cont = $("#participa-lista");
     if (!cont) return;
-    const correo = DATOS.centro.email;
+    // El correo del aniversario; si no se indica, se usa el del centro
+    const correo = DATOS.aniversario.email || DATOS.centro.email;
+    const asunto = (titulo) => encodeURIComponent(`${DATOS.aniversario.numero} aniversario · ${titulo}`);
 
     cont.innerHTML = (DATOS.participa || []).map((p) => {
-      const destino = p.enlace || (correo ? `mailto:${correo}?subject=${encodeURIComponent(p.titulo)}` : "");
+      const destino = p.enlace || (correo ? `mailto:${correo}?subject=${asunto(p.titulo)}` : "");
       return `
       <article class="tarjeta reveal">
         <div class="tarjeta__icono">
