@@ -210,6 +210,15 @@ imagen `assets/cabecera-formulario.png` y elige el color verde `#1c6b3f`.
    campo `enlace` de la tarjeta «Cuéntanos tu recuerdo», dentro de `participa`.
    Así los botones de la web llevan al formulario en vez de abrir el correo.
 
+### Comprobar que todo está bien
+
+Cada vez que cambia `js/datos.js`, GitHub comprueba solo la hoja y el
+formulario: que la web puede leer la pestaña publicada, que **no** es pública
+la hoja de respuestas completa y que el formulario se abre sin iniciar sesión.
+También se puede lanzar a mano en cualquier momento, por ejemplo si un
+recuerdo no aparece: **Actions → Comprobar la hoja de recuerdos → Run
+workflow**. El resultado se lee en el resumen de la ejecución.
+
 ### A partir de ahí
 
 Llega un recuerdo → marcas su casilla **Publicar** → aparece en la web en unos

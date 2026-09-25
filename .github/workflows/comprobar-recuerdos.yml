@@ -1,0 +1,24 @@
+# Comprueba la hoja de recuerdos y el formulario: que la web puede leerlos, que
+# no se publica de más y que el formulario se abre sin iniciar sesión.
+# Se lanza solo al cambiar js/datos.js, y a mano desde Actions → Run workflow.
+name: Comprobar la hoja de recuerdos
+
+on:
+  push:
+    paths:
+      - 'js/datos.js'
+      - 'herramientas/comprobar-recuerdos.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  comprobar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Comprobar hoja y formulario
+        run: python3 herramientas/comprobar-recuerdos.py

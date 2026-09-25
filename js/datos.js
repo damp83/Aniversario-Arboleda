@@ -38,7 +38,7 @@ const DATOS = {
 
     // Enlace CSV de la pestaña "web" de la hoja de recuerdos (Archivo → Compartir
     // → Publicar en la web → pestaña "web" → CSV). Vacío = no se usa la hoja.
-    hojaRecuerdos: "",
+    hojaRecuerdos: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgPzB7BpPZUfH8RaTUz-rKUjZud8Ls28vMd-LLu0krqCfRAE7YXvz1uvOYFHGJjoGosFdPnn19x_uP/pub?gid=887984231&single=true&output=csv",
 
     entradilla:
       "Un cuarto de siglo de patios, de primeras letras, de excursiones y de " +
@@ -218,13 +218,13 @@ const DATOS = {
       titulo: "Cuéntanos tu recuerdo",
       texto: "Un profesor, una excursión, un patio. Los recuerdos se publican en esta web y formarán el libro del aniversario.",
       nota: "Máximo 400 caracteres, unas cuatro líneas.",
-      // Texto con el que se abre el correo, para que lleguen ya ordenados
+      // Plantilla del correo: solo se usa si se deja vacío el enlace al formulario
       cuerpo:
         "Escribe aquí tu recuerdo (máximo 400 caracteres, unas cuatro líneas):\n\n\n" +
         "Nombre:\n" +
         "Promoción o relación con el centro (por ejemplo: promoción 2009, familia, maestra 2003-2011):\n\n" +
         "¿Autorizas a publicar este recuerdo y tu nombre en la web del 25 aniversario?  SÍ / NO\n",
-      enlace: "",
+      enlace: "https://forms.gle/3PU3n8ZmHWQdmBBP9",   // el formulario de recuerdos
       textoEnlace: "Escribir mi recuerdo"
     },
     {
