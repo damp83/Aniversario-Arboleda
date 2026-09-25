@@ -22,7 +22,8 @@
     sonda: $("#sonda"), anterior: $("#anterior"), siguiente: $("#siguiente"),
     posicion: $("#posicion"), progreso: $("#progreso"), paso: $("#paso"), ayuda: $("#ayuda"),
     buscar: $("#buscar"), estadoBusqueda: $("#estado-busqueda"),
-    modoLista: $("#modo-lista"), lista: $("#lista"), escribir: $("#escribir")
+    modoLista: $("#modo-lista"), lista: $("#lista"), escribir: $("#escribir"),
+    imprimir: $("#imprimir"), imprimirTexto: $("#imprimir-texto"), impresion: $("#impresion")
   };
 
   const participar = (DATOS.participa || []).find((p) => p.icono === "voz") || {};
@@ -372,6 +373,7 @@
       : n ? `${n} recuerdo${n === 1 ? "" : "s"} con «${consulta}»`
       : `Ningún recuerdo contiene «${consulta}»`;
     if (!ui.lista.hidden) pintarLista();
+    actualizarImprimir();
     // Con búsqueda, directos a la primera página de resultados; sin ella, a la portadilla
     construir({ cara: consulta ? 3 : 2 });
   }
@@ -384,6 +386,85 @@
     ui.escenario.hidden = ui.paso.hidden = ui.ayuda.hidden = enLista;
     if (enLista) pintarLista();
     else construir(posicionActual());
+  }
+
+  /* ─── Imprimir o guardar en PDF ─────────────────────────────────────────── */
+
+  // Un libro maquetado para papel, no una foto de la pantalla: tapa, portadilla,
+  // los recuerdos a dos columnas y un colofón. Incluye los que se están viendo:
+  // todos, o solo los de la búsqueda si hay una activa (y la portadilla lo dice).
+  function pintarImpresion() {
+    if (!ui.impresion) return;
+    const total = todos.length;
+    const hoy = new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
+    const cuenta = !total ? "Todavía sin recuerdos"
+      : consulta ? `${visibles.length} de ${total} recuerdos`
+      : `${total} recuerdo${total === 1 ? "" : "s"}`;
+    // La dirección oficial de la página, aunque se imprima desde una copia local
+    const direccion = document.querySelector('link[rel="canonical"]')?.href || location.href.split(/[?#]/)[0];
+
+    ui.impresion.innerHTML = `
+      <section class="imp-portada">
+        <div class="tapa">
+          ${anillos(6, "tapa__anillos")}
+          <p class="tapa__super">${esc(DATOS.centro.nombre)}</p>
+          <p class="tapa__cifra">${esc(DATOS.aniversario.numero)}</p>
+          <p class="tapa__titulo">Libro de visitas</p>
+          <p class="tapa__fechas">${anioInicio} · ${anioFin}</p>
+        </div>
+      </section>
+
+      <section class="imp-portadilla">
+        <img class="portadilla__escudo" src="assets/escudo.png" alt="" width="180" height="200">
+        <p class="portadilla__titulo">Libro de visitas</p>
+        <p class="portadilla__sub">${esc(DATOS.aniversario.numero)} aniversario<br>${esc(DATOS.centro.nombre)}</p>
+        <span class="portadilla__raya"></span>
+        <p class="portadilla__texto">Aquí quedan escritos los recuerdos de quienes han pasado por el colegio entre ${anioInicio} y ${anioFin}.</p>
+        <p class="portadilla__cuenta">${esc(cuenta)}</p>
+        ${consulta ? `<p class="imp-nota">Selección de los recuerdos que contienen «${esc(consulta)}»</p>` : ""}
+      </section>
+
+      <section class="imp-recuerdos"></section>
+
+      <section class="imp-colofon">
+        ${anillos(3, "cierre__anillos")}
+        <p class="cierre__titulo">Este libro sigue abierto</p>
+        <p class="cierre__texto">Durante todo el curso ${esc(DATOS.centro.curso || "")} se siguen añadiendo recuerdos.
+          Puedes leerlos, y dejar el tuyo, en la web del aniversario.</p>
+        <p class="imp-direccion">${esc(direccion)}</p>
+        <p class="imp-edicion">Edición del ${esc(hoy)}<br>${esc(DATOS.centro.nombre)} · ${esc(DATOS.centro.localidad || "")}</p>
+      </section>`;
+
+    const lista = ui.impresion.querySelector(".imp-recuerdos");
+    if (!visibles.length) lista.remove();
+    else visibles.forEach((r) => lista.appendChild(crearEntrada({ ...r, apretada: false })));
+  }
+
+  async function imprimir() {
+    pintarImpresion();
+    // El escudo tiene que estar cargado antes de abrir el diálogo, o saldría en blanco
+    const escudo = ui.impresion.querySelector("img");
+    if (escudo && escudo.decode) { try { await escudo.decode(); } catch (e) { /* se imprime sin él */ } }
+
+    // El título de la página es el nombre que el navegador propone para el PDF
+    const titulo = document.title;
+    document.title = consulta
+      ? `Libro de visitas - ${consulta.replace(/[\\/:*?"<>|]/g, "")}`
+      : "Libro de visitas del 25 aniversario - CEIP La Arboleda";
+    window.addEventListener("afterprint", () => { document.title = titulo; }, { once: true });
+    window.print();
+  }
+
+  function actualizarImprimir() {
+    if (!ui.imprimir) return;
+    ui.imprimir.disabled = cargando || !visibles.length;
+    ui.imprimir.title = !visibles.length && !cargando
+      ? (consulta ? "No hay recuerdos en esta búsqueda que imprimir" : "Todavía no hay recuerdos que imprimir")
+      : "Abre la ventana de impresión. Para obtener el PDF, elige «Guardar como PDF» como impresora.";
+    ui.imprimirTexto.textContent = consulta ? "PDF de la búsqueda" : "PDF";
+    ui.imprimir.setAttribute("aria-label", consulta
+      ? "Imprimir o guardar en PDF los recuerdos de la búsqueda"
+      : "Imprimir o guardar en PDF el libro de visitas");
   }
 
   /* ─── Eventos ───────────────────────────────────────────────────────────── */
@@ -436,7 +517,8 @@
     window.addEventListener("resize", esperar(() => {
       if (!cargando && !ui.escenario.hidden && claveTamano() !== clave) construir(posicionActual());
     }, 200));
-    window.addEventListener("beforeprint", pintarLista);
+    ui.imprimir.addEventListener("click", imprimir);
+    window.addEventListener("beforeprint", pintarImpresion);     // también con Ctrl+P
   }
 
   /* ─── Arranque ──────────────────────────────────────────────────────────── */
@@ -459,6 +541,7 @@
     modo = mqDoble.matches ? "doble" : "simple";
     ui.escenario.dataset.modo = modo;
     pintar();                                        // la tapa, mientras se cargan los recuerdos
+    actualizarImprimir();
     escuchar();
 
     const [{ manuales, deHoja }] = await Promise.all([ANIV.obtenerRecuerdos(), tipografias()]);
@@ -467,6 +550,7 @@
     }));
     filtrar();
     cargando = false;
+    actualizarImprimir();
     construir({ cara: 0 });
 
     // Si alguna tipografía llega tarde, se reparte de nuevo sin perder el sitio

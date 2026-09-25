@@ -65,6 +65,13 @@ html[data-tema="oscuro"] {
   width: 18px; height: 18px; fill: none; stroke: var(--texto-suave); stroke-width: 2; stroke-linecap: round;
   pointer-events: none;
 }
+/* «Leer todo seguido» y «Escribir mi recuerdo» siempre juntos: si no caben,
+   bajan de fila los dos a la vez */
+.libro-herramientas__par { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; }
+.btn--pdf { gap: .45rem; }
+.btn--pdf svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; }
+.btn--pdf:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
 .libro-estado { min-height: 1.4em; margin: .6rem 0 0; font-size: .92rem; font-weight: 500; color: var(--texto-suave); }
 
 @media (max-width: 560px) {
@@ -73,8 +80,12 @@ html[data-tema="oscuro"] {
   .libro-intro__texto { font-size: .98rem; margin-bottom: 1rem; }
   /* Búsqueda a todo el ancho y los dos botones compartiendo fila */
   .libro-herramientas { gap: .55rem; }
-  .buscador { flex-basis: 100%; max-width: none; }
-  .libro-herramientas .btn { width: auto; flex: 1 1 0; padding: .72rem .5rem; font-size: .88rem; justify-content: center; white-space: nowrap; }
+  /* Fila 1: buscador y PDF · fila 2: los otros dos, a partes iguales */
+  .buscador { flex: 1 1 160px; max-width: none; }
+  .libro-herramientas .btn { width: auto; padding: .72rem .6rem; font-size: .88rem; justify-content: center; }
+  .libro-herramientas .btn--pdf { flex: 0 0 auto; padding: .72rem .95rem; white-space: nowrap; }
+  .libro-herramientas__par { flex: 1 1 100%; flex-wrap: nowrap; gap: .55rem; }
+  .libro-herramientas__par .btn { flex: 1 1 0; min-width: 0; line-height: 1.25; text-align: center; }
 }
 
 /* ─────────────────────────── 3. ESCENARIO Y MEDIDAS ─────────────────────────── */
@@ -389,6 +400,8 @@ html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
 }
 .lista__vacia { margin: 0; font: italic 400 var(--letra)/var(--renglon) var(--fuente-titulo); text-align: center; color: var(--tinta-suave-libro); }
 
+.impresion { display: none; }
+
 /* ─────────────────────────── 13. PIE ─────────────────────────── */
 .pie--libro { padding: 0 0 2rem; margin-top: 3.5rem; }
 .pie--libro .pie__legal { margin-top: 0; }
@@ -400,9 +413,80 @@ html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
   .tapa__abrir { animation: none; opacity: .8; }
 }
 
+/* ─────────────────────────── 15. IMPRESIÓN Y PDF ─────────────────────────── */
+@page {
+  size: A4; margin: 20mm 17mm 22mm;
+  @bottom-center {
+    content: counter(page);
+    font: italic 500 9pt "Fraunces", Georgia, serif; color: #97772c;
+  }
+}
+@page portada { margin: 0; @bottom-center { content: none; } }
+
 @media print {
-  .libro-herramientas, .libro-estado, .escenario, .paso, .paso__ayuda, .pie--libro, .enlace-volver { display: none !important; }
-  .lista { display: block !important; max-width: none; }
-  .lista__papel { box-shadow: none; background-image: none; padding: 0; }
-  .entrada { break-inside: avoid; }
+  /* Colores de fondo incluidos: sin esto, la tapa saldría en blanco */
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body { background: #fff !important; }
+  body { overflow: visible; }
+  .salto-contenido, .cabecera, .pie--libro,
+  .libro-pagina > :not(.impresion) { display: none !important; }
+
+  .impresion {
+    display: block !important;
+    --renglon: 16pt; --letra: 10.5pt; --pw: 176mm;
+    color: #2a2118;
+  }
+
+  /* Tapa: a sangre, ocupa la hoja entera */
+  .imp-portada {
+    page: portada; break-after: page;
+    position: relative; width: 210mm; height: 297mm; overflow: hidden;
+    display: grid; place-items: center;
+    background: radial-gradient(120% 90% at 30% 18%, var(--tapa-1) 0%, var(--tapa-2) 55%, var(--tapa-3) 100%);
+  }
+  .imp-portada::before {
+    content: ""; position: absolute; inset: 14mm;
+    border: 1pt solid rgba(231, 200, 119, .6); border-radius: 3mm;
+    outline: .6pt solid rgba(231, 200, 119, .3); outline-offset: 2.5mm;
+  }
+  .imp-portada .tapa { gap: 4mm; }
+  .imp-portada .tapa__anillos { width: 58mm; margin-bottom: 4mm; }
+  .imp-portada .tapa__super { font-size: 10pt; }
+  /* En papel, dorado liso: el degradado recortado al texto deja un recuadro en el PDF */
+  .imp-portada .tapa__cifra { font-size: 120pt; filter: none; background: none; color: #e2be63; }
+  .imp-portada .tapa__titulo { font-size: 34pt; }
+  .imp-portada .tapa__fechas { font-size: 11pt; margin-top: 3mm; }
+
+  /* Portadilla */
+  .imp-portadilla {
+    break-after: page; min-height: 240mm;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3mm; text-align: center;
+  }
+  .imp-portadilla .portadilla__escudo { width: 32mm; margin-bottom: 4mm; }
+  .imp-portadilla .portadilla__titulo { font-size: 32pt; }
+  .imp-portadilla .portadilla__sub { font-size: 8.5pt; }
+  .imp-portadilla .portadilla__raya { display: block; width: 60mm; margin: 4mm 0; }
+  .imp-portadilla .portadilla__texto { font-size: 11.5pt; max-width: 95mm; }
+  .imp-portadilla .portadilla__cuenta { font-size: 22pt; margin-top: 6mm; }
+  .imp-nota { margin: 0; font: italic 400 10pt/1.4 var(--fuente-titulo); color: var(--tinta-suave-libro); }
+
+  /* Los recuerdos, a dos columnas; ninguno se parte entre columnas ni páginas */
+  .imp-recuerdos { columns: 2; column-gap: 11mm; column-rule: .5pt solid #e0d6c2; }
+  .imp-recuerdos .entrada { break-inside: avoid; margin: 0; padding-bottom: 1mm; }
+  .imp-recuerdos .entrada__texto { font-size: var(--letra); line-height: 1.55; }
+  .imp-recuerdos .entrada__meta { font-size: 6.8pt; }
+  .imp-recuerdos .entrada:not(:last-child)::after { opacity: .6; }
+
+  /* Colofón */
+  .imp-colofon {
+    break-before: page; min-height: 240mm;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4mm; text-align: center;
+  }
+  .imp-colofon .cierre__anillos { width: 16mm; }
+  .imp-colofon .cierre__titulo { font-size: 22pt; }
+  .imp-colofon .cierre__texto { font-size: 11pt; max-width: 100mm; }
+  .imp-direccion { margin: 2mm 0 0; font: 600 9pt/1.4 var(--fuente-texto); color: #1c6b3f; word-break: break-all; }
+  .imp-edicion { margin: 10mm 0 0; font: 500 8pt/1.7 var(--fuente-texto); letter-spacing: .08em; color: var(--meta-libro); }
 }

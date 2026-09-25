@@ -126,7 +126,14 @@ hoja, con las flechas del teclado, con los botones o deslizando el dedo.
 - **Buscador**: por nombre, promoción o cualquier palabra. Es lo primero que
   hará mucha gente: buscar su propio recuerdo.
 - **Leer todo seguido**: todos los recuerdos en una sola hoja larga, sin pasar
-  páginas. También es lo que sale al imprimir.
+  páginas.
+- **Botón PDF**: abre la ventana de impresión con el libro maquetado para papel
+  (A4): tapa verde a sangre, portadilla con el escudo, los recuerdos a dos
+  columnas con páginas numeradas y un colofón con la fecha de la edición.
+  Para obtener el archivo, elige **«Guardar como PDF»** como impresora; en el
+  móvil, desde esa misma ventana se puede guardar o compartir. Si hay una
+  búsqueda activa, el PDF incluye solo esos recuerdos, y la portadilla lo indica.
+  También funciona con Ctrl+P.
 - Los recuerdos se reparten solos en páginas según lo que ocupa cada uno, y
   **nunca se cortan** entre una página y otra.
 

@@ -82,8 +82,15 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
         <input type="search" id="buscar" placeholder="Buscar por nombre, promoción o palabra" autocomplete="off">
       </label>
-      <button class="btn btn--fantasma" id="modo-lista" type="button" aria-pressed="false">Leer todo seguido</button>
-      <a class="btn btn--principal" id="escribir" href="index.html#participa">Escribir mi recuerdo</a>
+      <button class="btn btn--fantasma btn--pdf" id="imprimir" type="button"
+              title="Abre la ventana de impresión. Para obtener el PDF, elige «Guardar como PDF» como impresora.">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M7 14h10v6.5H7z"/></svg>
+        <span id="imprimir-texto">PDF</span>
+      </button>
+      <div class="libro-herramientas__par">
+        <button class="btn btn--fantasma" id="modo-lista" type="button" aria-pressed="false">Leer todo seguido</button>
+        <a class="btn btn--principal" id="escribir" href="index.html#participa">Escribir mi recuerdo</a>
+      </div>
     </div>
     <p class="libro-estado" id="estado-busqueda" aria-live="polite"></p>
   </section>
@@ -114,6 +121,9 @@
   <section class="lista contenedor" id="lista" hidden aria-label="Todos los recuerdos">
     <div class="lista__papel"></div>
   </section>
+
+  <!-- Versión para imprimir o guardar en PDF: solo se ve en papel -->
+  <div class="impresion" id="impresion" aria-hidden="true"></div>
 
   <noscript>
     <div class="contenedor aviso-js">
