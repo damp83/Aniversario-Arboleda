@@ -152,44 +152,63 @@ cálculo. Solo aparecen los que tú marques. Se configura una vez, con la cuenta
 
 ### 1. El formulario
 
-En [forms.google.com](https://forms.google.com), crea un formulario con estas
-preguntas, **en este orden**:
+En [forms.google.com](https://forms.google.com), con la cuenta del aniversario,
+crea un formulario en blanco con estas preguntas, **en este orden**:
 
 | # | Pregunta | Tipo | Ajustes |
 |---|---|---|---|
 | 1 | Tu recuerdo | Párrafo | Obligatoria · ⋮ → *Validación de respuestas* → *Longitud* → *Número máximo de caracteres* → `400` |
-| 2 | Nombre | Respuesta corta | Opcional |
-| 3 | Promoción o relación con el centro | Respuesta corta | Ej.: promoción 2009, familia, maestra 2003-2011 |
-| 4 | Autorizo a publicar este recuerdo y mi nombre en la web del 25 aniversario | Casillas | Obligatoria |
+| 2 | Nombre | Respuesta corta | Opcional (si se deja vacío, el recuerdo sale sin firma) |
+| 3 | Promoción o relación con el centro | Respuesta corta | Opcional. Ej.: promoción 2009, familia, maestra 2003-2011 |
+| 4 | Autorización | Casillas, una sola opción: *Autorizo a publicar este recuerdo y mi nombre en la web del 25 aniversario* | Obligatoria |
 
-En *Configuración → Respuestas*, deja **desactivado** «Limitar a 1 respuesta»:
-si lo activas, Google obliga a iniciar sesión y mucha gente no podrá responder.
+En la pestaña **Configuración → Respuestas**:
+- *Recopilar direcciones de correo electrónico* → **No recopilar**.
+- *Limitar a 1 respuesta* → **desactivado**: si lo activas, Google obliga a
+  iniciar sesión y mucha gente no podrá responder.
+
+Opcional pero recomendable: en *Personalizar tema* (icono de la paleta), sube la
+imagen `assets/cabecera-formulario.png` y elige el color verde `#1c6b3f`.
 
 ### 2. La hoja de respuestas
 
-1. En la pestaña *Respuestas* del formulario, pulsa **Vincular con Hojas**.
-2. En la hoja, en la primera columna libre (la **F**), escribe `Publicar` como
-   título y convierte la columna en casillas: selecciónala → *Insertar →
-   Casilla de verificación*.
-3. Crea una pestaña nueva llamada **`web`** y escribe en su celda A1:
+1. En la pestaña *Respuestas* del formulario, pulsa **Vincular con Hojas** →
+   *Crear una hoja de cálculo nueva*.
+2. En la hoja, escribe `Publicar` en la celda **F1**.
+3. Selecciona el rango **F2:F1000** (sin el título) → *Insertar → Casilla de
+   verificación*.
+4. Crea una pestaña nueva (el **+** de abajo a la izquierda), llámala **`web`**
+   y escribe en su celda A1:
 
    ```
    =QUERY('Respuestas de formulario 1'!A:F; "select A, B, C, D where F = true label A 'fecha', B 'texto', C 'autor', D 'relacion' format A 'yyyy-mm-dd'"; 1)
    ```
 
    Esa pestaña contiene solo los recuerdos con la casilla marcada, y solo
-   texto, nombre, relación y el día en que se escribió (el libro de visitas lo
-   muestra junto a la firma). Nunca la hora, la autorización ni nada más.
+   texto, nombre, relación y el día en que se escribió. Nunca la hora, la
+   autorización ni nada más.
+
+> Si la fórmula da error: si la pestaña de respuestas tiene otro nombre (en
+> inglés es *Form Responses 1*), cámbialo en la fórmula; y si la hoja está
+> configurada en inglés, cambia los `;` por `,`.
+
+> ⚠️ **No añadas preguntas al formulario después de este paso.** Google
+> insertaría una columna nueva y la de *Publicar* dejaría de estar en la F. Si
+> hace falta, se puede, pero hay que ajustar la fórmula.
 
 ### 3. Publicar la pestaña y conectarla a la web
 
 1. *Archivo → Compartir → Publicar en la web*.
-2. Elige **solo la pestaña `web`** (¡no «Todo el documento»!) y formato
-   **Valores separados por comas (.csv)**. Pulsa *Publicar* y copia el enlace.
-3. En `js/datos.js`, pega ese enlace en `hojaRecuerdos`, dentro de `aniversario`.
-4. Pega el enlace **del formulario** (el de *Enviar*) en el campo `enlace` de la
-   tarjeta «Cuéntanos tu recuerdo», dentro de `participa`. Así el botón de la web
-   lleva al formulario en vez de abrir el correo.
+2. En el primer desplegable elige **solo la pestaña `web`** (¡no «Todo el
+   documento»!: publicaría también los recuerdos sin aprobar) y en el segundo,
+   **Valores separados por comas (.csv)**.
+3. Comprueba que en *Contenido publicado y configuración* está marcado
+   *Volver a publicar automáticamente cuando se realicen cambios*.
+4. Pulsa *Publicar* y copia el enlace.
+5. En `js/datos.js`, pega ese enlace en `hojaRecuerdos`, dentro de `aniversario`.
+6. Pega el enlace **del formulario** (botón *Enviar* → icono del enlace) en el
+   campo `enlace` de la tarjeta «Cuéntanos tu recuerdo», dentro de `participa`.
+   Así los botones de la web llevan al formulario en vez de abrir el correo.
 
 ### A partir de ahí
 
