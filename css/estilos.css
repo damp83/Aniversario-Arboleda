@@ -369,15 +369,17 @@ html[data-tema="oscuro"] .cifras { background: #0a1710; }
 .hito__texto { color: var(--texto-suave); margin: 0; max-width: 60ch; }
 
 /* ─────────────────────────── 8b. HIMNO ─────────────────────────── */
+/* Sección compacta: título y reproductor en una franja, la letra plegada */
 .seccion--himno {
   position: relative; isolation: isolate; overflow: hidden;
+  padding: clamp(3rem, 6vw, 4.8rem) 0;
   background: var(--verde-900); color: var(--verde-50);
 }
 html[data-tema="oscuro"] .seccion--himno { background: #0a1710; }
 /* Anillos muy tenues al fondo, como la sección de un tronco */
 .seccion--himno::before {
   content: ""; position: absolute; z-index: -1;
-  width: min(1100px, 150vw); aspect-ratio: 1; right: -30%; top: -25%;
+  width: min(900px, 140vw); aspect-ratio: 1; left: -18%; top: -60%;
   background: repeating-radial-gradient(circle, transparent 0 26px, rgba(243,205,109,.07) 26px 27px);
   -webkit-mask-image: radial-gradient(circle, #000 25%, transparent 68%);
           mask-image: radial-gradient(circle, #000 25%, transparent 68%);
@@ -386,21 +388,35 @@ html[data-tema="oscuro"] .seccion--himno { background: #0a1710; }
 .seccion--himno .seccion__titulo { color: #fff; }
 .seccion--himno .seccion__intro { color: color-mix(in srgb, var(--verde-50) 78%, transparent); }
 
-.himno { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+.himno { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); gap: 1.5rem clamp(2rem, 5vw, 4rem); align-items: center; }
+.himno__cab { margin-bottom: 0; }
 
-/* Reproductor: se queda a la vista mientras se lee la letra */
-.reproductor { position: sticky; top: 104px; text-align: center; }
-.reproductor__titulo { font-size: clamp(1.35rem, 2.6vw, 1.7rem); color: #fff; margin-bottom: .25rem; }
-.reproductor__sub { color: color-mix(in srgb, var(--verde-50) 68%, transparent); font-size: .93rem; margin-bottom: 1.5rem; }
-.reproductor__nativo { width: 100%; }
-.reproductor__aviso { margin: 1rem 0 0; font-size: .9rem; font-weight: 600; color: var(--oro-300); }
-.reproductor__acciones { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; margin-top: 1.5rem; }
-.reproductor__creditos { margin: 1.1rem 0 0; font-size: .8rem; color: color-mix(in srgb, var(--verde-50) 55%, transparent); }
+/* Reproductor: disco a la izquierda; título, controles y acciones a la derecha */
+.reproductor {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center;
+  grid-template-areas:
+    "disco info"
+    "disco controles"
+    "disco aviso"
+    "disco acciones"
+    "disco creditos";
+  column-gap: 1.6rem;
+  padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  border-radius: var(--radio);
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+}
+.reproductor__info { grid-area: info; margin-bottom: .8rem; }
+.reproductor__titulo { font-size: clamp(1.2rem, 2.2vw, 1.45rem); color: #fff; margin-bottom: .15rem; }
+.reproductor__sub { color: color-mix(in srgb, var(--verde-50) 68%, transparent); font-size: .88rem; margin: 0; }
+.reproductor__nativo { grid-area: controles; width: 100%; }
+.reproductor__aviso { grid-area: aviso; margin: .6rem 0 0; font-size: .88rem; font-weight: 600; color: var(--oro-300); }
+.reproductor__acciones { grid-area: acciones; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; }
+.reproductor__creditos { grid-area: creditos; margin: .7rem 0 0; font-size: .78rem; color: color-mix(in srgb, var(--verde-50) 55%, transparent); }
 
 .disco {
-  position: relative; width: min(100%, 300px); aspect-ratio: 1; margin: 0 auto 1.8rem;
+  grid-area: disco; position: relative; width: 150px; aspect-ratio: 1;
   border-radius: 50%;
-  box-shadow: 0 34px 60px -26px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.06);
+  box-shadow: 0 22px 40px -20px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.06);
 }
 .disco svg { display: block; width: 100%; height: 100%; animation: girar 18s linear infinite; animation-play-state: paused; }
 .sonando-himno .disco svg { animation-play-state: running; }
@@ -417,16 +433,16 @@ html[data-tema="oscuro"] .seccion--himno { background: #0a1710; }
 .disco__texto { fill: var(--verde-950); font: 700 6.6px var(--fuente-texto); }
 .disco__cifra { fill: var(--verde-950); font: 900 28px var(--fuente-titulo); text-anchor: middle; }
 
-.controles { display: flex; align-items: center; gap: 1rem; text-align: left; }
+.controles { grid-area: controles; display: flex; align-items: center; gap: .9rem; }
 .btn-play {
-  flex: none; width: 64px; height: 64px; padding: 0; border: 0; border-radius: 50%;
+  flex: none; width: 56px; height: 56px; padding: 0; border: 0; border-radius: 50%;
   display: grid; place-items: center; cursor: pointer;
   background: var(--oro-500); color: var(--verde-950);
-  box-shadow: 0 14px 28px -14px var(--oro-500);
+  box-shadow: 0 12px 24px -12px var(--oro-500);
   transition: transform var(--transicion), background var(--transicion);
 }
 .btn-play:hover { transform: scale(1.06); background: var(--oro-300); }
-.btn-play svg { width: 26px; height: 26px; fill: currentColor; }
+.btn-play svg { width: 24px; height: 24px; fill: currentColor; }
 .btn-play .icono-play { translate: 2px 0; }          /* centrado óptico del triángulo */
 .btn-play .icono-pausa, .sonando-himno .btn-play .icono-play { display: none; }
 .sonando-himno .btn-play .icono-pausa { display: block; }
@@ -435,8 +451,8 @@ html[data-tema="oscuro"] .seccion--himno { background: #0a1710; }
 
 .linea-tiempo { flex: 1; min-width: 0; }
 .tiempos {
-  display: flex; justify-content: space-between; margin-top: .3rem;
-  font-size: .82rem; font-variant-numeric: tabular-nums;
+  display: flex; justify-content: space-between; margin-top: .2rem;
+  font-size: .8rem; font-variant-numeric: tabular-nums;
   color: color-mix(in srgb, var(--verde-50) 70%, transparent);
 }
 .barra {
@@ -458,51 +474,77 @@ html[data-tema="oscuro"] .seccion--himno { background: #0a1710; }
 .barra:focus-visible { outline: 3px solid var(--oro-500); outline-offset: 2px; border-radius: 6px; }
 
 .accion-himno {
-  display: inline-flex; align-items: center; gap: .45rem;
-  padding: .55rem 1.05rem; border-radius: 999px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .45rem .9rem; border-radius: 999px; cursor: pointer;
   border: 1px solid rgba(255,255,255,.24); background: transparent; color: var(--verde-50);
-  font: 600 .9rem/1.2 var(--fuente-texto); text-decoration: none;
+  font: 600 .85rem/1.2 var(--fuente-texto); text-decoration: none;
   transition: border-color var(--transicion), color var(--transicion);
 }
 .accion-himno:hover { border-color: var(--oro-300); color: var(--oro-300); }
-.accion-himno svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.accion-himno svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-/* La letra, como una hoja de cancionero */
+/* La letra: una barra plegada que se despliega con «Ver la letra» */
 .letra {
-  background: var(--superficie); color: var(--texto);
-  border-radius: var(--radio); padding: clamp(1.6rem, 4vw, 2.8rem);
-  box-shadow: 0 30px 70px -30px rgba(0,0,0,.6);
+  margin-top: 1.5rem; border-radius: var(--radio);
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
 }
-html[data-tema="oscuro"] .letra { border: 1px solid var(--linea); }
-.letra__impreso { display: none; }
 .letra__cab {
-  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .3rem 1rem;
-  padding-bottom: 1rem; margin-bottom: 1.6rem; border-bottom: 1px solid var(--linea);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem 1rem;
+  padding: 1rem clamp(1.1rem, 2.5vw, 1.6rem); cursor: pointer; list-style: none;
+  border-radius: var(--radio);
 }
-.letra__cab h3 { font-size: 1.35rem; margin: 0; }
-.letra__cab span { font-size: .74rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--destacado); }
-.letra__texto { font-family: var(--fuente-titulo); font-size: 1.12rem; line-height: 1.6; }
-.estrofa { margin: 0 0 1.4rem; }
-.estrofa:last-child { margin-bottom: 0; }
+.letra__cab::-webkit-details-marker { display: none; }
+.letra__nombre { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .9rem; font: 700 1.2rem/1.2 var(--fuente-titulo); color: #fff; }
+.letra__nombre span { font: 700 .72rem/1.2 var(--fuente-texto); letter-spacing: .16em; text-transform: uppercase; color: var(--oro-300); }
+.letra__abrir {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .45rem .95rem; border-radius: 999px;
+  background: var(--oro-500); color: var(--verde-950);
+  font: 700 .88rem/1.2 var(--fuente-texto);
+  transition: background var(--transicion);
+}
+.letra__cab:hover .letra__abrir { background: var(--oro-300); }
+.letra__abrir svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: rotate var(--transicion); }
+.letra[open] .letra__abrir svg { rotate: 180deg; }
+.letra__ocultar, .letra[open] .letra__ver { display: none; }
+.letra[open] .letra__ocultar { display: inline; }
+.letra__impreso { display: none; }
+/* Sin JavaScript no se dibujan ni el disco ni la letra: mejor no enseñar el hueco */
+html:not(.js) .disco, html:not(.js) .letra { display: none; }
+html:not(.js) .reproductor { grid-template-columns: minmax(0, 1fr); grid-template-areas: "info" "controles" "aviso" "acciones" "creditos"; }
+
+/* Al abrirse, la letra se reparte en columnas para ocupar poco alto */
+.letra__texto {
+  padding: .4rem clamp(1.1rem, 2.5vw, 1.6rem) 1.6rem;
+  columns: 3 16rem; column-gap: 2.4rem;
+  font-family: var(--fuente-titulo); font-size: 1.05rem; line-height: 1.55;
+  color: color-mix(in srgb, var(--verde-50) 92%, transparent);
+}
+/* Despliegue suave donde el navegador lo permite; en el resto, se abre sin más */
+@supports (interpolate-size: allow-keywords) {
+  .letra { interpolate-size: allow-keywords; }
+  .letra::details-content { height: 0; overflow: clip; transition: height 350ms ease, content-visibility 350ms allow-discrete; }
+  .letra[open]::details-content { height: auto; }
+}
+.estrofa { margin: 0 0 1.2rem; break-inside: avoid; }
 .estrofa p { margin: 0; }
 /* Si un verso no cabe, la continuación queda sangrada: se sigue leyendo bien */
 .verso { display: block; padding-left: 1em; text-indent: -1em; }
 .estrofa--estribillo {
-  padding: .9rem 1.2rem; font-weight: 700;
+  padding: .75rem 1rem; font-weight: 700; color: #fff;
   border-left: 3px solid var(--oro-500); border-radius: 0 var(--radio-s) var(--radio-s) 0;
-  background: color-mix(in srgb, var(--oro-500) 10%, transparent);
+  background: rgba(224,164,43,.12);
 }
 .estrofa__eti {
-  display: flex; align-items: center; gap: .4rem; margin-bottom: .25rem;
-  font: 700 .72rem/1.3 var(--fuente-texto); letter-spacing: .16em; text-transform: uppercase;
-  color: var(--destacado);
+  display: flex; align-items: center; gap: .4rem; margin-bottom: .2rem;
+  font: 700 .7rem/1.3 var(--fuente-texto); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--oro-300);
 }
 .estrofa__eti svg { width: 15px; height: 15px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 /* Estribillo que se repite: una marca breve, no la estrofa entera */
-.estrofa--repite { padding: .6rem 1.2rem; font-weight: 500; }
+.estrofa--repite { padding: .5rem 1rem; font-weight: 500; }
 .estrofa--repite .estrofa__eti { margin: 0; }
-.estrofa__eco { font-style: italic; color: var(--texto-suave); }
-.letra__desplegar { display: none; }
+.estrofa__eco { font-style: italic; color: color-mix(in srgb, var(--verde-50) 68%, transparent); }
 
 /* ─────────────────────────── 9. PROGRAMA ─────────────────────────── */
 .programa__dias { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 2rem; }
@@ -795,15 +837,27 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
   .pie__marca { grid-column: 1 / -1; }
   .capsula { grid-template-columns: 1fr; }
   .capsula__anio { padding-left: 0; border-left: none; border-top: 1px solid rgba(255,255,255,.18); padding-top: 1.2rem; text-align: left; }
-  /* Himno: el reproductor arriba y la letra debajo, plegada al principio */
+  /* Himno: título arriba y reproductor debajo */
   .himno { grid-template-columns: minmax(0, 1fr); }
-  .reproductor { position: static; max-width: 34rem; width: 100%; margin-inline: auto; }
-  .letra[data-plegada="true"] .letra__texto {
-    max-height: 17.5rem; overflow: hidden;
-    -webkit-mask-image: linear-gradient(#000 55%, transparent);
-            mask-image: linear-gradient(#000 55%, transparent);
+}
+
+/* Móvil: disco pequeño junto al título; controles y botones a todo el ancho */
+@media (max-width: 560px) {
+  .reproductor {
+    grid-template-columns: 84px minmax(0, 1fr); column-gap: 1rem;
+    grid-template-areas:
+      "disco info"
+      "controles controles"
+      "aviso aviso"
+      "acciones acciones"
+      "creditos creditos";
   }
-  .letra__desplegar { display: inline-flex; margin-top: 1.2rem; }
+  .disco { width: 84px; }
+  .reproductor__info { margin-bottom: 0; }
+  .controles { margin-top: 1rem; }
+  .accion-himno { flex: 1 1 auto; justify-content: center; padding-inline: .7rem; }
+  .letra__cab { padding-block: .85rem; }
+  .letra__abrir { width: 100%; justify-content: center; }
 }
 
 /* En el móvil, una sola columna: el correo del centro no cabe al lado de otra */
@@ -867,26 +921,24 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
   .seccion { padding: 1.5rem 0; break-inside: avoid; }
   .js .reveal { opacity: 1 !important; translate: none !important; }
 
-  /* Himno: en papel sobra el reproductor; la letra, entera */
+  /* Himno: en papel sobra el reproductor */
   .portada__himno, .disco, .controles, .reproductor__nativo, .reproductor__acciones, .reproductor__aviso { display: none !important; }
   .seccion--himno { background: none !important; color: #000; }
   .seccion--himno::before { display: none; }
-  .seccion--himno .seccion__titulo, .reproductor__titulo { color: #000; }
+  .seccion--himno .seccion__titulo, .reproductor__titulo, .letra__nombre { color: #000; }
   .seccion--himno .seccion__intro, .reproductor__sub, .reproductor__creditos { color: #333; }
-  .himno { display: block; }
-  .reproductor { position: static; }
-  .letra { box-shadow: none; border: 1px solid #ccc; }
-  .letra__texto { max-height: none !important; overflow: visible !important; -webkit-mask-image: none !important; mask-image: none !important; }
+  .reproductor, .letra { background: none; border-color: #ccc; }
+  .letra__texto, .estrofa--estribillo { color: #000; }
 
   /* «Imprimir la letra»: solo la hoja del cancionero, con el escudo */
   .imprimir-letra body > :not(main),
   .imprimir-letra main > :not(#himno),
-  .imprimir-letra #himno .seccion__cab,
-  .imprimir-letra .reproductor,
+  .imprimir-letra .himno,
   .imprimir-letra .letra__cab { display: none !important; }
   .imprimir-letra #himno { padding: 0; }
   .imprimir-letra #himno .contenedor { width: auto; }
-  .imprimir-letra .letra { border: 0; padding: 0; background: none; color: #000; }
+  .imprimir-letra .letra { margin: 0; border: 0; background: none; color: #000; }
+  .imprimir-letra .letra::details-content { height: auto !important; }
   .imprimir-letra .letra__impreso {
     display: flex; align-items: center; gap: 14pt;
     padding-bottom: 12pt; margin-bottom: 16pt; border-bottom: 1.5pt solid #b8801a;
@@ -894,7 +946,8 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
   .letra__impreso img { width: 52pt; height: auto; }
   .letra__impreso p { margin: 0; font: 600 9.5pt/1.4 var(--fuente-texto); letter-spacing: .12em; text-transform: uppercase; color: #1c6b3f; }
   .letra__impreso .letra__impreso-titulo { font: 700 22pt/1.15 var(--fuente-titulo); letter-spacing: -.01em; text-transform: none; color: #000; margin-top: 3pt; }
-  .imprimir-letra .letra__texto { font-size: 13.5pt; line-height: 1.55; columns: 2; column-gap: 26pt; }
+  .imprimir-letra .letra__texto { padding: 0; font-size: 13.5pt; line-height: 1.55; columns: 2; column-gap: 26pt; }
+  .imprimir-letra .estrofa__eco { color: #555; }
   .imprimir-letra .estrofa--estribillo { padding: 8pt 10pt; }
   .imprimir-letra .estrofa { break-inside: avoid; }
   .imprimir-letra .estrofa--estribillo { background: #fdf6e6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }

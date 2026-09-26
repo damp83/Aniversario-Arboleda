@@ -306,24 +306,20 @@
     const acceso = $("#escucha-himno");
     if (acceso) acceso.addEventListener("click", () => { if (audio.paused) reproducir(); });
 
-    // Letra plegada en el móvil
+    // Imprimir solo la letra, en una hoja con el escudo. La letra está plegada
+    // (<details>): se abre para imprimir y vuelve a como estaba.
     const letra = $("#letra");
-    const desplegar = $("#himno-desplegar");
-    desplegar.addEventListener("click", () => {
-      const plegada = letra.dataset.plegada === "true";
-      letra.dataset.plegada = String(!plegada);
-      desplegar.setAttribute("aria-expanded", String(plegada));
-      desplegar.textContent = plegada ? "Plegar la letra" : "Ver toda la letra";
-      if (!plegada) letra.scrollIntoView({ block: "start" });
-    });
-
-    // Imprimir solo la letra, en una hoja con el escudo
     const imprimir = $("#himno-imprimir");
     imprimir.hidden = false;
     imprimir.addEventListener("click", () => {
       const raiz = document.documentElement;
+      const estabaAbierta = letra.open;
+      letra.open = true;
       raiz.classList.add("imprimir-letra");
-      window.addEventListener("afterprint", () => raiz.classList.remove("imprimir-letra"), { once: true });
+      window.addEventListener("afterprint", () => {
+        raiz.classList.remove("imprimir-letra");
+        letra.open = estabaAbierta;
+      }, { once: true });
       window.print();
     });
   }

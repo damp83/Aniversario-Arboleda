@@ -244,9 +244,10 @@ sección y empieza a sonar.
   retroceder (también con las flechas del teclado) y controles en la pantalla
   bloqueada del móvil. El audio **no se descarga hasta que alguien pulsa
   reproducir**, así que no gasta datos a quien solo visita la web.
-- **La letra** se lee al lado del reproductor (debajo en el móvil, plegada con
-  *Ver toda la letra*). Los estribillos se destacan y sus repeticiones aparecen
-  como una marca breve.
+- **Sección compacta**: el título y el reproductor van en una sola franja, y
+  **la letra está plegada** bajo el botón *Ver la letra*. Al abrirla se reparte
+  en tres columnas en el ordenador (una en el móvil). Los estribillos se
+  destacan y sus repeticiones aparecen como una marca breve.
 - **Imprimir la letra**: una hoja A4 con el escudo, el título y la letra a dos
   columnas, lista para fotocopiar y repartir en clase.
 - **Descargar la canción**: baja el MP3 con un nombre claro.
