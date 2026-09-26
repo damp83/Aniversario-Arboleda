@@ -33,9 +33,10 @@ comillas, y guarda con *Commit changes*. En 1–2 minutos la web se actualiza so
 | Cifras destacadas (alumnado, docentes…) | `cifras` |
 
 > ⚠️ **Pendiente de sustituir por contenido real:** los **hitos de la línea del
-> tiempo** de 2004 en adelante y el **programa de la semana**, que ahora son
-> ejemplos inventados. Los datos del centro (nombre, dirección, contacto) y el
-> año de apertura (curso 2001/2002) sí están confirmados.
+> tiempo** posteriores a 2001, que ahora son ejemplos inventados. Los datos del
+> centro (nombre, dirección, contacto), el año de apertura (curso 2001/2002) y
+> el **programa de la semana** (el oficial del proyecto del aniversario) sí
+> están confirmados.
 
 ### Reglas de oro al editar
 

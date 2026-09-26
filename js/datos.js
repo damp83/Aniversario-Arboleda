@@ -100,79 +100,90 @@ Profes y alumnos, a una sola voz…
   semana: {
     titulo: "Semana del 25 Aniversario",
     inicio: "2026-10-26T09:00",
-    fin: "2026-10-30T14:00",
+    fin: "2026-10-30T22:30",
     fechaTexto: "26 – 30 de octubre de 2026",
     descripcion:
-      "Cinco días de actos conmemorativos abiertos al alumnado, a las familias " +
-      "y a todas las personas que han pasado por el centro."
+      "Cada día, una idea: las raíces, la comunidad educativa, el futuro y la " +
+      "solidaridad. La semana culmina el viernes 30 por la tarde con el acto " +
+      "institucional del 25 aniversario."
   },
 
   /* ---------------------------------------------------------------------------
      4. PROGRAMA DE LA SEMANA  ·  Un bloque por día, con sus actividades
-        publico: "Alumnado" | "Familias" | "Toda la comunidad" | "Antiguo alumnado"
+        (programa oficial del proyecto del 25 aniversario)
+        hora: "09:00", o "Mañana" si la actividad no tiene hora fija
+        lugar y publico son opcionales: si se dejan vacíos, no se muestran
      --------------------------------------------------------------------------- */
   programa: [
     {
       dia: "Lunes 26",
-      lema: "El día de la semilla",
-      resumen: "Arrancamos la semana plantando: memoria, árboles e ilusión.",
+      lema: "Día de las Raíces",
+      resumen: "Arrancamos la semana presentando el lema y volviendo a nuestros orígenes.",
       actividades: [
-        { hora: "09:15", titulo: "Acto de apertura en el patio", lugar: "Patio central", publico: "Toda la comunidad",
-          texto: "Izado de la bandera del 25 aniversario y lectura del manifiesto escrito por el alumnado de 6.º." },
-        { hora: "11:00", titulo: "Plantación del árbol conmemorativo", lugar: "Jardín de entrada", publico: "Alumnado",
-          texto: "Cada clase aporta un puñado de tierra y un deseo para los próximos 25 años." },
-        { hora: "15:30", titulo: "Apertura de la exposición fotográfica", lugar: "Sala de usos múltiples", publico: "Familias",
-          texto: "25 años en imágenes: fotografías cedidas por familias, docentes y antiguo alumnado." }
+        { hora: "09:00", titulo: "Acto de apertura", lugar: "", publico: "Alumnado y personal",
+          texto: "Presentación oficial del lema y de lo que significa cumplir 25 años. Entrega de diplomas y reparto del marcapáginas ganador." },
+        { hora: "Mañana", titulo: "Exposición histórica", lugar: "Pasillos", publico: "",
+          texto: "Fotografías desde 2001 en pantallas: el primer claustro, las primeras promociones y la evolución del barrio." },
+        { hora: "Mañana", titulo: "«Nuestras raíces»", lugar: "Hall", publico: "Todas las clases",
+          texto: "Cada clase aporta una hoja de cartulina con los valores del centro y lo que significa pertenecer a La Arboleda. Juntas forman un gran árbol mural." }
       ]
     },
     {
       dia: "Martes 27",
-      lema: "El día de la memoria",
-      resumen: "Escuchamos a quienes escribieron los primeros capítulos del centro.",
+      lema: "Día de la Comunidad Educativa",
+      resumen: "Mostramos lo que el colegio ha significado para el barrio y para Murcia, contado por su gente.",
       actividades: [
-        { hora: "10:00", titulo: "Encuentro con el profesorado fundador", lugar: "Biblioteca", publico: "Alumnado",
-          texto: "Charla-coloquio con maestras y maestros que abrieron el centro en 2001." },
-        { hora: "12:00", titulo: "Radio Arboleda: 25 años en directo", lugar: "Aula de música", publico: "Alumnado",
-          texto: "Programa de radio escolar con entrevistas, cuñas publicitarias de época y música." },
-        { hora: "17:00", titulo: "Café con las familias fundadoras", lugar: "Comedor", publico: "Familias",
-          texto: "Merienda intergeneracional y recogida de recuerdos para el archivo del centro." }
+        { hora: "Mañana", titulo: "Bolsitas de aromáticas del huerto", lugar: "", publico: "Infantil y 1.º",
+          texto: "Preparan bolsitas con plantas aromáticas del huerto para regalar en la celebración. El alumnado de 6.º diseña las tarjetas que las acompañan." },
+        { hora: "Mañana", titulo: "Línea del tiempo ilustrada", lugar: "", publico: "2.º, 3.º y 4.º",
+          texto: "La historia del colegio, contada en una gran línea del tiempo ilustrada." },
+        { hora: "Mañana", titulo: "Entrevistas de radio a docentes veteranos", lugar: "", publico: "5.º y 6.º",
+          texto: "Entrevistas a maestras y maestros con muchos años en el centro, grabadas en vídeo." },
+        { hora: "Mañana", titulo: "Vídeo conmemorativo", lugar: "", publico: "",
+          texto: "Grabación de testimonios para el vídeo del 25 aniversario." },
+        { hora: "Mañana", titulo: "Foto aérea: el número 25", lugar: "", publico: "",
+          texto: "Fotografía aérea con todo el colegio formando el número 25, si es posible hacerla." }
       ]
     },
     {
       dia: "Miércoles 28",
-      lema: "El día del juego",
-      resumen: "Los juegos de ayer y los de hoy comparten patio.",
+      lema: "Día del Futuro",
+      resumen: "Miramos a 2051: escribimos al colegio del futuro, enterramos la cápsula del tiempo y plantamos un árbol.",
       actividades: [
-        { hora: "09:30", titulo: "Gymkana de las 25 pruebas", lugar: "Todo el centro", publico: "Alumnado",
-          texto: "Equipos mixtos de Infantil y Primaria recorren 25 estaciones, una por curso." },
-        { hora: "12:30", titulo: "Patio retro: juegos populares", lugar: "Pista deportiva", publico: "Toda la comunidad",
-          texto: "Comba, gomas, chapas y peonzas dinamizados por familias voluntarias." }
+        { hora: "Mañana", titulo: "Cartas al «CEIP La Arboleda 2051»", lugar: "", publico: "",
+          texto: "Cada clase entrega sus cartas para el colegio de dentro de 25 años." },
+        { hora: "Mañana", titulo: "Cápsula del tiempo", lugar: "", publico: "",
+          texto: "Enterramos la foto oficial de 2026, la lista del alumnado matriculado, las listas de cada clase con sus nombres y firmas, una carta de la dirección y el periódico local del día." },
+        { hora: "12:00", titulo: "Plantación del árbol conmemorativo", lugar: "Patio", publico: "",
+          texto: "Lo plantan dos delegados de Unicef de 3.º a 6.º y dos alumnos de 1.º y 2.º, junto a la placa «25 años sembrando futuro – 2001–2026»." }
       ]
     },
     {
       dia: "Jueves 29",
-      lema: "El día de la creación",
-      resumen: "El centro entero se convierte en taller.",
+      lema: "Día Solidario",
+      resumen: "Una jornada para poner en práctica nuestros valores y cerrar la semana en cada clase.",
       actividades: [
-        { hora: "09:30", titulo: "Mural colaborativo del 25 aniversario", lugar: "Fachada del gimnasio", publico: "Alumnado",
-          texto: "Diseño del alumnado de 5.º y 6.º pintado por todos los niveles a lo largo del día." },
-        { hora: "11:30", titulo: "Talleres intergeneracionales", lugar: "Aulas de Primaria", publico: "Toda la comunidad",
-          texto: "Abuelas y abuelos, familias y docentes comparten oficios, recetas y saberes." },
-        { hora: "16:30", titulo: "Sellado de la cápsula del tiempo", lugar: "Vestíbulo", publico: "Toda la comunidad",
-          texto: "Guardamos cartas, dibujos y objetos para abrir en el 50 aniversario." }
+        { hora: "Mañana", titulo: "Acto solidario: recogida de material escolar", lugar: "", publico: "Por cursos",
+          texto: "Lo recaudado se destina a un proyecto social local: Azul en Acción." },
+        { hora: "Mañana", titulo: "Juegos tradicionales cooperativos", lugar: "", publico: "Por ciclos",
+          texto: "Espacios de juego tradicional y cooperativo para cada ciclo." },
+        { hora: "Mañana", titulo: "Photocall oficial", lugar: "Entrada", publico: "",
+          texto: "El photocall del 25 aniversario se instala en la entrada del colegio." },
+        { hora: "Mañana", titulo: "Cierre de la semana en las aulas", lugar: "", publico: "",
+          texto: "Reflexión sobre la semana, foto de grupo de cada clase y entrega del marcapáginas conmemorativo del 25 aniversario, elegido en el concurso de octubre." }
       ]
     },
     {
       dia: "Viernes 30",
-      lema: "El día de la fiesta",
-      resumen: "Cerramos la semana con la gran celebración de comunidad.",
+      lema: "Acto institucional",
+      resumen: "Por la tarde, el acto institucional del 25 aniversario, con autoridades, claustro actual y antiguo, AMPA, Consejo Escolar y la primera promoción (2007).",
       actividades: [
-        { hora: "10:00", titulo: "Festival del 25 aniversario", lugar: "Pista cubierta", publico: "Toda la comunidad",
-          texto: "Cada nivel presenta su número: danza, teatro, coro y percusión corporal." },
-        { hora: "12:30", titulo: "Foto de familia: 25 años juntos", lugar: "Patio central", publico: "Toda la comunidad",
-          texto: "Toda la comunidad educativa formando el número 25 vista desde el aire." },
-        { hora: "18:00", titulo: "Verbena solidaria y reencuentro", lugar: "Patio central", publico: "Antiguo alumnado",
-          texto: "Música, barra de la AMPA y reencuentro de las promociones desde 2001." }
+        { hora: "18:30", titulo: "Recepción", lugar: "", publico: "Adultos y 1.ª promoción",
+          texto: "Acreditaciones, proyección audiovisual histórica y photocall." },
+        { hora: "19:00", titulo: "Acto oficial", lugar: "", publico: "Adultos y 1.ª promoción",
+          texto: "Bienvenida, intervención de la dirección y del representante municipal, reconocimiento al equipo fundador, intervención de la primera promoción, descubrimiento de la placa conmemorativa y actuación del coro." },
+        { hora: "20:15", titulo: "Cóctel institucional", lugar: "", publico: "Adultos y 1.ª promoción",
+          texto: "Encuentro, libro de firmas y espacio «Muro de los recuerdos». Cierre previsto hacia las 22:30." }
       ]
     }
   ],
