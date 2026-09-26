@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Álbum de fotos · 25 Aniversario · CEIP La Arboleda</title>
+<meta name="description" content="El álbum de fotos del 25 aniversario del CEIP La Arboleda: veinticinco cursos en imágenes, ordenados por año.">
+<meta name="theme-color" content="#12341f">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Álbum de fotos · 25 Aniversario · CEIP La Arboleda">
+<meta property="og:description" content="Veinticinco cursos en imágenes. Hojea el álbum del colegio y envía tus fotos para completarlo.">
+<meta property="og:image" content="https://damp83.github.io/Aniversario-Arboleda/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://damp83.github.io/Aniversario-Arboleda/album.html">
+<meta property="og:site_name" content="CEIP La Arboleda">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="canonical" href="https://damp83.github.io/Aniversario-Arboleda/album.html">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icono-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+<link rel="stylesheet" href="css/libro.css">
+<link rel="stylesheet" href="css/album.css">
+
+<script>
+  /* Antes de pintar: evita el parpadeo de color. */
+  (function () {
+    var raiz = document.documentElement;
+    raiz.classList.add("js");
+    try {
+      var guardado = localStorage.getItem("tema-aniversario");
+      var oscuro = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      raiz.dataset.tema = guardado || (oscuro ? "oscuro" : "claro");
+    } catch (e) { raiz.dataset.tema = "claro"; }
+  })();
+</script>
+</head>
+<body class="pagina-libro pagina-album">
+
+<a class="salto-contenido" href="#escenario">Saltar al álbum</a>
+
+<header class="cabecera cabecera--fija">
+  <div class="contenedor cabecera__int">
+    <a class="marca" href="index.html">
+      <img class="marca__escudo" src="assets/escudo.png" width="180" height="200" alt="" decoding="async">
+      <span class="marca__texto">
+        <strong>La Arboleda</strong>
+        <span>25 aniversario</span>
+      </span>
+    </a>
+    <a class="enlace-volver" href="index.html#galeria">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      Volver<span class="enlace-volver__resto">a la web</span>
+    </a>
+    <div class="cabecera__acciones">
+      <button class="btn-icono" id="btn-tema" type="button" aria-label="Cambiar a modo oscuro">
+        <svg class="icono-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g class="rayos"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></g></svg>
+        <svg class="icono-luna" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="album-pagina">
+
+  <section class="libro-intro contenedor">
+    <p class="seccion__eti">25 aniversario · CEIP La Arboleda</p>
+    <h1 class="libro-intro__titulo">Álbum de fotos</h1>
+    <p class="libro-intro__texto">
+      Veinticinco cursos en imágenes. El álbum crece solo: cada foto que llega
+      ocupa su sitio en el año que le corresponde.
+    </p>
+
+    <div class="libro-herramientas">
+      <label class="selector-anio">
+        <span class="sr-solo">Ir al año</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+        <select id="ir-anio" disabled><option value="">Ir al año…</option></select>
+      </label>
+      <button class="btn btn--principal btn--pase" id="abrir-pase" type="button" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.1-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>
+        <span>Presentación<span class="btn--pase__resto"> con música</span></span>
+      </button>
+      <div class="libro-herramientas__par">
+        <button class="btn btn--fantasma" id="modo-rejilla" type="button" aria-pressed="false">Ver todas las fotos</button>
+        <a class="btn btn--fantasma" id="enviar" href="index.html#participa">Enviar fotos</a>
+      </div>
+    </div>
+    <p class="libro-estado" id="estado" aria-live="polite"></p>
+  </section>
+
+  <section class="escenario" id="escenario" tabindex="0"
+           aria-label="Álbum de fotos" aria-roledescription="libro">
+    <div class="libro libro--portada" id="libro">
+      <div class="libro__lado libro__lado--izq" id="lado-izq"></div>
+      <div class="libro__lado libro__lado--der" id="lado-der"></div>
+    </div>
+    <div class="sonda" id="sonda" aria-hidden="true"></div>
+  </section>
+
+  <nav class="paso" id="paso" aria-label="Pasar página">
+    <button class="paso__btn" id="anterior" type="button" aria-label="Página anterior" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <div class="paso__centro">
+      <span class="paso__posicion" id="posicion" aria-live="polite">Abriendo el álbum…</span>
+      <div class="paso__barra"><span id="progreso"></span></div>
+    </div>
+    <button class="paso__btn" id="siguiente" type="button" aria-label="Página siguiente" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </nav>
+  <p class="paso__ayuda" id="ayuda">Pulsa una foto para verla en grande. Pasa página con las flechas, pulsando en el margen o deslizando el dedo.</p>
+
+  <section class="rejilla contenedor" id="rejilla" hidden aria-label="Todas las fotos"></section>
+
+  <div class="difunde difunde--libro contenedor">
+    <p class="difunde__texto">
+      <strong>¿Guardas fotos del colegio?</strong>
+      Envíalas con el año y una frase, si la sabes, y se añadirán al álbum.
+    </p>
+    <div class="compartir" id="compartir-album"></div>
+  </div>
+
+  <noscript>
+    <div class="contenedor aviso-js">
+      <p><strong>Activa JavaScript</strong> para hojear el álbum de fotos.</p>
+    </div>
+  </noscript>
+</main>
+
+<footer class="pie pie--libro">
+  <div class="contenedor pie__legal">
+    <p><span>#25AñosArboleda</span></p>
+    <p><a href="index.html">Volver a la web del 25 aniversario</a> · <a href="recuerdos.html">Libro de visitas</a></p>
+  </div>
+</footer>
+
+<!-- Visor: una foto a pantalla grande, con anterior y siguiente -->
+<dialog class="visor visor--album" id="visor" aria-label="Foto ampliada">
+  <button class="visor__cerrar" id="visor-cerrar" type="button" aria-label="Cerrar">&times;</button>
+  <figure class="visor__figura">
+    <div class="visor__medio" id="visor-medio"></div>
+    <figcaption>
+      <span id="visor-pie"></span>
+      <span class="visor__cuenta" id="visor-cuenta"></span>
+    </figcaption>
+  </figure>
+  <button class="visor__paso visor__paso--ant" id="visor-ant" type="button" aria-label="Foto anterior">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+  <button class="visor__paso visor__paso--sig" id="visor-sig" type="button" aria-label="Foto siguiente">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+  </button>
+</dialog>
+
+<!-- Presentación a pantalla completa, con el himno de fondo -->
+<dialog class="pase" id="pase" aria-label="Presentación de fotos">
+  <div class="pase__lienzo" id="pase-lienzo">
+    <div class="pase__capa" data-capa="0"></div>
+    <div class="pase__capa" data-capa="1"></div>
+  </div>
+  <div class="pase__rotulo" id="pase-rotulo" aria-live="polite"></div>
+  <div class="pase__barra" aria-hidden="true"><span id="pase-progreso"></span></div>
+  <div class="pase__mandos">
+    <button class="pase__btn" id="pase-ant" type="button" aria-label="Foto anterior">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button class="pase__btn pase__btn--grande" id="pase-play" type="button" aria-label="Pausar la presentación" autofocus>
+      <svg class="icono-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.1-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>
+      <svg class="icono-pausa" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4.2" height="14" rx="1.2"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.2"/></svg>
+    </button>
+    <button class="pase__btn" id="pase-sig" type="button" aria-label="Foto siguiente">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <button class="pase__btn" id="pase-musica" type="button" aria-pressed="true" aria-label="Música de fondo">
+      <svg class="icono-musica" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
+      <svg class="icono-silencio" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path d="M3 3l18 18"/></svg>
+    </button>
+    <button class="pase__btn" id="pase-cerrar" type="button" aria-label="Salir de la presentación">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+</dialog>
+
+<script src="js/datos.js"></script>
+<script src="js/galeria.js"></script>
+<script src="js/comun.js"></script>
+<script src="js/album.js"></script>
+</body>
+</html>

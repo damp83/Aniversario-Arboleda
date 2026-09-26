@@ -74,6 +74,11 @@ html[data-tema="oscuro"] {
 
 .libro-estado { min-height: 1.4em; margin: .6rem 0 0; font-size: .92rem; font-weight: 500; color: var(--texto-suave); }
 
+/* Móviles muy estrechos: el escudo solo, sin el nombre, para que quepa «Volver» */
+@media (max-width: 380px) {
+  .pagina-libro .marca__texto { display: none; }
+}
+
 @media (max-width: 560px) {
   .enlace-volver__resto { display: none; }
   .libro-intro .seccion__eti::before { display: none; }

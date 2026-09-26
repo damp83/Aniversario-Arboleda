@@ -9,7 +9,7 @@ Qué hace con cada imagen que dejéis en assets/galeria/:
   3. Reduce el tamaño para que la web cargue rápido, y crea una miniatura.
   4. Deduce el título y el año a partir del nombre del archivo:
          2004-el-patio-en-obras.jpg  ->  "El patio en obras", 2004
-  5. Escribe js/galeria.js, que es lo que lee la web.
+  5. Escribe js/galeria.js, que es lo que leen la galería y el álbum.
 
 No hace falta ejecutarlo a mano: GitHub lo lanza solo al subir fotos.
 Para probarlo en tu ordenador:  python3 herramientas/preparar-galeria.py
@@ -126,12 +126,20 @@ def procesa(origen: Path) -> dict | None:
             if not mini.exists():
                 guarda(redimensiona(img, ANCHO_MINI), mini)
 
+            # Medidas de la foto tal como se publica: el álbum las usa para
+            # colocar juntas dos verticales o una horizontal sobre otra
+            ancho, alto = img.size
+            if ancho > ANCHO_GRANDE:
+                ancho, alto = ANCHO_GRANDE, round(alto * ANCHO_GRANDE / ancho)
+
             titulo, anio = titulo_desde_nombre(destino.stem)
             return {
                 "src": f"assets/galeria/{destino.name}",
                 "mini": f"assets/galeria/mini/{mini.name}",
                 "titulo": titulo,
                 "anio": anio,
+                "ancho": ancho,
+                "alto": alto,
             }
     except Exception as error:                      # una foto rota no tumba el resto
         print(f"  ! No se ha podido procesar {origen.name}: {error}", file=sys.stderr)

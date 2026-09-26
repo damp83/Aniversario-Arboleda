@@ -58,7 +58,7 @@ A partir de ahí se hace todo solo, en un par de minutos:
 | **Borra los metadatos** | Las fotos de móvil llevan **las coordenadas GPS** del lugar donde se tomaron |
 | Reduce el tamaño (máx. 1600 px) | Una foto de 8 MB haría la web inusable con datos móviles |
 | Crea una miniatura (600 px) | La rejilla carga ligera; la foto grande solo al ampliarla |
-| Actualiza la galería | Sin editar código, así que no se puede romper nada |
+| Actualiza la galería y el álbum | Sin editar código, así que no se puede romper nada |
 
 ### El nombre del archivo es el título
 
@@ -85,10 +85,53 @@ Mientras no haya ninguna foto subida, la galería muestra las tarjetas
 ilustradas de `js/datos.js`, para que nunca se vea vacía. En cuanto subas la
 primera foto real, esas tarjetas desaparecen.
 
+La portada enseña **una muestra de 9 fotos** repartidas por los 25 años (la
+primera, la última y las de en medio); todas las demás están en el álbum.
+
 > ⚠️ **Esto no es el archivo del centro.** Aquí solo van las fotos que se
 > publican; guardad los originales en vuestra carpeta privada. Y comprobad la
 > autorización de imagen antes de subir nada: lo que se publica aquí es
 > público en internet e indexable por los buscadores.
+
+---
+
+## 📸 El álbum de fotos
+
+`album.html` (botón *Abrir el álbum* bajo la galería de la portada) es un
+álbum que se hojea como el libro de visitas, con **todas** las fotos subidas.
+**Se rellena solo**: no hay que hacer nada más que subir las fotos a
+`assets/galeria/`.
+
+- **Ordenado por años.** Cada año empieza en una página nueva con su número
+  bien grande. Las fotos sin año van al final, en *Otros recuerdos*.
+- **Una foto por página**, para que se vea grande. En el ordenador, dos fotos
+  verticales comparten página, una junto a otra.
+- Cada foto lleva su marco blanco, sus esquineras y el título escrito a mano.
+  Al pulsarla se abre en grande, y desde ahí se pasa a la anterior o la
+  siguiente (flechas del teclado o deslizando el dedo).
+- **Ir al año…**: salta directamente a cualquier año.
+- **Ver todas las fotos**: todas en miniatura, agrupadas por año, para
+  encontrar una foto rápido.
+- **Enviar fotos**: lleva al mismo destino que *Comparte tus fotos* en
+  *Participa* (ahora, el correo del aniversario).
+
+### Presentación con música
+
+El botón **Presentación con música** pone las fotos a pantalla completa, una
+tras otra, con el **himno sonando de fondo**. Empieza con una portada
+(«25 años en imágenes»), recorre todas las fotos por orden con su año y su
+título, termina con un agradecimiento y vuelve a empezar. Está pensada para
+**proyectarla en la semana conmemorativa**: mientras está en marcha, la
+pantalla no se apaga.
+
+| Tecla | Qué hace |
+|---|---|
+| `Espacio` | Pausa / sigue |
+| `←` `→` | Foto anterior / siguiente |
+| `M` | Quita o pone la música |
+| `Esc` | Sale de la presentación |
+
+En la pantalla táctil, los mismos botones aparecen al tocar y se esconden solos.
 
 ---
 
@@ -346,12 +389,15 @@ sustituye y ganará nitidez en pantallas grandes.
 ```
 index.html                 La portada del aniversario
 recuerdos.html             El libro de visitas
+album.html                 El álbum de fotos
 css/estilos.css            Todo el diseño (colores, tipografías, responsive)
-css/libro.css              El diseño del libro de visitas
+css/libro.css              El diseño del libro de visitas (y del álbum)
+css/album.css              Lo propio del álbum: páginas de fotos y presentación
 js/datos.js                👈 EL CONTENIDO: aquí edita el equipo del centro
 js/comun.js                Lo que comparten portada y libro (recuerdos, tema…)
 js/app.js                  Funcionamiento de la portada (cuenta atrás, galería…)
 js/libro.js                Funcionamiento del libro (páginas, búsqueda…)
+js/album.js                Funcionamiento del álbum (páginas, visor, presentación)
 cartel.html · js/cartel.js Carteles con código QR para imprimir
 js/vendor/                 Librería del código QR (MIT)
 js/galeria.js              Lista de fotos (se genera sola, no editar)

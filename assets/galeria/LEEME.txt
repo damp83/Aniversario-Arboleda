@@ -7,7 +7,7 @@ Al subirlas, GitHub las prepara solo:
   · Las endereza (las fotos de móvil se ven giradas si no).
   · Les borra los metadatos, incluida la ubicación GPS.
   · Las reduce para que la web cargue rápido y crea su miniatura.
-  · Las coloca en la galería, ordenadas por año.
+  · Las coloca en la galería y en el álbum de fotos, ordenadas por año.
 
 EL NOMBRE DEL ARCHIVO ES EL TÍTULO
 ----------------------------------

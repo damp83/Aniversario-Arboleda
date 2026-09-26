@@ -91,6 +91,33 @@ const ANIV = (function () {
     return `mailto:${correo}?subject=${asunto}${cuerpo}`;
   }
 
+  /* ─── Fotos de la galería y del álbum ───────────────────────────────────── */
+
+  // Las fotos subidas a assets/galeria/ (las lista js/galeria.js, en orden
+  // cronológico). Mientras no haya ninguna, los huecos de ejemplo de datos.js,
+  // que se dibujan como marcos ilustrados.
+  function fotosGaleria() {
+    const subidas = (typeof GALERIA_AUTO !== "undefined" ? GALERIA_AUTO : []).filter((f) => f && f.src);
+    if (subidas.length) return { fotos: subidas, reales: true };
+    return { fotos: (typeof DATOS !== "undefined" && DATOS.galeria) || [], reales: false };
+  }
+
+  // Unos anillos de árbol distintos para cada foto que aún no ha llegado
+  function marcoIlustrado(anio, indice = 0) {
+    const cuantos = 4 + (indice % 4);            // entre 4 y 7 anillos
+    const cx = 100 + ((indice % 3) - 1) * 14;    // el corazón del tronco se desplaza
+    const cy = 75 + ((indice % 2) ? 5 : -5);
+    const anillos = Array.from({ length: cuantos }, (_, i) => {
+      const r = 62 - i * (50 / cuantos);
+      const rx = r * (1 + (i % 2 ? 0.06 : -0.04));
+      return `<ellipse cx="${cx}" cy="${cy}" rx="${rx.toFixed(1)}" ry="${r.toFixed(1)}"
+               style="opacity:${(0.9 - i * 0.1).toFixed(2)}"/>`;
+    }).join("");
+    return `<div class="marco" role="img" aria-label="Recuerdo de ${esc(anio)} pendiente de fotografía">
+      <svg viewBox="0 0 200 150" aria-hidden="true">${anillos}</svg>
+    </div>`;
+  }
+
   /* ─── Compartir ─────────────────────────────────────────────────────────── */
 
   // La dirección oficial de la página (la que figura como canónica)
@@ -157,5 +184,6 @@ const ANIV = (function () {
   }
 
   return { $, $$, esc, normalizar, leerCSV, recuerdosDesdeHoja, obtenerRecuerdos,
-           fechaLegible, destinoParticipa, iniciarTema, pintarCompartir, direccionOficial };
+           fechaLegible, destinoParticipa, iniciarTema, pintarCompartir, direccionOficial,
+           fotosGaleria, marcoIlustrado };
 })();

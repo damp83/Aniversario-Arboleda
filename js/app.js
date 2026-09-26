@@ -409,20 +409,13 @@
   }
 
   /* ─── 8. Galería y visor ────────────────────────────────────────────────── */
-  // Dibuja unos anillos de árbol distintos para cada recuerdo aún sin fotografía
-  function marcoIlustrado(anio, indice = 0) {
-    const cuantos = 4 + (indice % 4);            // entre 4 y 7 anillos
-    const cx = 100 + ((indice % 3) - 1) * 14;    // el corazón del tronco se desplaza
-    const cy = 75 + ((indice % 2) ? 5 : -5);
-    const anillos = Array.from({ length: cuantos }, (_, i) => {
-      const r = 62 - i * (50 / cuantos);
-      const rx = r * (1 + (i % 2 ? 0.06 : -0.04));
-      return `<ellipse cx="${cx}" cy="${cy}" rx="${rx.toFixed(1)}" ry="${r.toFixed(1)}"
-               style="opacity:${(0.9 - i * 0.1).toFixed(2)}"/>`;
-    }).join("");
-    return `<div class="marco" role="img" aria-label="Recuerdo de ${esc(anio)} pendiente de fotografía">
-      <svg viewBox="0 0 200 150" aria-hidden="true">${anillos}</svg>
-    </div>`;
+  const { marcoIlustrado } = ANIV;
+  const FOTOS_PORTADA = 9;        // el resto, en el álbum (9 llenan la rejilla)
+
+  // Una muestra repartida por los 25 años: la primera, la última y las de en medio
+  function muestra(lista, n) {
+    if (lista.length <= n) return lista;
+    return Array.from({ length: n }, (_, i) => lista[Math.round((i * (lista.length - 1)) / (n - 1))]);
   }
 
   function pintarGaleria() {
@@ -430,8 +423,14 @@
     if (!cont) return;
 
     // Si hay fotos reales subidas a assets/galeria/, mandan sobre los ejemplos
-    const subidas = typeof GALERIA_AUTO !== "undefined" ? GALERIA_AUTO : [];
-    const fotos = subidas.length ? subidas : (DATOS.galeria || []);
+    const { fotos: todas, reales } = ANIV.fotosGaleria();
+    const conAnio = todas.filter((f) => f.anio);           // mejor las que tienen año
+    const fotos = muestra(conAnio.length >= FOTOS_PORTADA ? conAnio : todas, FOTOS_PORTADA);
+
+    const album = $("#abrir-album");
+    if (album && reales) {
+      album.textContent = `Abrir el álbum · ${todas.length} foto${todas.length === 1 ? "" : "s"}`;
+    }
 
     cont.innerHTML = fotos.map((f, i) => `
       <button class="foto reveal" type="button" data-indice="${i}"

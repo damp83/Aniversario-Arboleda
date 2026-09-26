@@ -621,7 +621,10 @@ html:not(.js) .reproductor { grid-template-columns: minmax(0, 1fr); grid-templat
   aspect-ratio: 4 / 3; display: block; box-shadow: var(--sombra);
   transition: var(--transicion);
 }
-.foto:nth-child(6n+1) { grid-column: span 2; aspect-ratio: 8 / 5; }
+/* La primera, en grande (dos columnas por dos filas): con 9 fotos, la rejilla
+   queda completa a 4, 3 o 2 columnas */
+.foto:first-child { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+.foto:first-child img, .foto:first-child .marco { position: absolute; inset: 0; }
 .foto:hover { transform: translateY(-4px) scale(1.01); box-shadow: var(--sombra-alta); }
 .foto img, .foto .marco { width: 100%; height: 100%; object-fit: cover; }
 .foto__pie {
@@ -632,6 +635,7 @@ html:not(.js) .reproductor { grid-template-columns: minmax(0, 1fr); grid-templat
 }
 .foto__titulo { font-family: var(--fuente-titulo); font-weight: 600; font-size: 1.02rem; line-height: 1.25; }
 .foto__anio { font-size: .78rem; font-weight: 700; letter-spacing: .1em; color: var(--oro-300); flex-shrink: 0; }
+.galeria__mas { margin: 2rem 0 0; text-align: center; }
 
 .visor { border: none; padding: 0; background: transparent; max-width: min(94vw, 1000px); max-height: 92vh; }
 .visor::backdrop { background: rgba(8, 20, 13, .88); backdrop-filter: blur(6px); }
@@ -883,7 +887,8 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
 @media (max-width: 780px) {
   .cuenta__bloque { min-width: 68px; }
   .acto { grid-template-columns: 1fr; gap: .5rem; }
-  .foto:nth-child(6n+1) { grid-column: span 1; aspect-ratio: 4 / 3; }
+  .galeria { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .foto:first-child { grid-row: span 1; aspect-ratio: 8 / 5; }
   .hito { padding-left: 3.9rem; }
   .hito__punto { width: 48px; height: 48px; font-size: .85rem; }
   .tiempo::before { left: 23px; }
