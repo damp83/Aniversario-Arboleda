@@ -541,6 +541,9 @@
     modo = mqDoble.matches ? "doble" : "simple";
     ui.escenario.dataset.modo = modo;
     pintar();                                        // la tapa, mientras se cargan los recuerdos
+    ANIV.pintarCompartir($("#compartir-libro"), {
+      texto: `📖 ¿Estudiaste, trabajaste o llevaste a tus hijos al ${DATOS.centro.nombre}? Deja tu recuerdo en el libro de visitas del ${DATOS.aniversario.numero} aniversario:`
+    });
     actualizarImprimir();
     escuchar();
 

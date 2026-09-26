@@ -426,6 +426,9 @@
       pintarGaleria();
       cargarRecuerdos();
       pintarParticipa();
+      ANIV.pintarCompartir($("#compartir-portada"), {
+        texto: `🌳 ${DATOS.aniversario.numero} años del ${DATOS.centro.nombre}. Programa de la semana conmemorativa, historia, fotos y libro de visitas:`
+      });
       pintarPie();
       iniciarCuentaAtras();
       iniciarNavegacion();

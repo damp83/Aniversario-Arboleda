@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carteles para imprimir · 25 Aniversario · CEIP La Arboleda</title>
+<meta name="description" content="Carteles con código QR del 25 aniversario del CEIP La Arboleda, listos para imprimir.">
+<meta name="theme-color" content="#12341f">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://damp83.github.io/Aniversario-Arboleda/cartel.html">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icono-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+<link rel="stylesheet" href="css/cartel.css">
+<script>
+  (function () {
+    var raiz = document.documentElement;
+    raiz.classList.add("js");
+    try {
+      var guardado = localStorage.getItem("tema-aniversario");
+      var oscuro = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      raiz.dataset.tema = guardado || (oscuro ? "oscuro" : "claro");
+    } catch (e) { raiz.dataset.tema = "claro"; }
+  })();
+</script>
+</head>
+<body class="pagina-cartel">
+
+<header class="cabecera cabecera--fija">
+  <div class="contenedor cabecera__int">
+    <a class="marca" href="index.html">
+      <img class="marca__escudo" src="assets/escudo.png" width="180" height="200" alt="" decoding="async">
+      <span class="marca__texto"><strong>La Arboleda</strong><span>25 aniversario</span></span>
+    </a>
+    <a class="enlace-volver" href="index.html">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      Volver<span class="enlace-volver__resto">a la web</span>
+    </a>
+    <div class="cabecera__acciones">
+      <button class="btn-icono" id="btn-tema" type="button" aria-label="Cambiar a modo oscuro">
+        <svg class="icono-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g class="rayos"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></g></svg>
+        <svg class="icono-luna" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="cartel-pagina contenedor">
+  <section class="cartel-intro">
+    <p class="seccion__eti">25 aniversario · Material para el centro</p>
+    <h1>Carteles para imprimir</h1>
+    <p>Para la puerta del colegio, el tablón de la AMPA o las circulares. El código QR lleva
+       directamente a la web o al formulario de recuerdos; se genera aquí mismo y siempre
+       apunta a la dirección actual.</p>
+
+    <div class="cartel-opciones" role="radiogroup" aria-label="Qué cartel">
+      <button class="cartel-opcion" type="button" role="radio" aria-checked="true" data-cartel="web">
+        <strong>Web del aniversario</strong><span>Programa, historia, fotos y libro de visitas</span>
+      </button>
+      <button class="cartel-opcion" type="button" role="radio" aria-checked="false" data-cartel="recuerdo">
+        <strong>Deja tu recuerdo</strong><span>Lleva directo al formulario del libro de visitas</span>
+      </button>
+    </div>
+
+    <button class="btn btn--principal" id="imprimir-cartel" type="button">
+      Imprimir o guardar en PDF
+    </button>
+    <p class="cartel-ayuda">Sale en A4 vertical. Para un tamaño mayor (A3), elígelo en la ventana de impresión: el cartel se adapta.</p>
+  </section>
+
+  <section class="cartel-vista" aria-label="Vista previa del cartel">
+    <article class="cartel" id="cartel"></article>
+  </section>
+</main>
+
+<script src="js/datos.js"></script>
+<script src="js/comun.js"></script>
+<script src="js/vendor/qrcode.js"></script>
+<script src="js/cartel.js"></script>
+</body>
+</html>

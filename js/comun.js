@@ -91,6 +91,47 @@ const ANIV = (function () {
     return `mailto:${correo}?subject=${asunto}${cuerpo}`;
   }
 
+  /* ─── Compartir ─────────────────────────────────────────────────────────── */
+
+  // La dirección oficial de la página (la que figura como canónica)
+  const direccionOficial = () =>
+    document.querySelector('link[rel="canonical"]')?.href || location.href.split(/[?#]/)[0];
+
+  const ICONO_COMPARTIR = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/></svg>';
+  const ICONO_WHATSAPP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.2-3.9A8 8 0 1 1 8 18.9z"/><path d="M9.2 8.6c.3 2.6 2.4 5 5.4 5.9l1.1-1.2-1.8-1-.8.7c-1-.4-2-1.4-2.5-2.5l.7-.8-1-1.8z"/></svg>';
+  const ICONO_ENLACE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg>';
+
+  // Botones para difundir una página: el menú de compartir del móvil (si lo
+  // hay), WhatsApp directamente y copiar el enlace.
+  function pintarCompartir(cont, { texto, url = direccionOficial() }) {
+    if (!cont) return;
+    const whatsapp = `https://wa.me/?text=${encodeURIComponent(`${texto} ${url}`)}`;
+    cont.innerHTML = `
+      ${navigator.share ? `<button class="compartir__btn" type="button" data-accion="nativo">${ICONO_COMPARTIR}<span>Compartir…</span></button>` : ""}
+      <a class="compartir__btn compartir__btn--whatsapp" href="${esc(whatsapp)}" target="_blank" rel="noopener">${ICONO_WHATSAPP}<span>WhatsApp</span></a>
+      <button class="compartir__btn" type="button" data-accion="copiar">${ICONO_ENLACE}<span>Copiar enlace</span></button>
+      <span class="compartir__aviso" role="status" aria-live="polite"></span>`;
+
+    const aviso = $(".compartir__aviso", cont);
+    const avisar = (t) => { aviso.textContent = t; clearTimeout(aviso._t); aviso._t = setTimeout(() => { aviso.textContent = ""; }, 3500); };
+
+    cont.addEventListener("click", async (e) => {
+      const boton = e.target.closest("[data-accion]");
+      if (!boton) return;
+      if (boton.dataset.accion === "nativo") {
+        try { await navigator.share({ title: document.title, text: texto, url }); } catch (err) { /* cancelado */ }
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        avisar("Enlace copiado");
+      } catch (err) {
+        // Sin portapapeles (navegador antiguo o sin permiso): se muestra para copiarlo a mano
+        avisar(url);
+      }
+    });
+  }
+
   /* ─── Modo claro / oscuro ───────────────────────────────────────────────── */
   function iniciarTema() {
     const raiz = document.documentElement;
@@ -116,5 +157,5 @@ const ANIV = (function () {
   }
 
   return { $, $$, esc, normalizar, leerCSV, recuerdosDesdeHoja, obtenerRecuerdos,
-           fechaLegible, destinoParticipa, iniciarTema };
+           fechaLegible, destinoParticipa, iniciarTema, pintarCompartir, direccionOficial };
 })();

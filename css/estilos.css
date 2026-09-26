@@ -566,6 +566,35 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
 .capsula__anio span { display: block; font-size: .74rem; letter-spacing: .16em; text-transform: uppercase; opacity: .7; }
 .capsula__anio strong { font-family: var(--fuente-titulo); font-size: clamp(2.4rem, 6vw, 3.6rem); color: var(--oro-300); line-height: 1.1; }
 
+/* Difundir: botones para compartir por WhatsApp o copiar el enlace */
+.difunde {
+  margin-top: 2rem; padding: 1.4rem 1.6rem;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem;
+  border: 1px dashed color-mix(in srgb, var(--acento) 40%, var(--linea)); border-radius: var(--radio);
+}
+.difunde__texto { margin: 0; flex: 1 1 320px; color: var(--texto-suave); }
+.difunde__texto strong { color: var(--texto); }
+.compartir { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.compartir__btn {
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .6rem 1.05rem; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--linea); background: var(--superficie); color: var(--texto);
+  font: 600 .92rem/1.2 var(--fuente-texto); text-decoration: none;
+  transition: transform var(--transicion), border-color var(--transicion);
+}
+.compartir__btn:hover { transform: translateY(-2px); border-color: var(--acento); }
+.compartir__btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.compartir__btn--whatsapp { background: #1f8f4e; border-color: #1f8f4e; color: #fff; }
+.compartir__btn--whatsapp:hover { border-color: #17733e; background: #17733e; }
+.compartir__aviso { flex-basis: 100%; min-height: 1.2em; font-size: .85rem; font-weight: 600; color: var(--acento); overflow-wrap: anywhere; }
+.compartir__aviso:empty { min-height: 0; }
+
+@media (max-width: 560px) {
+  .difunde { padding: 1.2rem; }
+  .compartir { width: 100%; }
+  .compartir__btn { flex: 1 1 auto; justify-content: center; }
+}
+
 /* ─────────────────────────── 13. PIE ─────────────────────────── */
 .pie { background: var(--verde-950); color: var(--verde-50); padding: 4rem 0 2rem; margin-top: 0; }
 .pie__int { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2.5rem; }
@@ -650,7 +679,7 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
 }
 
 @media print {
-  .cabecera, .portada__flecha, .btn, .visor, .btn-menu, .btn-icono { display: none !important; }
+  .cabecera, .portada__flecha, .btn, .visor, .btn-menu, .btn-icono, .difunde { display: none !important; }
   body { background: #fff; color: #000; }
   .panel { display: block !important; }
   .seccion { padding: 1.5rem 0; break-inside: avoid; }

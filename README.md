@@ -231,6 +231,27 @@ de llegada. Si la hoja fallara, la web sigue
 funcionando con los de `datos.js`. Los textos se muestran siempre como texto:
 aunque alguien escribiera código en el formulario, no se ejecuta.
 
+## 📣 Difundir: compartir y carteles
+
+**Botones para compartir.** En la sección *Participa* de la portada y al final
+del libro de visitas hay botones para enviar el enlace por **WhatsApp** o
+**copiarlo**. En el móvil aparece además el menú de compartir del propio
+teléfono. Cada botón lleva ya un mensaje escrito, pensado para que el enlace
+llegue al antiguo alumnado.
+
+**Carteles con código QR** (`cartel.html`, enlazado en el pie de la portada).
+Dos carteles listos para imprimir en A4, o en A3 eligiéndolo en la ventana de
+impresión:
+
+- **Web del aniversario**: el 25, las fechas de la semana y un QR a la portada.
+- **Deja tu recuerdo**: un QR directo al formulario del libro de visitas.
+
+Los códigos se generan en la propia página a partir de `js/datos.js`: si cambia
+el enlace del formulario, el cartel cambia solo. Se ha comprobado que ambos se
+leen correctamente, en pantalla y en el PDF impreso. La librería del QR
+(`js/vendor/qrcode.js`, licencia MIT) va incluida en el repositorio, sin
+depender de servicios externos.
+
 ## 🚀 Cómo publicar la web (solo la primera vez)
 
 ✅ **La web ya está publicada:** https://damp83.github.io/Aniversario-Arboleda/
@@ -293,6 +314,8 @@ js/datos.js                👈 EL CONTENIDO: aquí edita el equipo del centro
 js/comun.js                Lo que comparten portada y libro (recuerdos, tema…)
 js/app.js                  Funcionamiento de la portada (cuenta atrás, galería…)
 js/libro.js                Funcionamiento del libro (páginas, búsqueda…)
+cartel.html · js/cartel.js Carteles con código QR para imprimir
+js/vendor/                 Librería del código QR (MIT)
 js/galeria.js              Lista de fotos (se genera sola, no editar)
 herramientas/              Procesador automático de las fotos
 assets/                    Logo, favicon, imagen para compartir

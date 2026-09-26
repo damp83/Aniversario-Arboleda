@@ -401,6 +401,7 @@ html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
 .lista__vacia { margin: 0; font: italic 400 var(--letra)/var(--renglon) var(--fuente-titulo); text-align: center; color: var(--tinta-suave-libro); }
 
 .impresion { display: none; }
+.difunde--libro { max-width: 900px; margin-top: 2.2rem; }
 
 /* ─────────────────────────── 13. PIE ─────────────────────────── */
 .pie--libro { padding: 0 0 2rem; margin-top: 3.5rem; }
