@@ -86,6 +86,12 @@ img { max-width: 100%; display: block; }
    le dé otro display (flex, grid…). */
 [hidden] { display: none !important; }
 
+/* Solo para lectores de pantalla */
+.solo-lector {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
 h1, h2, h3 {
   font-family: var(--fuente-titulo);
   font-weight: 700;
@@ -183,6 +189,7 @@ html[data-tema="oscuro"] .icono-luna { display: block; }
 .btn:hover { transform: translateY(-2px); }
 /* Un <button> no hereda tipografía ni interlineado: así mide igual que un enlace */
 button.btn { font-family: inherit; line-height: inherit; }
+button.btn--fantasma { background: transparent; }
 .btn--principal { background: var(--acento); color: var(--fondo); box-shadow: 0 10px 24px -12px var(--acento); }
 .btn--principal:hover { box-shadow: 0 16px 30px -12px var(--acento); }
 .btn--fantasma { border-color: currentColor; color: var(--texto); }
@@ -293,6 +300,28 @@ html[data-tema="oscuro"] .portada__cifra { background: linear-gradient(160deg, #
   width: 44px; height: 44px; display: grid; place-items: center;
   color: var(--texto-suave); animation: rebotar 2.4s ease-in-out infinite;
 }
+/* Acceso directo al himno: el triángulo se convierte en un ecualizador al sonar */
+.portada__himno {
+  display: inline-flex; align-items: center; gap: .65rem; margin-top: 1.4rem;
+  padding: .45rem 1.15rem .45rem .5rem; border-radius: 999px;
+  border: 1px solid var(--linea); background: color-mix(in srgb, var(--superficie) 70%, transparent);
+  color: var(--texto); font-weight: 600; font-size: .95rem; text-decoration: none;
+  transition: border-color var(--transicion), transform var(--transicion);
+}
+.portada__himno:hover { border-color: var(--acento); transform: translateY(-2px); }
+.portada__himno-icono {
+  width: 32px; height: 32px; border-radius: 50%; flex: none;
+  display: grid; place-items: center; background: var(--oro-500); color: var(--verde-950);
+}
+.portada__himno-icono .icono-play { width: 15px; height: 15px; fill: currentColor; translate: 1px 0; }
+.ecualizador { display: none; align-items: flex-end; gap: 2px; height: 13px; }
+.ecualizador i { width: 3px; height: 100%; border-radius: 2px; background: currentColor; animation: ecualizar .9s ease-in-out infinite; }
+.ecualizador i:nth-child(2) { animation-delay: -.3s; }
+.ecualizador i:nth-child(3) { animation-delay: -.6s; }
+@keyframes ecualizar { 0%,100% { height: 30%; } 50% { height: 100%; } }
+.sonando-himno .portada__himno-icono .icono-play { display: none; }
+.sonando-himno .ecualizador { display: flex; }
+
 .portada__flecha svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 @keyframes rebotar { 0%,100% { translate: -50% 0; } 50% { translate: -50% 10px; } }
 
@@ -338,6 +367,142 @@ html[data-tema="oscuro"] .cifras { background: #0a1710; }
 .hito:last-child .hito__punto { border-color: var(--oro-500); color: var(--verde-950); background: var(--oro-300); }
 .hito__titulo { font-size: 1.35rem; margin-bottom: .3rem; }
 .hito__texto { color: var(--texto-suave); margin: 0; max-width: 60ch; }
+
+/* ─────────────────────────── 8b. HIMNO ─────────────────────────── */
+.seccion--himno {
+  position: relative; isolation: isolate; overflow: hidden;
+  background: var(--verde-900); color: var(--verde-50);
+}
+html[data-tema="oscuro"] .seccion--himno { background: #0a1710; }
+/* Anillos muy tenues al fondo, como la sección de un tronco */
+.seccion--himno::before {
+  content: ""; position: absolute; z-index: -1;
+  width: min(1100px, 150vw); aspect-ratio: 1; right: -30%; top: -25%;
+  background: repeating-radial-gradient(circle, transparent 0 26px, rgba(243,205,109,.07) 26px 27px);
+  -webkit-mask-image: radial-gradient(circle, #000 25%, transparent 68%);
+          mask-image: radial-gradient(circle, #000 25%, transparent 68%);
+}
+.seccion--himno .seccion__eti { color: var(--oro-300); }
+.seccion--himno .seccion__titulo { color: #fff; }
+.seccion--himno .seccion__intro { color: color-mix(in srgb, var(--verde-50) 78%, transparent); }
+
+.himno { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+
+/* Reproductor: se queda a la vista mientras se lee la letra */
+.reproductor { position: sticky; top: 104px; text-align: center; }
+.reproductor__titulo { font-size: clamp(1.35rem, 2.6vw, 1.7rem); color: #fff; margin-bottom: .25rem; }
+.reproductor__sub { color: color-mix(in srgb, var(--verde-50) 68%, transparent); font-size: .93rem; margin-bottom: 1.5rem; }
+.reproductor__nativo { width: 100%; }
+.reproductor__aviso { margin: 1rem 0 0; font-size: .9rem; font-weight: 600; color: var(--oro-300); }
+.reproductor__acciones { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; margin-top: 1.5rem; }
+.reproductor__creditos { margin: 1.1rem 0 0; font-size: .8rem; color: color-mix(in srgb, var(--verde-50) 55%, transparent); }
+
+.disco {
+  position: relative; width: min(100%, 300px); aspect-ratio: 1; margin: 0 auto 1.8rem;
+  border-radius: 50%;
+  box-shadow: 0 34px 60px -26px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.06);
+}
+.disco svg { display: block; width: 100%; height: 100%; animation: girar 18s linear infinite; animation-play-state: paused; }
+.sonando-himno .disco svg { animation-play-state: running; }
+@keyframes girar { to { rotate: 360deg; } }
+/* El brillo no gira: así se nota que el disco sí lo hace */
+.disco::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(from 20deg, transparent 0 6%, rgba(255,255,255,.11) 11%, transparent 17% 50%,
+                             rgba(255,255,255,.08) 58%, transparent 64%);
+}
+.disco__fondo { fill: #0f2a19; stroke: var(--verde-700); stroke-width: 2; }
+.disco__anillo { fill: none; stroke: var(--oro-300); stroke-width: .7; }
+.disco__etiqueta { fill: var(--oro-500); }
+.disco__texto { fill: var(--verde-950); font: 700 6.6px var(--fuente-texto); }
+.disco__cifra { fill: var(--verde-950); font: 900 28px var(--fuente-titulo); text-anchor: middle; }
+
+.controles { display: flex; align-items: center; gap: 1rem; text-align: left; }
+.btn-play {
+  flex: none; width: 64px; height: 64px; padding: 0; border: 0; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer;
+  background: var(--oro-500); color: var(--verde-950);
+  box-shadow: 0 14px 28px -14px var(--oro-500);
+  transition: transform var(--transicion), background var(--transicion);
+}
+.btn-play:hover { transform: scale(1.06); background: var(--oro-300); }
+.btn-play svg { width: 26px; height: 26px; fill: currentColor; }
+.btn-play .icono-play { translate: 2px 0; }          /* centrado óptico del triángulo */
+.btn-play .icono-pausa, .sonando-himno .btn-play .icono-play { display: none; }
+.sonando-himno .btn-play .icono-pausa { display: block; }
+.himno--cargando .btn-play { animation: latir 1.1s ease-in-out infinite; }
+@keyframes latir { 50% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--oro-500) 22%, transparent); } }
+
+.linea-tiempo { flex: 1; min-width: 0; }
+.tiempos {
+  display: flex; justify-content: space-between; margin-top: .3rem;
+  font-size: .82rem; font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--verde-50) 70%, transparent);
+}
+.barra {
+  --progreso: 0%;
+  -webkit-appearance: none; appearance: none; display: block;
+  width: 100%; height: 22px; margin: 0; background: transparent; cursor: pointer;
+}
+.barra::-webkit-slider-runnable-track {
+  height: 6px; border-radius: 99px;
+  background: linear-gradient(to right, var(--oro-300) var(--progreso), rgba(255,255,255,.2) var(--progreso));
+}
+.barra::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px; margin-top: -5px;
+  border: 0; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.45);
+}
+.barra::-moz-range-track { height: 6px; border-radius: 99px; background: rgba(255,255,255,.2); }
+.barra::-moz-range-progress { height: 6px; border-radius: 99px; background: var(--oro-300); }
+.barra::-moz-range-thumb { width: 16px; height: 16px; border: 0; border-radius: 50%; background: #fff; }
+.barra:focus-visible { outline: 3px solid var(--oro-500); outline-offset: 2px; border-radius: 6px; }
+
+.accion-himno {
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .55rem 1.05rem; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,.24); background: transparent; color: var(--verde-50);
+  font: 600 .9rem/1.2 var(--fuente-texto); text-decoration: none;
+  transition: border-color var(--transicion), color var(--transicion);
+}
+.accion-himno:hover { border-color: var(--oro-300); color: var(--oro-300); }
+.accion-himno svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* La letra, como una hoja de cancionero */
+.letra {
+  background: var(--superficie); color: var(--texto);
+  border-radius: var(--radio); padding: clamp(1.6rem, 4vw, 2.8rem);
+  box-shadow: 0 30px 70px -30px rgba(0,0,0,.6);
+}
+html[data-tema="oscuro"] .letra { border: 1px solid var(--linea); }
+.letra__impreso { display: none; }
+.letra__cab {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .3rem 1rem;
+  padding-bottom: 1rem; margin-bottom: 1.6rem; border-bottom: 1px solid var(--linea);
+}
+.letra__cab h3 { font-size: 1.35rem; margin: 0; }
+.letra__cab span { font-size: .74rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--destacado); }
+.letra__texto { font-family: var(--fuente-titulo); font-size: 1.12rem; line-height: 1.6; }
+.estrofa { margin: 0 0 1.4rem; }
+.estrofa:last-child { margin-bottom: 0; }
+.estrofa p { margin: 0; }
+/* Si un verso no cabe, la continuación queda sangrada: se sigue leyendo bien */
+.verso { display: block; padding-left: 1em; text-indent: -1em; }
+.estrofa--estribillo {
+  padding: .9rem 1.2rem; font-weight: 700;
+  border-left: 3px solid var(--oro-500); border-radius: 0 var(--radio-s) var(--radio-s) 0;
+  background: color-mix(in srgb, var(--oro-500) 10%, transparent);
+}
+.estrofa__eti {
+  display: flex; align-items: center; gap: .4rem; margin-bottom: .25rem;
+  font: 700 .72rem/1.3 var(--fuente-texto); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--destacado);
+}
+.estrofa__eti svg { width: 15px; height: 15px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* Estribillo que se repite: una marca breve, no la estrofa entera */
+.estrofa--repite { padding: .6rem 1.2rem; font-weight: 500; }
+.estrofa--repite .estrofa__eti { margin: 0; }
+.estrofa__eco { font-style: italic; color: var(--texto-suave); }
+.letra__desplegar { display: none; }
 
 /* ─────────────────────────── 9. PROGRAMA ─────────────────────────── */
 .programa__dias { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 2rem; }
@@ -630,6 +795,15 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
   .pie__marca { grid-column: 1 / -1; }
   .capsula { grid-template-columns: 1fr; }
   .capsula__anio { padding-left: 0; border-left: none; border-top: 1px solid rgba(255,255,255,.18); padding-top: 1.2rem; text-align: left; }
+  /* Himno: el reproductor arriba y la letra debajo, plegada al principio */
+  .himno { grid-template-columns: minmax(0, 1fr); }
+  .reproductor { position: static; max-width: 34rem; width: 100%; margin-inline: auto; }
+  .letra[data-plegada="true"] .letra__texto {
+    max-height: 17.5rem; overflow: hidden;
+    -webkit-mask-image: linear-gradient(#000 55%, transparent);
+            mask-image: linear-gradient(#000 55%, transparent);
+  }
+  .letra__desplegar { display: inline-flex; margin-top: 1.2rem; }
 }
 
 /* En el móvil, una sola columna: el correo del centro no cabe al lado de otra */
@@ -666,9 +840,17 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
   .cuenta__reloj { gap: .25rem; }
   .cuenta__bloque { min-width: 0; flex: 1; }
   .btn { width: 100%; justify-content: center; }
+  .portada__himno-extra { display: none; }
   .galeria { grid-template-columns: 1fr 1fr; gap: .6rem; }
   .foto__pie { padding: 1.6rem .7rem .6rem; flex-direction: column; align-items: flex-start; gap: .1rem; }
   .foto__titulo { font-size: .85rem; }
+}
+
+/* Móviles muy estrechos (320 px): la cabecera, más compacta para que quepa */
+@media (max-width: 360px) {
+  .cabecera__int { gap: .6rem; }
+  .marca { gap: .5rem; }
+  .marca__texto span { letter-spacing: .06em; }
 }
 
 /* ─────────────────────────── 16. ACCESIBILIDAD / IMPRESIÓN ─────────────────────────── */
@@ -684,4 +866,37 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
   .panel { display: block !important; }
   .seccion { padding: 1.5rem 0; break-inside: avoid; }
   .js .reveal { opacity: 1 !important; translate: none !important; }
+
+  /* Himno: en papel sobra el reproductor; la letra, entera */
+  .portada__himno, .disco, .controles, .reproductor__nativo, .reproductor__acciones, .reproductor__aviso { display: none !important; }
+  .seccion--himno { background: none !important; color: #000; }
+  .seccion--himno::before { display: none; }
+  .seccion--himno .seccion__titulo, .reproductor__titulo { color: #000; }
+  .seccion--himno .seccion__intro, .reproductor__sub, .reproductor__creditos { color: #333; }
+  .himno { display: block; }
+  .reproductor { position: static; }
+  .letra { box-shadow: none; border: 1px solid #ccc; }
+  .letra__texto { max-height: none !important; overflow: visible !important; -webkit-mask-image: none !important; mask-image: none !important; }
+
+  /* «Imprimir la letra»: solo la hoja del cancionero, con el escudo */
+  .imprimir-letra body > :not(main),
+  .imprimir-letra main > :not(#himno),
+  .imprimir-letra #himno .seccion__cab,
+  .imprimir-letra .reproductor,
+  .imprimir-letra .letra__cab { display: none !important; }
+  .imprimir-letra #himno { padding: 0; }
+  .imprimir-letra #himno .contenedor { width: auto; }
+  .imprimir-letra .letra { border: 0; padding: 0; background: none; color: #000; }
+  .imprimir-letra .letra__impreso {
+    display: flex; align-items: center; gap: 14pt;
+    padding-bottom: 12pt; margin-bottom: 16pt; border-bottom: 1.5pt solid #b8801a;
+  }
+  .letra__impreso img { width: 52pt; height: auto; }
+  .letra__impreso p { margin: 0; font: 600 9.5pt/1.4 var(--fuente-texto); letter-spacing: .12em; text-transform: uppercase; color: #1c6b3f; }
+  .letra__impreso .letra__impreso-titulo { font: 700 22pt/1.15 var(--fuente-titulo); letter-spacing: -.01em; text-transform: none; color: #000; margin-top: 3pt; }
+  .imprimir-letra .letra__texto { font-size: 13.5pt; line-height: 1.55; columns: 2; column-gap: 26pt; }
+  .imprimir-letra .estrofa--estribillo { padding: 8pt 10pt; }
+  .imprimir-letra .estrofa { break-inside: avoid; }
+  .imprimir-letra .estrofa--estribillo { background: #fdf6e6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .imprimir-letra .estrofa__eti { color: #b8801a; }
 }

@@ -112,6 +112,222 @@
       </li>`).join("");
   }
 
+  /* ─── 5b. Himno: disco, reproductor y letra ─────────────────────────────── */
+  const aSegundos = (texto) => {
+    const [m, s] = String(texto || "").split(":").map(Number);
+    return Number.isFinite(m) && Number.isFinite(s) ? m * 60 + s : 0;
+  };
+  const aMinutos = (seg) => {
+    const s = Math.max(0, Math.floor(Number(seg) || 0));
+    return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+  };
+
+  // Un disco hecho de anillos de árbol, con el título alrededor de la etiqueta
+  function discoHimno(titulo) {
+    const anillos = Array.from({ length: 13 }, (_, i) => {
+      const r = 46 + i * 3.9;
+      const cx = 100 + ((i * 37) % 7 - 3) * 0.22;     // anillos algo irregulares,
+      const cy = 100 + ((i * 53) % 5 - 2) * 0.22;     // como en la madera
+      const rx = r * (1 + ((i % 3) - 1) * 0.012);
+      return `<ellipse class="disco__anillo" cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}"
+               rx="${rx.toFixed(2)}" ry="${r.toFixed(2)}" style="opacity:${(0.2 + (i % 4) * 0.09).toFixed(2)}"/>`;
+    }).join("");
+    const vuelta = (2 * Math.PI * 31 - 3).toFixed(1);
+    return `<svg viewBox="0 0 200 200" focusable="false">
+      <defs><path id="disco-curva" d="M100 69a31 31 0 1 1 0 62a31 31 0 1 1 0-62"/></defs>
+      <circle class="disco__fondo" cx="100" cy="100" r="98"/>
+      ${anillos}
+      <circle class="disco__etiqueta" cx="100" cy="100" r="40"/>
+      <text class="disco__texto"><textPath href="#disco-curva" textLength="${vuelta}"
+        lengthAdjust="spacing">${esc(`${titulo} · `.toUpperCase())}</textPath></text>
+      <text class="disco__cifra" x="100" y="110">${esc(DATOS.aniversario.numero)}</text>
+    </svg>`;
+  }
+
+  // Estrofas separadas por una línea en blanco. «[Estribillo]» encabeza un
+  // bloque destacado; si va solo, marca que se repite.
+  const ICONO_REPETIR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2.5l3 3-3 3"/><path d="M4 11.5v-1a5 5 0 0 1 5-5h11"/><path d="M7 21.5l-3-3 3-3"/><path d="M20 12.5v1a5 5 0 0 1-5 5H4"/></svg>';
+
+  function letraHimno(texto) {
+    const vistos = {};
+    return String(texto || "").trim().split(/\n\s*\n/)
+      .map((b) => b.split("\n").map((l) => l.trim()).filter(Boolean))
+      .filter((b) => b.length)
+      .map((lineas) => {
+        const marca = lineas[0].match(/^\[(.+)\]$/);
+        const eti = marca ? marca[1].trim() : "";
+        const versos = marca ? lineas.slice(1) : lineas;
+        const clase = /estribillo/i.test(eti) ? " estrofa--estribillo" : "";
+        if (eti && !versos.length) {
+          const original = vistos[eti.toLowerCase()];
+          return `<div class="estrofa estrofa--repite${clase}">
+            <p class="estrofa__eti">${ICONO_REPETIR}${esc(eti)}<span class="solo-lector"> (se repite)</span></p>
+            ${original ? `<p class="estrofa__eco">${esc(original[0])}…</p>` : ""}
+          </div>`;
+        }
+        if (eti) vistos[eti.toLowerCase()] = versos;
+        return `<div class="estrofa${clase}">
+          ${eti ? `<p class="estrofa__eti">${esc(eti)}</p>` : ""}
+          <p>${versos.map((v) => `<span class="verso">${esc(v)}</span>`).join("")}</p>
+        </div>`;
+      }).join("");
+  }
+
+  function iniciarHimno() {
+    const h = DATOS.himno;
+    const seccion = $("#himno");
+    if (!seccion) return;
+    if (!h || !h.archivo) {
+      // Sin himno en datos.js: fuera la sección y sus accesos
+      seccion.hidden = true;
+      $$('a[href="#himno"]').forEach((a) => (a.closest("li") || a).setAttribute("hidden", ""));
+      return;
+    }
+
+    const audio = $("#himno-audio");
+    const boton = $("#himno-play");
+    const barra = $("#himno-barra");
+    const actual = $("#himno-actual");
+    const total = $("#himno-total");
+    const aviso = $("#himno-aviso");
+    const cuerpo = document.body;
+
+    $("#himno-disco").innerHTML = discoHimno(h.titulo || "Himno");
+    $("#himno-letra").innerHTML = letraHimno(h.letra);
+
+    const descarga = $("#himno-descarga");
+    descarga.href = h.archivo;
+    descarga.setAttribute("download", `${h.titulo || "Himno"} - himno del ${DATOS.aniversario.numero} aniversario.mp3`);
+    const creditos = $("#himno-creditos");
+    if (h.creditos) { creditos.textContent = h.creditos; creditos.hidden = false; }
+
+    // El reproductor propio sustituye al del navegador
+    if (audio.getAttribute("src") !== h.archivo) audio.src = h.archivo;
+    audio.controls = false;
+    audio.hidden = true;
+    $("#himno-controles").hidden = false;
+
+    const duracion = () =>
+      Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : aSegundos(h.duracion);
+    let arrastrando = false;
+    let pendiente = null;      // posición elegida antes de que cargue el audio
+
+    function pintarPosicion(seg) {
+      const max = duracion() || 1;
+      barra.max = Math.ceil(max);
+      barra.value = seg;
+      barra.style.setProperty("--progreso", `${Math.min(100, (seg / max) * 100)}%`);
+      barra.setAttribute("aria-valuetext", `${aMinutos(seg)} de ${aMinutos(max)}`);
+      actual.textContent = aMinutos(seg);
+      total.textContent = aMinutos(max);
+    }
+    pintarPosicion(0);
+
+    function mostrarAviso(texto) {
+      aviso.textContent = texto;
+      aviso.hidden = !texto;
+    }
+
+    function reproducir() {
+      mostrarAviso("");
+      const promesa = audio.play();
+      if (promesa && promesa.catch) promesa.catch((e) => {
+        if (e && e.name === "NotSupportedError") {
+          mostrarAviso("No se ha podido cargar la canción. Prueba a descargarla.");
+        }
+      });
+    }
+
+    boton.addEventListener("click", () => (audio.paused ? reproducir() : audio.pause()));
+
+    barra.addEventListener("input", () => {
+      arrastrando = true;
+      pintarPosicion(Number(barra.value));
+    });
+    barra.addEventListener("change", () => {
+      arrastrando = false;
+      const seg = Number(barra.value);
+      if (audio.readyState >= 1) audio.currentTime = seg;
+      else pendiente = seg;
+      pintarPosicion(seg);
+    });
+
+    audio.addEventListener("loadedmetadata", () => {
+      if (pendiente !== null) { audio.currentTime = pendiente; pendiente = null; }
+      pintarPosicion(audio.currentTime);
+    });
+    audio.addEventListener("timeupdate", () => { if (!arrastrando) pintarPosicion(audio.currentTime); });
+    audio.addEventListener("play", () => {
+      cuerpo.classList.add("sonando-himno");
+      boton.setAttribute("aria-label", "Pausar el himno");
+      prepararControlesSistema();
+    });
+    audio.addEventListener("pause", () => {
+      cuerpo.classList.remove("sonando-himno");
+      seccion.classList.remove("himno--cargando");
+      boton.setAttribute("aria-label", "Escuchar el himno");
+    });
+    audio.addEventListener("ended", () => pintarPosicion(0));
+    audio.addEventListener("waiting", () => seccion.classList.add("himno--cargando"));
+    audio.addEventListener("playing", () => seccion.classList.remove("himno--cargando"));
+    audio.addEventListener("error", () => {
+      seccion.classList.remove("himno--cargando");
+      mostrarAviso("No se ha podido cargar la canción. Prueba a descargarla.");
+    });
+
+    // Controles del móvil (pantalla bloqueada, auriculares, notificaciones)
+    let sistemaListo = false;
+    function prepararControlesSistema() {
+      if (sistemaListo || !("mediaSession" in navigator)) return;
+      sistemaListo = true;
+      try {
+        if (typeof MediaMetadata === "function") {
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: h.titulo,
+            artist: DATOS.centro.nombre,
+            album: `${DATOS.aniversario.numero} aniversario`,
+            artwork: [{ src: new URL("assets/icono-180.png", location.href).href, sizes: "180x180", type: "image/png" }]
+          });
+        }
+        const acciones = {
+          play: () => reproducir(),
+          pause: () => audio.pause(),
+          seekbackward: (d) => { audio.currentTime = Math.max(0, audio.currentTime - (d.seekOffset || 10)); },
+          seekforward: (d) => { audio.currentTime = Math.min(duracion(), audio.currentTime + (d.seekOffset || 10)); },
+          seekto: (d) => { audio.currentTime = d.seekTime; }
+        };
+        Object.entries(acciones).forEach(([accion, fn]) => {
+          try { navigator.mediaSession.setActionHandler(accion, fn); } catch (e) { /* acción no admitida */ }
+        });
+      } catch (e) { /* sin controles del sistema, el reproductor funciona igual */ }
+    }
+
+    // El acceso de la portada lleva a la sección y empieza a sonar
+    const acceso = $("#escucha-himno");
+    if (acceso) acceso.addEventListener("click", () => { if (audio.paused) reproducir(); });
+
+    // Letra plegada en el móvil
+    const letra = $("#letra");
+    const desplegar = $("#himno-desplegar");
+    desplegar.addEventListener("click", () => {
+      const plegada = letra.dataset.plegada === "true";
+      letra.dataset.plegada = String(!plegada);
+      desplegar.setAttribute("aria-expanded", String(plegada));
+      desplegar.textContent = plegada ? "Plegar la letra" : "Ver toda la letra";
+      if (!plegada) letra.scrollIntoView({ block: "start" });
+    });
+
+    // Imprimir solo la letra, en una hoja con el escudo
+    const imprimir = $("#himno-imprimir");
+    imprimir.hidden = false;
+    imprimir.addEventListener("click", () => {
+      const raiz = document.documentElement;
+      raiz.classList.add("imprimir-letra");
+      window.addEventListener("afterprint", () => raiz.classList.remove("imprimir-letra"), { once: true });
+      window.print();
+    });
+  }
+
   /* ─── 6. Programa de la semana (pestañas por día) ───────────────────────── */
   function pintarPrograma() {
     const dias = $("#programa-dias");
@@ -421,6 +637,7 @@
       pintarAnillos();
       pintarCifras();
       pintarHitos();
+      iniciarHimno();
       pintarPrograma();
       pintarProyectos();
       pintarGaleria();

@@ -2,7 +2,8 @@
 
 Web conmemorativa del **25 aniversario** del centro. Sirve como hilo conductor de
 todo el curso escolar y reúne el programa de la semana de actos de finales de octubre,
-la historia del centro, los proyectos por trimestre y un álbum de recuerdos.
+la historia del centro, el himno del aniversario, los proyectos por trimestre y un
+álbum de recuerdos.
 
 Está hecha con **HTML, CSS y JavaScript puro**: no necesita instalar nada, no depende
 de librerías externas y se publica gratis en **GitHub Pages**.
@@ -20,6 +21,7 @@ comillas, y guarda con *Commit changes*. En 1–2 minutos la web se actualiza so
 |---|---|
 | Nombre del centro, localidad, curso, correo del centro | `centro` |
 | Lema, texto de presentación, año de fundación | `aniversario` |
+| **Himno**: título, archivo de audio, duración, créditos y letra | `himno` |
 | **Correo al que llegan las fotos y los recuerdos** | `aniversario.email` |
 | Fechas de la semana de actos y la **cuenta atrás** | `semana` |
 | Actividades de cada día | `programa` |
@@ -231,6 +233,41 @@ de llegada. Si la hoja fallara, la web sigue
 funcionando con los de `datos.js`. Los textos se muestran siempre como texto:
 aunque alguien escribiera código en el formulario, no se ejecuta.
 
+## 🎵 El himno del aniversario
+
+La canción está en `assets/audio/himno-25-aniversario.mp3` y se escucha en la
+sección **Himno** de la portada (justo después de la historia). También hay un
+acceso directo, *Escucha el himno*, bajo los botones de la portada: lleva a la
+sección y empieza a sonar.
+
+- **Reproductor propio**: disco que gira mientras suena, barra para avanzar o
+  retroceder (también con las flechas del teclado) y controles en la pantalla
+  bloqueada del móvil. El audio **no se descarga hasta que alguien pulsa
+  reproducir**, así que no gasta datos a quien solo visita la web.
+- **La letra** se lee al lado del reproductor (debajo en el móvil, plegada con
+  *Ver toda la letra*). Los estribillos se destacan y sus repeticiones aparecen
+  como una marca breve.
+- **Imprimir la letra**: una hoja A4 con el escudo, el título y la letra a dos
+  columnas, lista para fotocopiar y repartir en clase.
+- **Descargar la canción**: baja el MP3 con un nombre claro.
+
+**Cambiar la letra o los créditos.** En `js/datos.js`, apartado `himno`. La
+letra va entre las comillas invertidas `` ` ``: una estrofa por bloque, separadas
+por una línea en blanco. Un bloque que empieza por `[Estribillo]` se destaca;
+si pone solo `[Estribillo]`, indica que se repite. Los créditos (`creditos`)
+aparecen en letra pequeña bajo el reproductor; si lo dejas vacío (`""`), no se
+muestra nada.
+
+**Sustituir la canción** (una versión nueva, grabada por el coro…). Sube el
+archivo a `assets/audio/` con el mismo nombre, o con otro y cambia `archivo` en
+`datos.js`. Actualiza también `duracion` (formato `"2:49"`), que se muestra
+antes de que cargue el audio. Si borras el apartado `himno`, la sección y sus
+accesos desaparecen solos.
+
+> El MP3 se ha publicado tal cual se recibió: conserva sus datos internos
+> (título, letra, carátula y la credencial de contenido de Suno), que se
+> perderían al modificarlo.
+
 ## 📣 Difundir: compartir y carteles
 
 **Botones para compartir.** En la sección *Participa* de la portada y al final
@@ -319,6 +356,7 @@ js/vendor/                 Librería del código QR (MIT)
 js/galeria.js              Lista de fotos (se genera sola, no editar)
 herramientas/              Procesador automático de las fotos
 assets/                    Logo, favicon, imagen para compartir
+assets/audio/              El himno del aniversario (MP3)
 assets/galeria/            Fotografías del álbum
 .github/workflows/         Publicación automática en GitHub Pages
 ```
@@ -329,6 +367,8 @@ assets/galeria/            Fotografías del álbum
 
 - Navegación completa con teclado y textos alternativos en todas las imágenes.
 - Pestañas del programa con patrón ARIA (flechas, `Inicio` y `Fin`).
+- Reproductor del himno manejable con teclado y lector de pantalla; sin
+  JavaScript se muestra el reproductor del propio navegador.
 - Modo claro y **modo oscuro**, con la preferencia del sistema como punto de partida.
 - Respeta `prefers-reduced-motion`: sin animaciones para quien las desactiva.
 - Diseño adaptable de móvil a pantalla grande y **hoja de estilos para imprimir**

@@ -61,6 +61,7 @@
     <nav class="nav" id="nav" aria-label="Navegación principal">
       <ul class="nav__lista">
         <li><a href="#historia">Historia</a></li>
+        <li><a href="#himno">Himno</a></li>
         <li><a href="#semana">La semana</a></li>
         <li><a href="#proyectos">Proyectos</a></li>
         <li><a href="#galeria">Galería</a></li>
@@ -125,6 +126,14 @@
         <a class="btn btn--principal" href="#semana">Ver el programa</a>
         <a class="btn btn--fantasma" href="#participa">Participa</a>
       </div>
+
+      <a class="portada__himno" id="escucha-himno" href="#himno">
+        <span class="portada__himno-icono" aria-hidden="true">
+          <svg class="icono-play" viewBox="0 0 24 24"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.1-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>
+          <span class="ecualizador"><i></i><i></i><i></i></span>
+        </span>
+        Escucha el himno<span class="portada__himno-extra"> del aniversario</span>
+      </a>
     </div>
 
     <a class="portada__flecha" href="#historia" aria-label="Ir a la sección de historia">
@@ -149,6 +158,79 @@
         </p>
       </header>
       <ol class="tiempo" id="tiempo"></ol>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ HIMNO ═══════════════════ -->
+  <section class="seccion seccion--himno" id="himno">
+    <div class="contenedor">
+      <header class="seccion__cab reveal">
+        <p class="seccion__eti">Nuestra canción</p>
+        <h2 class="seccion__titulo">El himno del aniversario</h2>
+        <p class="seccion__intro">
+          Una canción para todo el curso: escúchala en casa y en clase, apréndete
+          la letra y cantémosla juntos en la semana conmemorativa.
+        </p>
+      </header>
+
+      <div class="himno">
+        <div class="reproductor reveal">
+          <div class="disco" id="himno-disco" aria-hidden="true"></div>
+          <h3 class="reproductor__titulo" data-dato="himno.titulo">Veinticinco años, La Arboleda</h3>
+          <p class="reproductor__sub">
+            Himno del <span data-dato="aniversario.numero-aniversario">25 aniversario</span>
+            · <span data-dato="centro.nombre">CEIP La Arboleda</span>
+          </p>
+
+          <!-- Sin JavaScript se ve el reproductor del propio navegador -->
+          <audio class="reproductor__nativo" id="himno-audio" src="assets/audio/himno-25-aniversario.mp3"
+                 preload="none" controls></audio>
+
+          <div class="controles" id="himno-controles" hidden>
+            <button class="btn-play" id="himno-play" type="button" aria-label="Escuchar el himno">
+              <svg class="icono-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.1-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>
+              <svg class="icono-pausa" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4.2" height="14" rx="1.2"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.2"/></svg>
+            </button>
+            <div class="linea-tiempo">
+              <input class="barra" id="himno-barra" type="range" min="0" max="169" step="1" value="0"
+                     aria-label="Posición en la canción">
+              <div class="tiempos"><span id="himno-actual">0:00</span><span id="himno-total">2:49</span></div>
+            </div>
+          </div>
+          <p class="reproductor__aviso" id="himno-aviso" role="status" hidden></p>
+
+          <div class="reproductor__acciones">
+            <a class="accion-himno" id="himno-descarga" href="assets/audio/himno-25-aniversario.mp3" download>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg>
+              Descargar la canción
+            </a>
+            <button class="accion-himno" id="himno-imprimir" type="button" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V3.5h10V9M7 17H4.5V9h15v8H17"/><rect x="7" y="14" width="10" height="6.5" rx="1"/></svg>
+              Imprimir la letra
+            </button>
+          </div>
+          <p class="reproductor__creditos" id="himno-creditos" hidden></p>
+        </div>
+
+        <article class="letra reveal" id="letra" data-plegada="true" aria-labelledby="letra-titulo">
+          <!-- Solo aparece al imprimir la letra -->
+          <div class="letra__impreso">
+            <img src="assets/escudo.png" width="180" height="200" alt="" loading="lazy" decoding="async">
+            <div>
+              <p><span data-dato="centro.nombre">CEIP La Arboleda</span> · Himno del
+                 <span data-dato="aniversario.numero-aniversario">25 aniversario</span></p>
+              <p class="letra__impreso-titulo" data-dato="himno.titulo">Veinticinco años, La Arboleda</p>
+            </div>
+          </div>
+          <header class="letra__cab">
+            <h3 id="letra-titulo">La letra</h3>
+            <span>Para cantarla juntos</span>
+          </header>
+          <div class="letra__texto" id="himno-letra"></div>
+          <button class="btn btn--fantasma letra__desplegar" id="himno-desplegar" type="button"
+                  aria-expanded="false" aria-controls="himno-letra">Ver toda la letra</button>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -295,6 +377,7 @@
       <h2>Secciones</h2>
       <ul>
         <li><a href="#historia">Historia</a></li>
+        <li><a href="#himno">Himno</a></li>
         <li><a href="#semana">La semana</a></li>
         <li><a href="#proyectos">Proyectos</a></li>
         <li><a href="#galeria">Galería</a></li>

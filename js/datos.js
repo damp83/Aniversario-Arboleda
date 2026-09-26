@@ -48,6 +48,52 @@ const DATOS = {
   },
 
   /* ---------------------------------------------------------------------------
+     HIMNO DEL 25 ANIVERSARIO
+     La letra: estrofas separadas por una línea en blanco. Un bloque que empieza
+     por [Estribillo] se destaca; si solo pone [Estribillo], es una repetición.
+     --------------------------------------------------------------------------- */
+  himno: {
+    titulo: "Veinticinco años, La Arboleda",
+    archivo: "assets/audio/himno-25-aniversario.mp3",
+    duracion: "2:49",
+    creditos: "Canción creada con Suno para el 25 aniversario.",   // edítalo o déjalo vacío
+    letra: `
+Un nuevo día vuelve a empezar,
+en cada aula hay un lugar.
+Profes y alumnos en el viaje,
+con mil sueños en el equipaje.
+
+Ayer y hoy, de la mano,
+creciendo juntos cada año.
+
+[Estribillo]
+¡Veinticinco años, La Arboleda!
+Bajo tu sombra la vida se sueña.
+Caminamos juntos, dejando huella,
+nuestra casa, nuestra estrella.
+
+Risas que flotan en el jardín,
+una historia que no tiene fin.
+Aprender a volar, aprender a sentir,
+con la alegría de compartir.
+
+Ayer y hoy, de la mano,
+creciendo juntos cada año.
+
+[Estribillo]
+
+Sembrando futuro, mirando adelante,
+con el corazón de cada estudiante.
+Profes y alumnos, a una sola voz…
+
+[Estribillo]
+
+¡Colegio La Arboleda!
+¡Veinticinco años juntos!
+`
+  },
+
+  /* ---------------------------------------------------------------------------
      3. LA SEMANA CONMEMORATIVA  ·  Formato de fecha: AAAA-MM-DDTHH:MM
         La cuenta atrás de la portada apunta a "inicio".
      --------------------------------------------------------------------------- */
