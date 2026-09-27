@@ -244,24 +244,20 @@ html[data-tema="oscuro"] .portada__anillos { opacity: .38; }
 }
 .portada__super .punto { color: var(--destacado); }
 
-.portada__titulo { margin: 0 0 1.2rem; display: grid; justify-items: center; }
-.portada__cifra {
-  font-family: var(--fuente-titulo); font-weight: 900;
-  font-size: clamp(7rem, 27vw, 15rem);
-  line-height: .82; letter-spacing: -.05em;
-  background: linear-gradient(160deg, var(--verde-700) 5%, var(--verde-500) 40%, var(--oro-500) 95%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 12px 30px color-mix(in srgb, var(--verde-700) 22%, transparent));
+/* El logotipo del aniversario, sobre su papel crema: así se lee igual en modo claro y oscuro */
+.portada__logo {
+  width: min(62vw, 250px); margin: 0 auto 1.8rem;
+  padding: clamp(.9rem, 2.2vw, 1.6rem);
+  background: var(--crema); border-radius: 28px;
+  border: 1px solid color-mix(in srgb, var(--verde-700) 12%, transparent);
+  box-shadow: var(--sombra-alta);
 }
-html[data-tema="oscuro"] .portada__cifra { background: linear-gradient(160deg, #8fe0ae 5%, #6fd396 40%, var(--oro-300) 95%); -webkit-background-clip: text; background-clip: text; }
-.portada__anios {
-  font-family: var(--fuente-texto); font-weight: 600;
-  font-size: clamp(1rem, 2.6vw, 1.5rem); letter-spacing: .45em; text-transform: uppercase;
-  color: var(--texto-suave); margin-top: -.2em; padding-left: .45em;
-}
-.portada__lema {
-  font-family: var(--fuente-titulo); font-weight: 500; font-style: italic;
-  font-size: clamp(1.6rem, 4.6vw, 3rem); color: var(--texto); margin-top: .35em;
+.portada__logo img { width: 100%; height: auto; }
+
+.portada__titulo {
+  margin: 0 0 1.1rem;
+  font-weight: 600; font-style: italic; font-size: clamp(2.2rem, 5.4vw, 4rem); line-height: 1.04;
+  color: var(--texto);
 }
 .portada__texto { max-width: 56ch; margin: 0 auto 2.2rem; color: var(--texto-suave); font-size: 1.1rem; }
 
@@ -300,6 +296,19 @@ html[data-tema="oscuro"] .portada__cifra { background: linear-gradient(160deg, #
   width: 44px; height: 44px; display: grid; place-items: center;
   color: var(--texto-suave); animation: rebotar 2.4s ease-in-out infinite;
 }
+/* Pantalla ancha: logotipo a la izquierda, texto a la derecha; los anillos del
+   fondo se centran en el logotipo, como si salieran del árbol */
+@media (min-width: 960px) {
+  .portada__int {
+    display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(3rem, 5vw, 5.5rem); align-items: center; text-align: left;
+  }
+  .portada__logo { width: min(100%, 390px); margin: 0; justify-self: center; }
+  .portada__texto { margin-left: 0; }
+  .portada__botones { justify-content: flex-start; }
+  .portada__anillos svg { translate: calc(min(100vw - 2.5rem, var(--ancho)) * -.29 - 14px) 0; }
+}
+
 /* Acceso directo al himno: el triángulo se convierte en un ecualizador al sonar */
 .portada__himno {
   display: inline-flex; align-items: center; gap: .65rem; margin-top: 1.4rem;
@@ -811,8 +820,8 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
 .pie__int { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2.5rem; }
 .pie__marca { display: flex; gap: 1.3rem; align-items: center; }
 .pie__logo {
-  width: 116px; height: auto; flex-shrink: 0;
-  background: var(--crema); border-radius: 16px; padding: 14px 12px;
+  width: 124px; height: auto; flex-shrink: 0;
+  background: var(--crema); border-radius: 16px; padding: 12px;
 }
 .pie__marca p { color: color-mix(in srgb, var(--verde-50) 72%, transparent); margin: 0; }
 .pie__curso { font-size: .88rem; color: var(--oro-300); font-weight: 600; }

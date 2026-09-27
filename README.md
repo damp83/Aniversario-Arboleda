@@ -401,13 +401,41 @@ python3 -m http.server 8000
 
 ## 🖼️ Identidad visual
 
-El **escudo oficial del centro** aparece en la cabecera y, con su rótulo
-completo, en el pie de página. Los **anillos de crecimiento** (uno por curso)
-se mantienen como emblema propio del aniversario: portada, línea del tiempo y
-tarjetas de la galería.
+El **logotipo del 25 aniversario** preside la portada de la web, junto a la
+cuenta atrás; en el móvil queda arriba. También aparece en:
+- el pie de página,
+- la imagen que se ve al compartir el enlace,
+- la portadilla del libro de visitas y del álbum impresos,
+- la portada de la presentación con música,
+- el cartel de la web.
+
+El **escudo del centro** sigue en la cabecera y en los iconos. Los **anillos
+de crecimiento** (uno por curso) acompañan al logotipo como emblema del
+aniversario: en la portada salen del propio logotipo, como los anillos de un
+tronco.
 
 | Archivo | Para qué sirve |
 |---|---|
+| `assets/logo-25.png` | El logotipo del 25 aniversario, con fondo transparente |
+| `assets/escudo.png` | El árbol del escudo, en la cabecera |
+| `assets/favicon.png` | Icono de la pestaña del navegador |
+| `assets/icono-180.png` | Icono al guardar la web en el móvil |
+| `assets/og.png` | Vista previa al compartir el enlace (1200 × 630 px), con el logotipo |
+| `assets/logo-centro.png` | El logotipo del centro con su rótulo (ahora no se usa; se conserva) |
+
+El logotipo del aniversario se ha preparado a partir del original: recortado,
+con el fondo crema convertido en transparente y reducido a 718 × 960 px (unos
+100 KB). Sobre fondos oscuros (el modo oscuro, el pie, la presentación) va
+siempre sobre su tarjeta crema, como se diseñó; sobre papel, directamente.
+Si tenéis el logotipo en **SVG** o en PNG a más resolución, avisad: se
+sustituye y ganará nitidez en pantallas grandes y en papel.
+
+> Al compartir el enlace en WhatsApp, puede que durante unos días siga
+> apareciendo la imagen antigua: las aplicaciones la guardan en caché. La
+> dirección de la imagen lleva ya una versión nueva (`og.png?v=2`) para que
+> la renueven.
+
+---|---|
 | `assets/escudo.png` | El árbol del logotipo, en la cabecera |
 | `assets/logo-centro.png` | El logotipo completo con su rótulo, en el pie |
 | `assets/favicon.png` | Icono de la pestaña del navegador |
@@ -438,7 +466,7 @@ cartel.html · js/cartel.js Carteles con código QR para imprimir
 js/vendor/                 Librería del código QR (MIT)
 js/galeria.js              Lista de fotos (se genera sola, no editar)
 herramientas/              Procesador automático de las fotos
-assets/                    Logo, favicon, imagen para compartir
+assets/                    Logotipos, favicon, imagen para compartir
 assets/audio/              El himno del aniversario (MP3)
 assets/galeria/            Fotografías del álbum
 .github/workflows/         Publicación automática en GitHub Pages

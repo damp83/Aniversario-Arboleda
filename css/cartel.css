@@ -81,8 +81,9 @@
 
 /* Cada grupo es un bloque: el espacio libre se reparte entre bloques, nunca los solapa */
 .cartel__grupo { display: flex; flex-direction: column; align-items: center; gap: 1.4cqw; }
-.cartel__cifra { margin: 0; font: 900 25cqw/.8 var(--fuente-titulo); letter-spacing: -.03em; color: #1c6b3f; }
-.cartel__lema { margin: 0; font: italic 500 6.6cqw/1.1 var(--fuente-titulo); color: #16221b; }
+/* El logotipo, sobre un fondo crema que tapa los anillos que quedan detrás */
+.cartel__logo { display: block; width: auto; height: 31cqw; padding: .8cqw 1.4cqw; border-radius: 3cqw; background: #faf7f0; }
+.cartel__lema { margin: 0; font: italic 500 5.4cqw/1.1 var(--fuente-titulo); color: #16221b; }
 .cartel__titulo { margin: 0; font: italic 600 9.2cqw/1.05 var(--fuente-titulo); color: #1c6b3f; }
 .cartel__sub { margin: 0; max-width: 72cqw; font: 500 4.3cqw/1.35 var(--fuente-titulo); color: #16221b; }
 .cartel__banda strong { font-weight: 800; letter-spacing: .04em; }
@@ -93,7 +94,7 @@
 }
 
 .cartel__qr {
-  width: 40cqw; padding: 2.6cqw; background: #fff;
+  width: 36cqw; padding: 2.4cqw; background: #fff;
   border: .7cqw solid #1c6b3f; border-radius: 4cqw;
 }
 .cartel__qr svg { display: block; width: 100%; height: auto; }

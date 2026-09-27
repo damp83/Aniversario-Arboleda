@@ -391,8 +391,13 @@
   // los recuerdos a dos columnas bajo una apertura, un colofón con el QR de la
   // web y la contratapa. Incluye los que se están viendo: todos, o solo los de
   // la búsqueda si hay una activa (y la portadilla y la apertura lo dicen).
+  const claveImpresion = () => `${consulta}|${visibles.length}|${todos.length}`;
+
   function pintarImpresion() {
     if (!ui.impresion) return;
+    ui.impresion.dataset.clave = claveImpresion();
+    // El logotipo ya cargado se conserva: uno nuevo no llegaría a tiempo al papel
+    const logoCargado = ui.impresion.querySelector(".portadilla__logo");
     const total = todos.length;
     const cuenta = !total ? "Todavía sin recuerdos"
       : consulta ? `${visibles.length} de ${total} recuerdos`
@@ -407,9 +412,8 @@
       ${ANIV.tapaImpresa("Libro de visitas")}
 
       <section class="imp-portadilla">
-        <img class="portadilla__escudo" src="assets/escudo.png" alt="" width="180" height="200">
+        <img class="portadilla__logo" src="assets/logo-25.png" alt="" width="718" height="960">
         <p class="portadilla__titulo">Libro de visitas</p>
-        <p class="portadilla__sub">${esc(DATOS.aniversario.numero)} aniversario<br>${esc(DATOS.centro.nombre)}</p>
         <span class="portadilla__raya"></span>
         <p class="portadilla__texto">Aquí quedan escritos los recuerdos de quienes han pasado por el colegio entre ${anioInicio} y ${anioFin}.</p>
         <p class="portadilla__cuenta">${esc(cuenta)}</p>
@@ -434,6 +438,8 @@
 
       ${ANIV.contratapaImpresa()}`;
 
+    if (logoCargado) ui.impresion.querySelector(".portadilla__logo").replaceWith(logoCargado);
+
     const lista = ui.impresion.querySelector(".imp-recuerdos");
     if (!visibles.length) {
       lista.remove();
@@ -445,9 +451,7 @@
 
   async function imprimir() {
     pintarImpresion();
-    // El escudo tiene que estar cargado antes de abrir el diálogo, o saldría en blanco
-    const escudo = ui.impresion.querySelector("img");
-    if (escudo && escudo.decode) { try { await escudo.decode(); } catch (e) { /* se imprime sin él */ } }
+    await ANIV.prepararImpresion(ui.impresion);   // el logotipo y las tipografías, ya listos
 
     // El título de la página es el nombre que el navegador propone para el PDF
     const titulo = document.title;
@@ -521,7 +525,15 @@
       if (!cargando && !ui.escenario.hidden && claveTamano() !== clave) construir(posicionActual());
     }, 200));
     ui.imprimir.addEventListener("click", imprimir);
-    window.addEventListener("beforeprint", pintarImpresion);     // también con Ctrl+P
+    // Ctrl+P pasa por la misma preparación; el menú del navegador, al menos maqueta
+    document.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p" && !ui.imprimir.disabled) { e.preventDefault(); imprimir(); }
+    });
+    // Desde el menú del navegador: se maqueta aquí, salvo que ya esté hecha y al día
+    // (rehacerla ahora descartaría las imágenes ya cargadas justo antes de imprimir)
+    window.addEventListener("beforeprint", () => {
+      if (ui.impresion.dataset.clave !== claveImpresion()) pintarImpresion();
+    });
   }
 
   /* ─── Arranque ──────────────────────────────────────────────────────────── */
@@ -549,6 +561,7 @@
     });
     actualizarImprimir();
     escuchar();
+    ANIV.precargarImpresion();                       // tipografías y logotipo, para imprimir
 
     const [{ manuales, deHoja }] = await Promise.all([ANIV.obtenerRecuerdos(), tipografias()]);
     todos = [...manuales, ...deHoja].map((r, id) => ({
@@ -558,6 +571,7 @@
     cargando = false;
     actualizarImprimir();
     construir({ cara: 0 });
+    pintarImpresion();               // lista de antemano: el menú Imprimir del navegador ya la encuentra
 
     // Si alguna tipografía llega tarde, se reparte de nuevo sin perder el sitio
     if (document.fonts && document.fonts.ready) {

@@ -11,10 +11,10 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="25 Aniversario · CEIP La Arboleda">
 <meta property="og:description" content="25 años sembrando futuro. Descubre el programa de la semana conmemorativa y los proyectos del curso.">
-<meta property="og:image" content="https://damp83.github.io/Aniversario-Arboleda/assets/og.png">
+<meta property="og:image" content="https://damp83.github.io/Aniversario-Arboleda/assets/og.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="25 años sembrando futuro · CEIP La Arboleda">
+<meta property="og:image:alt" content="Logotipo del 25 aniversario del CEIP La Arboleda: 25 años sembrando futuro">
 <meta property="og:url" content="https://damp83.github.io/Aniversario-Arboleda/">
 <meta property="og:site_name" content="CEIP La Arboleda">
 <meta property="og:locale" content="es_ES">
@@ -94,46 +94,49 @@
     </div>
 
     <div class="contenedor portada__int">
-      <p class="portada__super">
-        <span data-dato="centro.nombre">CEIP La Arboleda</span>
-        <span class="punto">·</span>
-        <span data-dato="centro.curso">Curso 2026/2027</span>
-      </p>
+      <figure class="portada__logo">
+        <img src="assets/logo-25.png" width="718" height="960" fetchpriority="high" decoding="async"
+             alt="Logotipo del 25 aniversario: CEIP La Arboleda, 25 años, Murcia, 2001–2026">
+      </figure>
 
-      <h1 class="portada__titulo">
-        <span class="portada__cifra" data-dato="aniversario.numero">25</span>
-        <span class="portada__anios">años</span>
-        <span class="portada__lema" data-dato="aniversario.lema">sembrando futuro</span>
-      </h1>
-
-      <p class="portada__texto" data-dato="aniversario.entradilla"></p>
-
-      <!-- Cuenta atrás -->
-      <div class="cuenta" id="cuenta" aria-live="polite">
-        <p class="cuenta__titulo">
-          <span data-dato="semana.titulo">Semana conmemorativa</span>
-          <strong data-dato="semana.fechaTexto"></strong>
+      <div class="portada__contenido">
+        <p class="portada__super">
+          <span data-dato="centro.nombre">CEIP La Arboleda</span>
+          <span class="punto">·</span>
+          <span data-dato="centro.curso">Curso 2026/2027</span>
         </p>
-        <div class="cuenta__reloj" id="reloj">
-          <div class="cuenta__bloque"><span class="cuenta__num" data-reloj="dias">--</span><span class="cuenta__eti">días</span></div>
-          <div class="cuenta__bloque"><span class="cuenta__num" data-reloj="horas">--</span><span class="cuenta__eti">horas</span></div>
-          <div class="cuenta__bloque"><span class="cuenta__num" data-reloj="minutos">--</span><span class="cuenta__eti">minutos</span></div>
-          <div class="cuenta__bloque"><span class="cuenta__num" data-reloj="segundos">--</span><span class="cuenta__eti">segundos</span></div>
+
+        <h1 class="portada__titulo" data-dato="aniversario.lema">25 años sembrando futuro</h1>
+
+        <p class="portada__texto" data-dato="aniversario.entradilla"></p>
+
+        <!-- Cuenta atrás -->
+        <div class="cuenta" id="cuenta" aria-live="polite">
+          <p class="cuenta__titulo">
+            <span data-dato="semana.titulo">Semana conmemorativa</span>
+            <strong data-dato="semana.fechaTexto"></strong>
+          </p>
+          <div class="cuenta__reloj" id="reloj">
+            <div class="cuenta__bloque"><span class="cuenta__num" data-reloj="dias">--</span><span class="cuenta__eti">días</span></div>
+            <div class="cuenta__bloque"><span class="cuenta__num" data-reloj="horas">--</span><span class="cuenta__eti">horas</span></div>
+            <div class="cuenta__bloque"><span class="cuenta__num" data-reloj="minutos">--</span><span class="cuenta__eti">minutos</span></div>
+            <div class="cuenta__bloque"><span class="cuenta__num" data-reloj="segundos">--</span><span class="cuenta__eti">segundos</span></div>
+          </div>
         </div>
-      </div>
 
-      <div class="portada__botones">
-        <a class="btn btn--principal" href="#semana">Ver el programa</a>
-        <a class="btn btn--fantasma" href="#participa">Participa</a>
-      </div>
+        <div class="portada__botones">
+          <a class="btn btn--principal" href="#semana">Ver el programa</a>
+          <a class="btn btn--fantasma" href="#participa">Participa</a>
+        </div>
 
-      <a class="portada__himno" id="escucha-himno" href="#himno">
-        <span class="portada__himno-icono" aria-hidden="true">
-          <svg class="icono-play" viewBox="0 0 24 24"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.1-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>
-          <span class="ecualizador"><i></i><i></i><i></i></span>
-        </span>
-        Escucha el himno<span class="portada__himno-extra"> del aniversario</span>
-      </a>
+        <a class="portada__himno" id="escucha-himno" href="#himno">
+          <span class="portada__himno-icono" aria-hidden="true">
+            <svg class="icono-play" viewBox="0 0 24 24"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.1-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>
+            <span class="ecualizador"><i></i><i></i><i></i></span>
+          </span>
+          <span>Escucha el himno<span class="portada__himno-extra"> del aniversario</span></span>
+        </a>
+      </div>
     </div>
 
     <a class="portada__flecha" href="#historia" aria-label="Ir a la sección de historia">
@@ -370,8 +373,8 @@
 <footer class="pie" id="contacto">
   <div class="contenedor pie__int">
     <div class="pie__marca">
-      <img class="pie__logo" src="assets/logo-centro.png" width="247" height="320"
-           alt="CEIP La Arboleda" loading="lazy" decoding="async">
+      <img class="pie__logo" src="assets/logo-25.png" width="718" height="960"
+           alt="Logotipo del 25 aniversario del CEIP La Arboleda" loading="lazy" decoding="async">
       <p><span data-dato="centro.localidad"></span><br>
       <span class="pie__curso">Curso <span data-dato="centro.curso"></span></span></p>
     </div>

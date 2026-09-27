@@ -36,8 +36,9 @@
         <div class="cartel__cuerpo">
           ${anillos}
           <div class="cartel__grupo">
-            <p class="cartel__cifra">${esc(DATOS.aniversario.numero)}</p>
-            <p class="cartel__lema">años sembrando futuro</p>
+            <img class="cartel__logo" src="assets/logo-25.png" width="718" height="960"
+                 alt="Logotipo del ${esc(DATOS.aniversario.numero)} aniversario del ${esc(DATOS.centro.nombre)}">
+            <p class="cartel__lema">${esc(DATOS.aniversario.lema || "")}</p>
           </div>
           <p class="cartel__banda"><strong>${esc(DATOS.semana.titulo)}</strong><br>${esc(DATOS.semana.fechaTexto)}</p>
           <div class="cartel__qr">${codigoQR(web)}</div>
@@ -78,8 +79,8 @@
   }
 
   async function imprimir() {
-    const escudo = $("#cartel img");
-    if (escudo && escudo.decode) { try { await escudo.decode(); } catch (e) { /* sin escudo */ } }
+    // El escudo, el logotipo y las tipografías, listos antes de abrir el diálogo
+    await ANIV.prepararImpresion($("#cartel"));
     const titulo = document.title;
     document.title = CARTELES[actual].archivo;                // nombre que se propone al PDF
     window.addEventListener("afterprint", () => { document.title = titulo; }, { once: true });

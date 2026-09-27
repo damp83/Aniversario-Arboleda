@@ -508,18 +508,16 @@ html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
   }
 
   /* ─ Portadilla ─ */
-  /* Centradas en la hoja con grid: con flex, Chrome añade una página en blanco delante */
-  .imp-portadilla {
-    page: preliminar; break-after: page; min-height: 244mm;
-    display: grid; align-content: center; justify-items: center;
-    gap: 3mm; text-align: center;
-  }
-  .imp-portadilla .portadilla__escudo { width: 32mm; margin-bottom: 5mm; }
-  .imp-portadilla .portadilla__titulo { font-size: 34pt; }
-  .imp-portadilla .portadilla__sub { font-size: 8.5pt; }
-  .imp-portadilla .portadilla__raya { display: block; width: 60mm; margin: 5mm 0; }
-  .imp-portadilla .portadilla__texto { font-size: 11.5pt; max-width: 95mm; }
-  .imp-portadilla .portadilla__cuenta { font-size: 22pt; margin-top: 7mm; }
+  /* Portadilla y colofón van en flujo normal, con un margen arriba, y no
+     centrados con flex o grid: centrados, Chrome mete una página en blanco
+     delante o pierde el principio al repartirlos en páginas */
+  .imp-portadilla { page: preliminar; break-after: page; padding-top: 22mm; text-align: center; }
+  .imp-portadilla .portadilla__logo { display: block; width: 62mm; height: auto; margin: 0 auto 10mm; }
+  .imp-portadilla .portadilla__titulo { margin: 0; font-size: 34pt; }
+  .imp-portadilla .portadilla__raya { display: block; width: 60mm; margin: 7mm auto; }
+  .imp-portadilla .portadilla__texto { margin: 0 auto; font-size: 11.5pt; max-width: 95mm; }
+  .imp-portadilla .portadilla__cuenta { margin: 8mm 0 0; font-size: 22pt; }
+  .imp-portadilla .imp-nota { margin-top: 3mm; }
   .imp-nota { margin: 0; font: italic 400 10pt/1.4 var(--fuente-titulo); color: var(--tinta-suave-libro); }
 
   /* ─ Apertura de los recuerdos ─ */
@@ -544,17 +542,13 @@ html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
   .imp-recuerdos .entrada:not(:last-child)::after { height: 10mm; background-size: 3.4mm; opacity: .55; }
 
   /* ─ Colofón ─ */
-  .imp-colofon {
-    page: preliminar; break-before: page; min-height: 244mm;
-    display: grid; align-content: center; justify-items: center;
-    gap: 4mm; text-align: center;
-  }
-  .imp-colofon .cierre__anillos { width: 16mm; }
-  .imp-colofon .cierre__titulo { font-size: 24pt; }
-  .imp-colofon .cierre__texto { font-size: 11pt; max-width: 105mm; }
+  .imp-colofon { page: preliminar; break-before: page; padding-top: 50mm; text-align: center; }
+  .imp-colofon .cierre__anillos { display: block; width: 16mm; margin: 0 auto 5mm; }
+  .imp-colofon .cierre__titulo { margin: 0 0 4mm; font-size: 24pt; }
+  .imp-colofon .cierre__texto { margin: 0 auto; font-size: 11pt; max-width: 105mm; }
   .imp-qr {
-    display: flex; align-items: center; gap: 6mm;
-    margin: 8mm 0 2mm; padding: 5mm 8mm 5mm 5mm;
+    display: flex; align-items: center; gap: 6mm; width: fit-content;
+    margin: 10mm auto 0; padding: 5mm 8mm 5mm 5mm;
     border: .5pt solid #e2d6bd; border-radius: 3mm; text-align: left;
   }
   .imp-qr svg { flex: none; width: 30mm; height: 30mm; }

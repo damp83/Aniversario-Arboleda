@@ -194,6 +194,37 @@ const ANIV = (function () {
         ${esc(DATOS.centro.nombre)} · ${esc(DATOS.centro.localidad || "")}</p>`;
   }
 
+  // Lo que solo sale en papel no está en pantalla, así que el navegador no
+  // descarga sus tipografías hasta el último momento: se piden antes, para que
+  // el PDF no salga con otra letra o con los títulos en blanco
+  const FUENTES_IMPRESION = ["400 1em Fraunces", "italic 400 1em Fraunces", "italic 500 1em Fraunces",
+    "600 1em Fraunces", "italic 600 1em Fraunces", "900 1em Fraunces", "600 1em Caveat",
+    "500 1em Inter", "600 1em Inter"];
+  // También el logotipo de la portadilla: si ya está en memoria, sale aunque se
+  // imprima desde el menú del navegador, sin tiempo para esperar a que cargue
+  let logoEnMemoria = null;
+  function precargarImpresion() {
+    if (!logoEnMemoria) { logoEnMemoria = new Image(); logoEnMemoria.src = "assets/logo-25.png"; }
+    return document.fonts && document.fonts.load
+      ? Promise.all(FUENTES_IMPRESION.map((f) => document.fonts.load(f).catch(() => {})))
+      : Promise.resolve();
+  }
+
+  // Antes de abrir el diálogo de impresión: todas las imágenes de la edición
+  // cargadas (si no, saldrían huecos en blanco) y las tipografías descargadas.
+  // alAvanzar(listas, total) permite ir contando las imágenes.
+  async function prepararImpresion(cont, alAvanzar) {
+    const imagenes = [...cont.querySelectorAll("img")];
+    let listas = 0;
+    const cargadas = imagenes.map((img) => new Promise((ok) => {
+      const fin = () => { listas++; if (alAvanzar) alAvanzar(listas, imagenes.length); ok(); };
+      if (img.complete) fin();
+      else { img.addEventListener("load", fin, { once: true }); img.addEventListener("error", fin, { once: true }); }
+    }));
+    const limite = new Promise((ok) => setTimeout(ok, 90000));
+    await Promise.race([Promise.all([...cargadas, precargarImpresion()]), limite]);
+  }
+
   // Cabeceras de las páginas impresas (las pone el navegador en el margen)
   function cabecerasImpresas(titulo) {
     const raiz = document.documentElement.style;
@@ -266,5 +297,5 @@ const ANIV = (function () {
   return { $, $$, esc, normalizar, leerCSV, recuerdosDesdeHoja, obtenerRecuerdos,
            fechaLegible, destinoParticipa, iniciarTema, pintarCompartir, direccionOficial,
            fotosGaleria, marcoIlustrado, anillosSVG, codigoQR, tapaImpresa, contratapaImpresa,
-           colofonImpreso, cabecerasImpresas };
+           colofonImpreso, cabecerasImpresas, precargarImpresion, prepararImpresion };
 })();

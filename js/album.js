@@ -466,11 +466,8 @@
   function rotuloEspecial(d) {
     if (d.tipo === "portada") {
       return `<div class="pase__portada">
-        <img class="pase__escudo" src="assets/escudo.png" alt="" width="180" height="200">
-        <p class="pase__super">${esc(DATOS.centro.nombre)}</p>
-        <p class="pase__cifra">${esc(DATOS.aniversario.numero)}</p>
-        <p class="pase__lema">años en imágenes</p>
-        <p class="pase__fechas">${anioInicio} · ${anioFin}</p>
+        <div class="pase__logo"><img src="assets/logo-25.png" alt="" width="718" height="960"></div>
+        <p class="pase__lema">${esc(DATOS.aniversario.numero)} años en imágenes</p>
       </div>`;
     }
     return `<div class="pase__portada">
@@ -488,14 +485,13 @@
     const capa = ui.paseCapas[pase.capa ^ 1];              // se prepara la capa oculta
     capa.dataset.tipo = d.tipo;
     capa.dataset.efecto = String(pase.indice % 4);
-    if (d.tipo === "foto") {
-      capa.innerHTML = `<img class="pase__fondo" src="${esc(d.foto.src)}" alt="">
-        <img class="pase__img" src="${esc(d.foto.src)}" alt="${esc(d.foto.titulo)}">`;
-      const img = capa.querySelector(".pase__img");
-      try { await Promise.race([img.decode(), espera(4000)]); } catch (e) { /* se muestra igual */ }
-    } else {
-      capa.innerHTML = rotuloEspecial(d);
-    }
+    capa.innerHTML = d.tipo === "foto"
+      ? `<img class="pase__fondo" src="${esc(d.foto.src)}" alt="">
+         <img class="pase__img" src="${esc(d.foto.src)}" alt="${esc(d.foto.titulo)}">`
+      : rotuloEspecial(d);
+    // La foto (o el logotipo de la portada) ya decodificada antes del fundido
+    const img = capa.querySelector(".pase__img, .pase__logo img");
+    if (img) { try { await Promise.race([img.decode(), espera(4000)]); } catch (e) { /* se muestra igual */ } }
     if (turno !== pase.turno || !ui.pase.open) return;     // llegó otra orden mientras cargaba
 
     capa.classList.add("pase__capa--visible");
@@ -647,9 +643,8 @@
       ${ANIV.tapaImpresa("Álbum de fotos")}
 
       <section class="imp-pagina imp-pagina--centro imp-portadilla">
-        <img class="portadilla__escudo" src="assets/escudo.png" alt="" width="180" height="200">
+        <img class="portadilla__logo" src="assets/logo-25.png" alt="" width="718" height="960">
         <p class="portadilla__titulo">Álbum de fotos</p>
-        <p class="portadilla__sub">${esc(DATOS.aniversario.numero)} aniversario<br>${esc(DATOS.centro.nombre)}</p>
         <span class="portadilla__raya"></span>
         <p class="portadilla__texto">Veinticinco cursos en imágenes, de ${anioInicio} a ${anioFin}, ordenados por año.</p>
         <p class="portadilla__cuenta">${reales ? esc(fotografias(lista.length)) : "Esperando las primeras fotos"}</p>
@@ -682,6 +677,18 @@
       ${ANIV.contratapaImpresa()}`;
   }
 
+  function pintarAvisoImpresion() {
+    ANIV.cabecerasImpresas("Álbum de fotos");
+    ui.impresion.innerHTML = `
+      <section class="imp-pagina imp-pagina--centro imp-colofon">
+        ${anillos(3, "cierre__anillos")}
+        <p class="cierre__titulo">Álbum de fotos</p>
+        <p class="cierre__texto">${reales
+          ? "Para imprimir el álbum con todas sus fotos, cierra esta ventana y pulsa el botón «PDF» de la página del álbum (o Ctrl+P): prepara las fotos a toda resolución y luego abre la impresión."
+          : "El álbum todavía no tiene fotos. En cuanto lleguen, se podrá imprimir con el botón «PDF» de su página."}</p>
+      </section>`;
+  }
+
   // Antes de abrir el diálogo, todas las fotos a toda resolución tienen que
   // haber llegado: si no, saldrían huecos en blanco en el papel
   let preparando = false;
@@ -690,16 +697,9 @@
     preparando = true;
     ui.imprimir.disabled = true;
     pintarImpresion();
-    const imagenes = [...ui.impresion.querySelectorAll("img")];
-    let listas = 0;
-    const avisar = () => { ui.imprimirTexto.textContent = `Preparando ${listas} de ${imagenes.length}…`; };
-    avisar();
-    const cargadas = Promise.all(imagenes.map((img) => new Promise((ok) => {
-      const fin = () => { listas++; avisar(); ok(); };
-      if (img.complete) fin();
-      else { img.addEventListener("load", fin, { once: true }); img.addEventListener("error", fin, { once: true }); }
-    })));
-    await Promise.race([cargadas, espera(90000)]);
+    const avisar = (listas, total) => { ui.imprimirTexto.textContent = `Preparando ${listas} de ${total}…`; };
+    avisar(0, ui.impresion.querySelectorAll("img").length);
+    await ANIV.prepararImpresion(ui.impresion, avisar);
     ui.imprimirTexto.textContent = "PDF";
     ui.imprimir.disabled = false;
     preparando = false;
@@ -782,7 +782,9 @@
     document.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p" && !ui.pase.open) { e.preventDefault(); imprimir(); }
     });
-    window.addEventListener("beforeprint", () => { if (!ui.impresion.childElementCount) pintarImpresion(); });
+    // Desde el menú del navegador no hay tiempo de cargar las fotos grandes: en vez
+    // de un álbum con huecos en blanco, una página que explica cómo imprimirlo
+    window.addEventListener("beforeprint", () => { if (!ui.impresion.childElementCount) pintarAvisoImpresion(); });
 
     // Salir de la pantalla completa (tecla Esc) termina la presentación
     document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement) cerrarPase(); });
@@ -830,6 +832,7 @@
     }
     ui.abrirPase.hidden = diapos.length < 3;
     ui.imprimir.hidden = !reales;
+    if (reales) ANIV.precargarImpresion();           // tipografías y logotipo, para imprimir
     pintarSelector();
     escuchar();
     construir({ cara: 0 });
