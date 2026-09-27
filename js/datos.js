@@ -190,12 +190,13 @@ Profes y alumnos, a una sola voz…
 
   /* ---------------------------------------------------------------------------
      5. LÍNEA DEL TIEMPO  ·  Los hitos del centro
-        El primero (2001, la apertura) está confirmado.
+        Confirmados: 2001 (la apertura) y 2007 (la primera promoción).
         ⚠️ Los demás son EJEMPLOS inventados: sustitúyelos por los hitos reales.
      --------------------------------------------------------------------------- */
   hitos: [
-    { anio: "2001", titulo: "Se abren las puertas", texto: "El colegio abre en el curso 2001/2002 y recibe a su primera promoción de alumnado de Infantil y Primaria." },
+    { anio: "2001", titulo: "Se abren las puertas", texto: "El colegio abre en el curso 2001/2002 y recibe a sus primeros alumnos y alumnas de Infantil y Primaria." },
     { anio: "2004", titulo: "Nace la AMPA", texto: "Las familias se organizan y ponen en marcha las primeras actividades extraescolares." },
+    { anio: "2007", titulo: "La primera promoción", texto: "Sale del colegio la primera promoción: el primer grupo que completa aquí la Primaria. Sus antiguos alumnos y alumnas estarán en el acto institucional del 25 aniversario." },
     { anio: "2008", titulo: "La biblioteca escolar", texto: "Se inaugura la biblioteca y arranca el plan lector que aún hoy nos define." },
     { anio: "2012", titulo: "Centro bilingüe", texto: "Comienza el programa de enseñanza en lenguas extranjeras en Educación Primaria." },
     { anio: "2016", titulo: "El huerto escolar", texto: "El patio se transforma: huerto, compostera y las primeras aulas al aire libre." },
