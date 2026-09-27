@@ -115,6 +115,8 @@ primera, la última y las de en medio); todas las demás están en el álbum.
   encontrar una foto rápido.
 - **Enviar fotos**: lleva al mismo destino que *Comparte tus fotos* en
   *Participa* (ahora, el correo del aniversario).
+- **PDF**: el álbum maquetado para imprimir (ver *Imprimir el libro y el
+  álbum*, más abajo).
 
 ### Presentación con música
 
@@ -173,13 +175,11 @@ hoja, con las flechas del teclado, con los botones o deslizando el dedo.
   hará mucha gente: buscar su propio recuerdo.
 - **Leer todo seguido**: todos los recuerdos en una sola hoja larga, sin pasar
   páginas.
-- **Botón PDF**: abre la ventana de impresión con el libro maquetado para papel
-  (A4): tapa verde a sangre, portadilla con el escudo, los recuerdos a dos
-  columnas con páginas numeradas y un colofón con la fecha de la edición.
-  Para obtener el archivo, elige **«Guardar como PDF»** como impresora; en el
-  móvil, desde esa misma ventana se puede guardar o compartir. Si hay una
-  búsqueda activa, el PDF incluye solo esos recuerdos, y la portadilla lo indica.
-  También funciona con Ctrl+P.
+- **Botón PDF**: abre la ventana de impresión con el libro maquetado como un
+  libro de verdad (A4). Lo que sale en papel está explicado en *Imprimir el
+  libro y el álbum*, más abajo. Si hay una
+  búsqueda activa, el PDF incluye solo esos recuerdos, y la portadilla y la
+  apertura lo indican. También funciona con Ctrl+P.
 - Los recuerdos se reparten solos en páginas según lo que ocupa cada uno, y
   **nunca se cortan** entre una página y otra.
 
@@ -312,6 +312,41 @@ accesos desaparecen solos.
 > El MP3 se ha publicado tal cual se recibió: conserva sus datos internos
 > (título, letra, carátula y la credencial de contenido de Suno), que se
 > perderían al modificarlo.
+
+## 🖨️ Imprimir el libro y el álbum
+
+El libro de visitas y el álbum tienen cada uno un botón **PDF** que prepara
+una **edición para papel**, maquetada como un libro y distinta de lo que se ve
+en pantalla. En la ventana que se abre, elige la impresora o **«Guardar como
+PDF»** para tener el archivo (para una copistería, por ejemplo).
+
+Las dos ediciones comparten diseño:
+
+- **Tapa y contratapa** verdes con el 25 dorado. El marco queda lejos del
+  borde, así que se ven bien aunque la impresora deje un margen blanco.
+- **Portadilla** con el escudo, el título y el número de recuerdos o de fotos.
+- **Páginas interiores** en A4 con márgenes de libro, el título a la izquierda
+  de la cabecera, el centro a la derecha y el número de página abajo. Ni las
+  tapas, ni la portadilla, ni el colofón llevan número.
+- **Colofón** con un **código QR** que lleva a la página en la web, para
+  seguir leyendo o participar, y la fecha de la edición.
+- Siempre en su versión clara, aunque la web esté en modo oscuro.
+
+**El libro de visitas** abre los recuerdos con una página de título y los
+coloca a dos columnas, con su firma y su fecha. Ningún recuerdo se parte
+entre columnas ni entre páginas.
+
+**El álbum** lleva un **índice de años con el número de página** en que empieza
+cada uno. Cada año empieza en una página nueva con su número grande, y cada
+página tiene una o dos filas de fotos: una apaisada, o dos verticales juntas.
+Ninguna se recorta ni se deforma, y todas llevan su título debajo. Las fotos
+van **a toda resolución** (1600 px, unos 280 ppp en el papel). Por eso, al
+pulsar PDF, el botón muestra «Preparando… 12 de 32» mientras las descarga, y
+la ventana de impresión se abre cuando ya están todas. Ctrl+P hace lo mismo.
+
+> Consejo para imprimir en casa: en la ventana de impresión, tamaño **A4**,
+> márgenes **predeterminados** y escala **100 %**. Si la opción aparece,
+> marca «Gráficos de fondo» para que las tapas salgan en verde.
 
 ## 📣 Difundir: compartir y carteles
 

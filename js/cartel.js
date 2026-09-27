@@ -13,19 +13,7 @@
   const formulario = voz.enlace || new URL("recuerdos.html", web).href;
   const sinProtocolo = (u) => u.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
-  // Código QR en SVG, en verde muy oscuro sobre blanco (máximo contraste)
-  function codigoQR(texto) {
-    const qr = qrcode(0, "M");
-    qr.addData(texto);
-    qr.make();
-    const n = qr.getModuleCount(), m = 2;
-    let trazo = "";
-    for (let f = 0; f < n; f++) {
-      for (let c = 0; c < n; c++) if (qr.isDark(f, c)) trazo += `M${c + m},${f + m}h1v1h-1z`;
-    }
-    return `<svg viewBox="0 0 ${n + 2 * m} ${n + 2 * m}" shape-rendering="crispEdges" role="img" aria-label="Código QR que lleva a ${esc(texto)}">` +
-      `<rect width="100%" height="100%" fill="#fff"/><path d="${trazo}" fill="#0b1f13"/></svg>`;
-  }
+  const { codigoQR } = ANIV;      // en verde muy oscuro sobre blanco (máximo contraste)
 
   const anillos = `<svg class="cartel__anillos" viewBox="0 0 100 100" aria-hidden="true">${
     Array.from({ length: 12 }, (_, i) => `<circle cx="50" cy="50" r="${4 + i * 4}"/>`).join("")}</svg>`;

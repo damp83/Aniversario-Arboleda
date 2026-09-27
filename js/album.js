@@ -28,7 +28,8 @@
     visorCuenta: $("#visor-cuenta"), visorAnt: $("#visor-ant"), visorSig: $("#visor-sig"),
     pase: $("#pase"), paseCapas: [...document.querySelectorAll(".pase__capa")],
     paseRotulo: $("#pase-rotulo"), paseProgreso: $("#pase-progreso"), pasePlay: $("#pase-play"),
-    paseMusica: $("#pase-musica")
+    paseMusica: $("#pase-musica"),
+    imprimir: $("#imprimir"), imprimirTexto: $("#imprimir-texto"), impresion: $("#impresion")
   };
 
   const participar = (DATOS.participa || []).find((p) => p.icono === "foto") || {};
@@ -64,10 +65,7 @@
   let estado = 0;          // doble: nº de pliego · simple: nº de cara
   let animando = false, pendiente = null;
 
-  const anillos = (n, clase) =>
-    `<svg class="${clase}" viewBox="0 0 100 100" aria-hidden="true">` +
-    Array.from({ length: n }, (_, i) => `<circle cx="50" cy="50" r="${(47 - i * (40 / n)).toFixed(1)}"/>`).join("") +
-    `<circle class="nucleo" cx="50" cy="50" r="3.2"/></svg>`;
+  const anillos = ANIV.anillosSVG;
 
   /* ─── Páginas ───────────────────────────────────────────────────────────── */
 
@@ -578,6 +576,141 @@
     ui.paseCapas.forEach((c) => c.replaceChildren());
   }
 
+  /* ─── Imprimir o guardar en PDF ─────────────────────────────────────────── */
+
+  // Un álbum maquetado para papel, página a página: tapa, portadilla, índice
+  // de años con su página, un capítulo por año con las fotos a toda
+  // resolución y su pie, colofón con el QR de la web y contratapa. Como cada
+  // página se compone aquí, se sabe en qué página empieza cada año.
+  const FILAS_POR_PAGINA = 2;
+  const fotografias = (n) => `${n} fotografía${n === 1 ? "" : "s"}`;
+
+  // Una fila: una foto apaisada, o dos estrechas (verticales o cuadradas) juntas
+  function filasImpresas(fotos) {
+    const filas = [];
+    let abierta = null;
+    fotos.forEach((f) => {
+      const estrecha = proporcion(f) < 1.05;
+      if (estrecha && abierta) { abierta.push(f); abierta = null; return; }
+      const fila = [f];
+      filas.push(fila);
+      if (estrecha) abierta = fila;
+    });
+    return filas;
+  }
+
+  // Cada año empieza en página nueva; dos filas por página
+  function paginasImpresas() {
+    if (!reales) return [];
+    const paginas = [];
+    grupos.forEach((g) => {
+      const filas = filasImpresas(g.fotos);
+      for (let i = 0; i < filas.length; i += FILAS_POR_PAGINA) {
+        paginas.push({ grupo: g, primera: i === 0, filas: filas.slice(i, i + FILAS_POR_PAGINA) });
+      }
+    });
+    return paginas;
+  }
+
+  const fotoImpresa = (f) => `
+    <div class="imp-hueco">
+      <figure class="imp-foto" style="--ar:${proporcion(f).toFixed(3)}">
+        <img src="${esc(f.src)}" alt="${esc(f.titulo)}">
+        <figcaption>${esc(f.titulo)}</figcaption>
+      </figure>
+    </div>`;
+
+  function pintarImpresion() {
+    const paginas = paginasImpresas();
+    const conIndice = paginas.length > 0 && grupos.length > 1;
+    const primeraFoto = conIndice ? 4 : 3;           // tapa, portadilla e índice van delante
+    const inicio = new Map();
+    paginas.forEach((p, i) => { if (p.primera) inicio.set(p.grupo, primeraFoto + i); });
+    ANIV.cabecerasImpresas("Álbum de fotos");
+
+    const indice = conIndice ? `
+      <section class="imp-pagina imp-pagina--centro imp-indice">
+        <p class="imp-apertura__eti">${esc(DATOS.aniversario.numero)} aniversario</p>
+        <h2 class="imp-indice__titulo">Índice</h2>
+        <ol class="imp-indice__lista${grupos.length > 14 ? " imp-indice__lista--dos" : ""}">
+          ${grupos.map((g) => `
+            <li>
+              <span class="imp-indice__anio">${esc(g.etiqueta)}</span>
+              <span class="imp-indice__cuenta">${fotografias(g.fotos.length)}</span>
+              <span class="imp-indice__guia" aria-hidden="true"></span>
+              <span class="imp-indice__pag">${inicio.get(g)}</span>
+            </li>`).join("")}
+        </ol>
+      </section>` : "";
+
+    ui.impresion.innerHTML = `
+      ${ANIV.tapaImpresa("Álbum de fotos")}
+
+      <section class="imp-pagina imp-pagina--centro imp-portadilla">
+        <img class="portadilla__escudo" src="assets/escudo.png" alt="" width="180" height="200">
+        <p class="portadilla__titulo">Álbum de fotos</p>
+        <p class="portadilla__sub">${esc(DATOS.aniversario.numero)} aniversario<br>${esc(DATOS.centro.nombre)}</p>
+        <span class="portadilla__raya"></span>
+        <p class="portadilla__texto">Veinticinco cursos en imágenes, de ${anioInicio} a ${anioFin}, ordenados por año.</p>
+        <p class="portadilla__cuenta">${reales ? esc(fotografias(lista.length)) : "Esperando las primeras fotos"}</p>
+      </section>
+
+      ${indice}
+
+      ${paginas.map((p, i) => `
+        <section class="imp-pagina">
+          <header class="imp-cabeza"><span>Álbum de fotos</span><span>${esc(p.grupo.etiqueta)}</span></header>
+          <div class="imp-cuerpo${p.primera ? " imp-cuerpo--apertura" : ""}" style="--filas:${p.filas.length}">
+            ${p.primera ? `
+              <header class="imp-anio">
+                <p class="imp-anio__num">${esc(p.grupo.etiqueta)}</p>
+                <p class="imp-anio__cuenta">${fotografias(p.grupo.fotos.length)}</p>
+              </header>` : ""}
+            ${p.filas.map((fila) => `<div class="imp-fila">${fila.map(fotoImpresa).join("")}</div>`).join("")}
+          </div>
+          <footer class="imp-folio">${primeraFoto + i}</footer>
+        </section>`).join("")}
+
+      <section class="imp-pagina imp-pagina--centro imp-colofon">
+        ${ANIV.colofonImpreso({
+          titulo: "Este álbum sigue abierto",
+          texto: `Durante todo el curso ${DATOS.centro.curso || ""} se siguen añadiendo fotos. Puedes verlas todas, y enviar las tuyas, en la web del aniversario.`,
+          llamada: "Escanea el código para ver el álbum y enviar tus fotos"
+        })}
+      </section>
+
+      ${ANIV.contratapaImpresa()}`;
+  }
+
+  // Antes de abrir el diálogo, todas las fotos a toda resolución tienen que
+  // haber llegado: si no, saldrían huecos en blanco en el papel
+  let preparando = false;
+  async function imprimir() {
+    if (preparando) return;
+    preparando = true;
+    ui.imprimir.disabled = true;
+    pintarImpresion();
+    const imagenes = [...ui.impresion.querySelectorAll("img")];
+    let listas = 0;
+    const avisar = () => { ui.imprimirTexto.textContent = `Preparando ${listas} de ${imagenes.length}…`; };
+    avisar();
+    const cargadas = Promise.all(imagenes.map((img) => new Promise((ok) => {
+      const fin = () => { listas++; avisar(); ok(); };
+      if (img.complete) fin();
+      else { img.addEventListener("load", fin, { once: true }); img.addEventListener("error", fin, { once: true }); }
+    })));
+    await Promise.race([cargadas, espera(90000)]);
+    ui.imprimirTexto.textContent = "PDF";
+    ui.imprimir.disabled = false;
+    preparando = false;
+
+    // El título de la página es el nombre que el navegador propone para el PDF
+    const titulo = document.title;
+    document.title = `Álbum de fotos del ${DATOS.aniversario.numero} aniversario - ${DATOS.centro.nombre}`;
+    window.addEventListener("afterprint", () => { document.title = titulo; }, { once: true });
+    window.print();
+  }
+
   /* ─── Eventos ───────────────────────────────────────────────────────────── */
 
   // Deslizar el dedo a un lado u otro
@@ -644,6 +777,13 @@
     ui.pase.addEventListener("pointermove", despertarMandos);
     ui.pase.addEventListener("pointerdown", despertarMandos);
     alDeslizar(ui.pase, (dir) => mostrarDiapo(pase.indice + dir));
+    // Imprimir: el botón, Ctrl+P (se prepara antes) y el menú del navegador
+    ui.imprimir.addEventListener("click", imprimir);
+    document.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p" && !ui.pase.open) { e.preventDefault(); imprimir(); }
+    });
+    window.addEventListener("beforeprint", () => { if (!ui.impresion.childElementCount) pintarImpresion(); });
+
     // Salir de la pantalla completa (tecla Esc) termina la presentación
     document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement) cerrarPase(); });
 
@@ -689,6 +829,7 @@
       ui.estado.textContent = "Todavía no se ha subido ninguna foto: estos son los huecos que esperan la suya.";
     }
     ui.abrirPase.hidden = diapos.length < 3;
+    ui.imprimir.hidden = !reales;
     pintarSelector();
     escuchar();
     construir({ cara: 0 });

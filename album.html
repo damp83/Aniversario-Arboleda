@@ -87,6 +87,12 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.1-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>
         <span>Presentación<span class="btn--pase__resto"> con música</span></span>
       </button>
+      <button class="btn btn--fantasma btn--pdf" id="imprimir" type="button" hidden
+              aria-label="Imprimir o guardar en PDF el álbum de fotos"
+              title="Abre la ventana de impresión. Para obtener el PDF, elige «Guardar como PDF» como impresora.">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M7 14h10v6.5H7z"/></svg>
+        <span id="imprimir-texto">PDF</span>
+      </button>
       <div class="libro-herramientas__par">
         <button class="btn btn--fantasma" id="modo-rejilla" type="button" aria-pressed="false">Ver todas las fotos</button>
         <a class="btn btn--fantasma" id="enviar" href="index.html#participa">Enviar fotos</a>
@@ -127,6 +133,9 @@
     </p>
     <div class="compartir" id="compartir-album"></div>
   </div>
+
+  <!-- Versión para imprimir o guardar en PDF: solo se ve en papel -->
+  <div class="impresion" id="impresion" aria-hidden="true"></div>
 
   <noscript>
     <div class="contenedor aviso-js">
@@ -191,6 +200,7 @@
 
 <script src="js/datos.js"></script>
 <script src="js/galeria.js"></script>
+<script src="js/vendor/qrcode.js"></script>
 <script src="js/comun.js"></script>
 <script src="js/album.js"></script>
 </body>

@@ -118,11 +118,91 @@ const ANIV = (function () {
     </div>`;
   }
 
-  /* ─── Compartir ─────────────────────────────────────────────────────────── */
-
   // La dirección oficial de la página (la que figura como canónica)
   const direccionOficial = () =>
     document.querySelector('link[rel="canonical"]')?.href || location.href.split(/[?#]/)[0];
+
+  /* ─── Ediciones impresas: libro de visitas y álbum ──────────────────────── */
+
+  // Anillos de árbol, como los de las tapas
+  const anillosSVG = (n, clase) =>
+    `<svg class="${clase}" viewBox="0 0 100 100" aria-hidden="true">` +
+    Array.from({ length: n }, (_, i) => `<circle cx="50" cy="50" r="${(47 - i * (40 / n)).toFixed(1)}"/>`).join("") +
+    `<circle class="nucleo" cx="50" cy="50" r="3.2"/></svg>`;
+
+  // Código QR en SVG, en verde muy oscuro sobre blanco (necesita js/vendor/qrcode.js)
+  function codigoQR(texto) {
+    if (typeof qrcode === "undefined") return "";
+    const qr = qrcode(0, "M");
+    qr.addData(texto);
+    qr.make();
+    const n = qr.getModuleCount(), m = 2;
+    let trazo = "";
+    for (let f = 0; f < n; f++) {
+      for (let c = 0; c < n; c++) if (qr.isDark(f, c)) trazo += `M${c + m},${f + m}h1v1h-1z`;
+    }
+    return `<svg viewBox="0 0 ${n + 2 * m} ${n + 2 * m}" shape-rendering="crispEdges" role="img" aria-label="Código QR que lleva a ${esc(texto)}">` +
+      `<rect width="100%" height="100%" fill="#fff"/><path d="${trazo}" fill="#0b1f13"/></svg>`;
+  }
+
+  const hoyLegible = () =>
+    new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
+
+  // Tapa y contratapa, a sangre, iguales para el libro y el álbum
+  function tapaImpresa(titulo) {
+    const inicio = Number(DATOS.aniversario.anioFundacion) || 2001;
+    const fin = inicio + (Number(DATOS.aniversario.numero) || 25);
+    return `
+      <section class="imp-portada">
+        <div class="tapa">
+          ${anillosSVG(6, "tapa__anillos")}
+          <p class="tapa__super">${esc(DATOS.centro.nombre)}</p>
+          <p class="tapa__cifra">${esc(DATOS.aniversario.numero)}</p>
+          <p class="tapa__titulo">${esc(titulo)}</p>
+          <p class="tapa__fechas">${inicio} · ${fin}</p>
+        </div>
+        <p class="imp-portada__pie">${esc(DATOS.centro.localidad || "")}</p>
+      </section>`;
+  }
+
+  function contratapaImpresa() {
+    return `
+      <section class="imp-contraportada">
+        <div class="contratapa">
+          ${anillosSVG(4, "tapa__anillos")}
+          <p>${esc(DATOS.centro.nombre)}<br>${esc(DATOS.centro.localidad || "")}</p>
+          ${DATOS.aniversario.hashtag ? `<p class="imp-contraportada__lema">${esc(DATOS.aniversario.hashtag)}</p>` : ""}
+        </div>
+      </section>`;
+  }
+
+  // Última página: por qué sigue abierto, un QR a la web y la fecha de la edición
+  function colofonImpreso({ titulo, texto, llamada }) {
+    const url = direccionOficial();
+    return `
+      ${anillosSVG(3, "cierre__anillos")}
+      <p class="cierre__titulo">${esc(titulo)}</p>
+      <p class="cierre__texto">${esc(texto)}</p>
+      <div class="imp-qr">
+        ${codigoQR(url)}
+        <div>
+          <p class="imp-qr__llamada">${esc(llamada)}</p>
+          <p class="imp-direccion">${esc(url.replace(/^https?:\/\//, ""))}</p>
+        </div>
+      </div>
+      <p class="imp-edicion">Edición del ${esc(hoyLegible())}<br>
+        ${esc(DATOS.centro.nombre)} · ${esc(DATOS.centro.localidad || "")}</p>`;
+  }
+
+  // Cabeceras de las páginas impresas (las pone el navegador en el margen)
+  function cabecerasImpresas(titulo) {
+    const raiz = document.documentElement.style;
+    raiz.setProperty("--imp-titulo", JSON.stringify(titulo));
+    raiz.setProperty("--imp-centro", JSON.stringify(`${DATOS.centro.nombre} · ${DATOS.aniversario.numero} aniversario`));
+  }
+
+  /* ─── Compartir ─────────────────────────────────────────────────────────── */
+
 
   const ICONO_COMPARTIR = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/></svg>';
   const ICONO_WHATSAPP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.2-3.9A8 8 0 1 1 8 18.9z"/><path d="M9.2 8.6c.3 2.6 2.4 5 5.4 5.9l1.1-1.2-1.8-1-.8.7c-1-.4-2-1.4-2.5-2.5l.7-.8-1-1.8z"/></svg>';
@@ -185,5 +265,6 @@ const ANIV = (function () {
 
   return { $, $$, esc, normalizar, leerCSV, recuerdosDesdeHoja, obtenerRecuerdos,
            fechaLegible, destinoParticipa, iniciarTema, pintarCompartir, direccionOficial,
-           fotosGaleria, marcoIlustrado };
+           fotosGaleria, marcoIlustrado, anillosSVG, codigoQR, tapaImpresa, contratapaImpresa,
+           colofonImpreso, cabecerasImpresas };
 })();

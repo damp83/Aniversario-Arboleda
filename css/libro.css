@@ -419,38 +419,71 @@ html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
   .tapa__abrir { animation: none; opacity: .8; }
 }
 
-/* ─────────────────────────── 15. IMPRESIÓN Y PDF ─────────────────────────── */
+/* ─────────────────────────── 15. EDICIÓN IMPRESA Y PDF ─────────────────────────── */
+/* La comparten el libro de visitas y el álbum. Una página A4 con márgenes de
+   libro: arriba, el título a la izquierda y el centro a la derecha; abajo, el
+   número. Los textos de la cabecera los pone el JavaScript a partir de datos.js. */
+:root {
+  --imp-titulo: "Libro de visitas";
+  --imp-centro: "CEIP La Arboleda · 25 aniversario";
+}
 @page {
-  size: A4; margin: 20mm 17mm 22mm;
+  size: A4; margin: 25mm 20mm 22mm;
+  @top-left {
+    content: var(--imp-titulo); vertical-align: bottom; padding-bottom: 7mm;
+    font: italic 500 9pt "Fraunces", Georgia, serif; color: #97772c;
+  }
+  @top-right {
+    content: var(--imp-centro); vertical-align: bottom; padding-bottom: 7.4mm;
+    font: 600 6.5pt "Inter", Arial, sans-serif; letter-spacing: .16em; text-transform: uppercase; color: #97772c;
+  }
   @bottom-center {
-    content: counter(page);
+    content: counter(page); vertical-align: top; padding-top: 8mm;
     font: italic 500 9pt "Fraunces", Georgia, serif; color: #97772c;
   }
 }
-@page portada { margin: 0; @bottom-center { content: none; } }
+/* Tapas: a sangre, sin cabecera ni número */
+@page portada {
+  margin: 0;
+  @top-left { content: none; } @top-right { content: none; } @bottom-center { content: none; }
+}
+/* Portadilla y colofón: con sus márgenes, pero sin cabecera ni número */
+@page preliminar {
+  @top-left { content: none; } @top-right { content: none; } @bottom-center { content: none; }
+}
 
 @media print {
   /* Colores de fondo incluidos: sin esto, la tapa saldría en blanco */
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   html, body { background: #fff !important; }
+  /* En papel, siempre la versión clara, aunque la web esté en modo oscuro */
+  html[data-tema="oscuro"] { color-scheme: light; --papel-libro: #fbf8f1; --papel-borde: #e2d9c6; }
   body { overflow: visible; }
-  .salto-contenido, .cabecera, .pie--libro,
-  .libro-pagina > :not(.impresion) { display: none !important; }
+  .salto-contenido, .cabecera, .pie--libro, dialog,
+  .pagina-libro main > :not(.impresion) { display: none !important; }
 
   .impresion {
     display: block !important;
-    --renglon: 16pt; --letra: 10.5pt; --pw: 176mm;
+    --renglon: 16pt; --letra: 10.5pt; --pw: 170mm;
     color: #2a2118;
   }
 
-  /* Tapa: a sangre, ocupa la hoja entera */
-  .imp-portada {
-    page: portada; break-after: page;
+  /* ─ Tapa y contratapa ─ */
+  .imp-portada,
+  .imp-contraportada {
+    page: portada;
     position: relative; width: 210mm; height: 297mm; overflow: hidden;
     display: grid; place-items: center;
     background: radial-gradient(120% 90% at 30% 18%, var(--tapa-1) 0%, var(--tapa-2) 55%, var(--tapa-3) 100%);
   }
-  .imp-portada::before {
+  .imp-portada { break-after: page; }
+  .imp-contraportada {
+    break-before: page;
+    background: radial-gradient(120% 90% at 70% 18%, var(--tapa-1) 0%, var(--tapa-2) 55%, var(--tapa-3) 100%);
+  }
+  /* Marco dorado, lejos del borde: se ve entero aunque la impresora deje margen */
+  .imp-portada::before,
+  .imp-contraportada::before {
     content: ""; position: absolute; inset: 14mm;
     border: 1pt solid rgba(231, 200, 119, .6); border-radius: 3mm;
     outline: .6pt solid rgba(231, 200, 119, .3); outline-offset: 2.5mm;
@@ -462,37 +495,73 @@ html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
   .imp-portada .tapa__cifra { font-size: 120pt; filter: none; background: none; color: #e2be63; }
   .imp-portada .tapa__titulo { font-size: 34pt; }
   .imp-portada .tapa__fechas { font-size: 11pt; margin-top: 3mm; }
+  .imp-portada__pie {
+    position: absolute; left: 0; right: 0; bottom: 27mm; margin: 0; text-align: center;
+    font: 600 7.5pt/1 var(--fuente-texto); letter-spacing: .34em; text-transform: uppercase;
+    color: rgba(231, 200, 119, .62);
+  }
+  .imp-contraportada .contratapa { gap: 5mm; }
+  .imp-contraportada .tapa__anillos { width: 26mm; }
+  .imp-contraportada .contratapa p { font-size: 8pt; line-height: 1.8; }
+  .imp-contraportada .contratapa .imp-contraportada__lema {
+    margin-top: 2mm; font: italic 500 12pt/1.2 var(--fuente-titulo); letter-spacing: 0; text-transform: none; color: #f1d58c;
+  }
 
-  /* Portadilla */
+  /* ─ Portadilla ─ */
+  /* Centradas en la hoja con grid: con flex, Chrome añade una página en blanco delante */
   .imp-portadilla {
-    break-after: page; min-height: 240mm;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    page: preliminar; break-after: page; min-height: 244mm;
+    display: grid; align-content: center; justify-items: center;
     gap: 3mm; text-align: center;
   }
-  .imp-portadilla .portadilla__escudo { width: 32mm; margin-bottom: 4mm; }
-  .imp-portadilla .portadilla__titulo { font-size: 32pt; }
+  .imp-portadilla .portadilla__escudo { width: 32mm; margin-bottom: 5mm; }
+  .imp-portadilla .portadilla__titulo { font-size: 34pt; }
   .imp-portadilla .portadilla__sub { font-size: 8.5pt; }
-  .imp-portadilla .portadilla__raya { display: block; width: 60mm; margin: 4mm 0; }
+  .imp-portadilla .portadilla__raya { display: block; width: 60mm; margin: 5mm 0; }
   .imp-portadilla .portadilla__texto { font-size: 11.5pt; max-width: 95mm; }
-  .imp-portadilla .portadilla__cuenta { font-size: 22pt; margin-top: 6mm; }
+  .imp-portadilla .portadilla__cuenta { font-size: 22pt; margin-top: 7mm; }
   .imp-nota { margin: 0; font: italic 400 10pt/1.4 var(--fuente-titulo); color: var(--tinta-suave-libro); }
 
-  /* Los recuerdos, a dos columnas; ninguno se parte entre columnas ni páginas */
-  .imp-recuerdos { columns: 2; column-gap: 11mm; column-rule: .5pt solid #e0d6c2; }
-  .imp-recuerdos .entrada { break-inside: avoid; margin: 0; padding-bottom: 1mm; }
-  .imp-recuerdos .entrada__texto { font-size: var(--letra); line-height: 1.55; }
-  .imp-recuerdos .entrada__meta { font-size: 6.8pt; }
-  .imp-recuerdos .entrada:not(:last-child)::after { opacity: .6; }
+  /* ─ Apertura de los recuerdos ─ */
+  .imp-apertura { padding: 4mm 0 10mm; text-align: center; break-after: avoid; }
+  .imp-apertura__eti {
+    margin: 0 0 3mm; font: 600 7pt/1 var(--fuente-texto); letter-spacing: .34em; text-transform: uppercase;
+    color: var(--meta-libro);
+  }
+  .imp-apertura__titulo { margin: 0; font: italic 600 32pt/1.05 var(--fuente-titulo); letter-spacing: -.01em; color: var(--tinta-libro); }
+  .imp-apertura__texto { margin: 3mm auto 0; max-width: 115mm; font: 400 10.5pt/1.5 var(--fuente-titulo); color: var(--tinta-suave-libro); }
+  .imp-apertura__adorno { display: block; width: 7mm; height: auto; margin: 5mm auto 0; }
+  .imp-apertura__adorno circle { fill: none; stroke: var(--meta-libro); stroke-width: 1.8; }
+  .imp-apertura__adorno .nucleo { fill: var(--meta-libro); stroke: none; }
 
-  /* Colofón */
+  /* ─ Los recuerdos, a dos columnas; ninguno se parte entre columnas ni páginas ─ */
+  .imp-recuerdos { columns: 2; column-gap: 12mm; column-rule: .4pt solid #e6dcc6; orphans: 3; widows: 3; }
+  .imp-recuerdos .entrada { break-inside: avoid; margin: 0; padding-bottom: .5mm; }
+  .imp-recuerdos .entrada__texto { font-size: var(--letra); line-height: 1.55; hyphens: auto; -webkit-hyphens: auto; }
+  .imp-recuerdos .entrada figcaption { margin-top: 1.4mm; line-height: 1.2; }
+  .imp-recuerdos .entrada__firma { font-size: 15.5pt; line-height: 1.15; }
+  .imp-recuerdos .entrada__meta { display: block; margin: .9mm 0 0; font-size: 6.4pt; line-height: 1.35; white-space: normal; }
+  .imp-recuerdos .entrada:not(:last-child)::after { height: 10mm; background-size: 3.4mm; opacity: .55; }
+
+  /* ─ Colofón ─ */
   .imp-colofon {
-    break-before: page; min-height: 240mm;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    page: preliminar; break-before: page; min-height: 244mm;
+    display: grid; align-content: center; justify-items: center;
     gap: 4mm; text-align: center;
   }
   .imp-colofon .cierre__anillos { width: 16mm; }
-  .imp-colofon .cierre__titulo { font-size: 22pt; }
-  .imp-colofon .cierre__texto { font-size: 11pt; max-width: 100mm; }
-  .imp-direccion { margin: 2mm 0 0; font: 600 9pt/1.4 var(--fuente-texto); color: #1c6b3f; word-break: break-all; }
-  .imp-edicion { margin: 10mm 0 0; font: 500 8pt/1.7 var(--fuente-texto); letter-spacing: .08em; color: var(--meta-libro); }
+  .imp-colofon .cierre__titulo { font-size: 24pt; }
+  .imp-colofon .cierre__texto { font-size: 11pt; max-width: 105mm; }
+  .imp-qr {
+    display: flex; align-items: center; gap: 6mm;
+    margin: 8mm 0 2mm; padding: 5mm 8mm 5mm 5mm;
+    border: .5pt solid #e2d6bd; border-radius: 3mm; text-align: left;
+  }
+  .imp-qr svg { flex: none; width: 30mm; height: 30mm; }
+  .imp-qr__llamada { margin: 0 0 2.5mm; max-width: 62mm; font: italic 500 11.5pt/1.35 var(--fuente-titulo); color: var(--tinta-libro); }
+  .imp-direccion { margin: 0; font: 600 8.5pt/1.4 var(--fuente-texto); color: #1c6b3f; word-break: break-all; }
+  .imp-edicion {
+    margin: 12mm 0 0; font: 600 7pt/1.9 var(--fuente-texto); letter-spacing: .14em; text-transform: uppercase;
+    color: var(--meta-libro);
+  }
 }

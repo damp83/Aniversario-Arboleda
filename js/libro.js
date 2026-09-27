@@ -42,10 +42,7 @@
 
   /* ─── Piezas ────────────────────────────────────────────────────────────── */
 
-  const anillos = (n, clase) =>
-    `<svg class="${clase}" viewBox="0 0 100 100" aria-hidden="true">` +
-    Array.from({ length: n }, (_, i) => `<circle cx="50" cy="50" r="${(47 - i * (40 / n)).toFixed(1)}"/>`).join("") +
-    `<circle class="nucleo" cx="50" cy="50" r="3.2"/></svg>`;
+  const anillos = ANIV.anillosSVG;
 
   function crearEntrada(r) {
     const fig = document.createElement("figure");
@@ -391,28 +388,23 @@
   /* ─── Imprimir o guardar en PDF ─────────────────────────────────────────── */
 
   // Un libro maquetado para papel, no una foto de la pantalla: tapa, portadilla,
-  // los recuerdos a dos columnas y un colofón. Incluye los que se están viendo:
-  // todos, o solo los de la búsqueda si hay una activa (y la portadilla lo dice).
+  // los recuerdos a dos columnas bajo una apertura, un colofón con el QR de la
+  // web y la contratapa. Incluye los que se están viendo: todos, o solo los de
+  // la búsqueda si hay una activa (y la portadilla y la apertura lo dicen).
   function pintarImpresion() {
     if (!ui.impresion) return;
     const total = todos.length;
-    const hoy = new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
     const cuenta = !total ? "Todavía sin recuerdos"
       : consulta ? `${visibles.length} de ${total} recuerdos`
       : `${total} recuerdo${total === 1 ? "" : "s"}`;
-    // La dirección oficial de la página, aunque se imprima desde una copia local
-    const direccion = document.querySelector('link[rel="canonical"]')?.href || location.href.split(/[?#]/)[0];
+    const n = visibles.length;
+    const apertura = consulta
+      ? `Selección de ${n} recuerdo${n === 1 ? "" : "s"} que contiene${n === 1 ? "" : "n"} «${consulta}».`
+      : `${n} recuerdo${n === 1 ? "" : "s"}, en el orden en que llegaron al libro.`;
+    ANIV.cabecerasImpresas("Libro de visitas");
 
     ui.impresion.innerHTML = `
-      <section class="imp-portada">
-        <div class="tapa">
-          ${anillos(6, "tapa__anillos")}
-          <p class="tapa__super">${esc(DATOS.centro.nombre)}</p>
-          <p class="tapa__cifra">${esc(DATOS.aniversario.numero)}</p>
-          <p class="tapa__titulo">Libro de visitas</p>
-          <p class="tapa__fechas">${anioInicio} · ${anioFin}</p>
-        </div>
-      </section>
+      ${ANIV.tapaImpresa("Libro de visitas")}
 
       <section class="imp-portadilla">
         <img class="portadilla__escudo" src="assets/escudo.png" alt="" width="180" height="200">
@@ -424,20 +416,31 @@
         ${consulta ? `<p class="imp-nota">Selección de los recuerdos que contienen «${esc(consulta)}»</p>` : ""}
       </section>
 
+      <header class="imp-apertura">
+        <p class="imp-apertura__eti">${esc(DATOS.aniversario.numero)} aniversario</p>
+        <h2 class="imp-apertura__titulo">Recuerdos</h2>
+        <p class="imp-apertura__texto">${esc(apertura)}</p>
+        ${anillos(3, "imp-apertura__adorno")}
+      </header>
       <section class="imp-recuerdos"></section>
 
       <section class="imp-colofon">
-        ${anillos(3, "cierre__anillos")}
-        <p class="cierre__titulo">Este libro sigue abierto</p>
-        <p class="cierre__texto">Durante todo el curso ${esc(DATOS.centro.curso || "")} se siguen añadiendo recuerdos.
-          Puedes leerlos, y dejar el tuyo, en la web del aniversario.</p>
-        <p class="imp-direccion">${esc(direccion)}</p>
-        <p class="imp-edicion">Edición del ${esc(hoy)}<br>${esc(DATOS.centro.nombre)} · ${esc(DATOS.centro.localidad || "")}</p>
-      </section>`;
+        ${ANIV.colofonImpreso({
+          titulo: "Este libro sigue abierto",
+          texto: `Durante todo el curso ${DATOS.centro.curso || ""} se siguen añadiendo recuerdos. Puedes leerlos todos, y dejar el tuyo, en la web del aniversario.`,
+          llamada: "Escanea el código para leer el libro y dejar tu recuerdo"
+        })}
+      </section>
+
+      ${ANIV.contratapaImpresa()}`;
 
     const lista = ui.impresion.querySelector(".imp-recuerdos");
-    if (!visibles.length) lista.remove();
-    else visibles.forEach((r) => lista.appendChild(crearEntrada({ ...r, apretada: false })));
+    if (!visibles.length) {
+      lista.remove();
+      ui.impresion.querySelector(".imp-apertura").remove();
+    } else {
+      visibles.forEach((r) => lista.appendChild(crearEntrada({ ...r, apretada: false })));
+    }
   }
 
   async function imprimir() {
