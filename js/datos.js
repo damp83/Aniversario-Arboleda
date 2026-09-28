@@ -267,9 +267,31 @@ Profes y alumnos, a una sola voz…
     {
       icono: "foto",
       titulo: "Comparte tus fotos",
-      texto: "¿Guardas fotografías de tu paso por el centro? Súbelas al archivo del 25 aniversario.",
-      enlace: "",                    // pega aquí el enlace a tu formulario
-      textoEnlace: "Subir fotografías"
+      texto: "¿Guardas fotografías de tu paso por el centro? Envíanoslas para el álbum del 25 aniversario.",
+      nota: "El correo te explica dónde se publicarán y te pide tu autorización.",
+      // Plantilla del correo (se usa mientras el enlace de abajo esté vacío).
+      // Informa de dónde se publican las fotos y recoge la autorización, como
+      // pide la protección de datos. Solo se publican las que tengan los tres SÍ.
+      // Si la cambias, que no crezca mucho: algunos programas de correo cortan
+      // los enlaces de más de unos 2000 caracteres.
+      cuerpo:
+        "Adjunta tus fotos a este correo y cuéntanos lo que sepas de cada una:\n" +
+        "- Año o curso:\n" +
+        "- Qué se ve o qué se celebraba:\n" +
+        "- Tu nombre y tu relación con el colegio (antiguo alumno, familia, maestra...):\n\n" +
+        "DÓNDE SE PUBLICARÁN\n" +
+        "En la web del 25 aniversario del CEIP La Arboleda (damp83.github.io/Aniversario-Arboleda): " +
+        "galería, álbum de fotos y presentación de la semana conmemorativa. También podrán formar parte " +
+        "del álbum impreso del aniversario. La web es pública: cualquier persona puede verla. Antes de " +
+        "publicarlas se les borra la ubicación y los demás datos que guarda el móvil.\n\n" +
+        "AUTORIZACIÓN (contesta SÍ o NO a cada punto)\n" +
+        "1. Autorizo al CEIP La Arboleda a publicar estas fotos donde se indica: SÍ / NO\n" +
+        "2. Las fotos son mías o tengo permiso de su autor para compartirlas: SÍ / NO\n" +
+        "3. Las personas que aparecen están de acuerdo en que se publiquen (si son menores, sus madres, padres o tutores): SÍ / NO\n\n" +
+        "Solo se publicarán las fotos con los tres puntos en SÍ. Puedes retirar tu autorización cuando quieras " +
+        "escribiendo a este mismo correo, y la foto se quitará de la web.\n",
+      enlace: "",                    // pega aquí el enlace a un formulario, si algún día lo hay
+      textoEnlace: "Enviar mis fotos"
     },
     {
       icono: "voz",

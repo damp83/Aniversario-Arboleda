@@ -30,6 +30,7 @@ comillas, y guarda con *Commit changes*. En 1–2 minutos la web se actualiza so
 | Fotos del álbum | `galeria` |
 | Recuerdos que se publican en la web | `recuerdos` |
 | Formularios y llamadas a participar | `participa` |
+| **Correo para enviar fotos** (dónde se publican y autorización) | `participa` → `cuerpo` de «Comparte tus fotos» |
 | Cifras destacadas (alumnado, docentes…) | `cifras` |
 
 > ⚠️ **Pendiente de sustituir por contenido real:** los **hitos de la línea del
@@ -93,6 +94,37 @@ primera, la última y las de en medio); todas las demás están en el álbum.
 > publican; guardad los originales en vuestra carpeta privada. Y comprobad la
 > autorización de imagen antes de subir nada: lo que se publica aquí es
 > público en internet e indexable por los buscadores.
+
+### Fotos que llegan por correo: la autorización
+
+Los botones *Enviar mis fotos* (en *Participa*) y *Enviar fotos* (en el
+álbum) abren un correo al aniversario con un texto ya escrito. Ese texto:
+
+- pide el **año**, **qué se ve** y **quién las envía**;
+- explica **dónde se publicarán**: en la web del aniversario (galería, álbum
+  y presentación de la semana conmemorativa) y en el álbum impreso. Aclara
+  que la web es **pública** y que se borra la ubicación de las fotos;
+- recoge **tres autorizaciones, con SÍ o NO**: publicar las fotos, que son
+  suyas (o tiene permiso de su autor) y que las personas que aparecen están
+  de acuerdo (las familias, si son menores);
+- informa de que puede **retirar la autorización** cuando quiera escribiendo
+  al mismo correo.
+
+Al recibir un correo:
+
+1. **Publicad solo las fotos que traigan los tres SÍ.** Si falta alguno,
+   contestad pidiéndolo antes de subirlas.
+2. **Guardad el correo**: es la constancia de la autorización.
+3. Si alguien pide **retirar** una foto, borradla de `assets/galeria/` y en
+   un par de minutos desaparece de la galería, el álbum y la presentación.
+
+El texto se cambia en `js/datos.js`, en el `cuerpo` de «Comparte tus fotos».
+Conviene que no crezca mucho: algunos programas de correo cortan los enlaces
+de más de unos 2000 caracteres (ahora ocupa unos 1700).
+
+> Este texto recoge lo esencial, pero no sustituye a la cláusula oficial de
+> protección de datos del centro. Si la Consejería o el delegado de
+> protección de datos os facilitan un texto propio, se pone en su lugar.
 
 ---
 
