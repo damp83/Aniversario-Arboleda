@@ -136,6 +136,12 @@ pantalla no se apaga.
 
 En la pantalla táctil, los mismos botones aparecen al tocar y se esconden solos.
 
+**Mientras no haya fotos subidas**, el botón ya está y la presentación
+funciona como **vista previa**: pasan los huecos de ejemplo del álbum con su
+año y su título, con el himno de fondo y un aviso arriba («Vista previa»).
+En cuanto se suba la primera foto real, la presentación pasa a usar las fotos
+y el aviso desaparece.
+
 ---
 
 ## 💬 Cómo publicar un recuerdo

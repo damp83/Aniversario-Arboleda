@@ -458,7 +458,10 @@
 
   const PAUSA_FOTO = 5500;                 // lo que dura cada foto en pantalla
   const PAUSA_ROTULO = 4000;               // la portada y el cierre
-  const diapos = [{ tipo: "portada" }, ...lista.filter((f) => f.src).map((foto) => ({ tipo: "foto", foto })), { tipo: "cierre" }];
+  // Con fotos, las fotos. Sin ellas todavía, una vista previa con los huecos de
+  // ejemplo, para ver cómo será la presentación (y oír el himno) desde ya.
+  const fotosPase = reales ? lista.filter((f) => f.src) : lista;
+  const diapos = [{ tipo: "portada" }, ...fotosPase.map((foto) => ({ tipo: "foto", foto })), { tipo: "cierre" }];
   const pase = { indice: 0, capa: 0, sonando: false, musica: true, temporizador: null, turno: 0, bloqueo: null, quieto: null };
   const himno = DATOS.himno && DATOS.himno.archivo ? new Audio() : null;
   const espera = (ms) => new Promise((ok) => setTimeout(ok, ms));
@@ -485,10 +488,11 @@
     const capa = ui.paseCapas[pase.capa ^ 1];              // se prepara la capa oculta
     capa.dataset.tipo = d.tipo;
     capa.dataset.efecto = String(pase.indice % 4);
-    capa.innerHTML = d.tipo === "foto"
-      ? `<img class="pase__fondo" src="${esc(d.foto.src)}" alt="">
-         <img class="pase__img" src="${esc(d.foto.src)}" alt="${esc(d.foto.titulo)}">`
-      : rotuloEspecial(d);
+    capa.innerHTML = d.tipo !== "foto" ? rotuloEspecial(d)
+      : d.foto.src
+        ? `<img class="pase__fondo" src="${esc(d.foto.src)}" alt="">
+           <img class="pase__img" src="${esc(d.foto.src)}" alt="${esc(d.foto.titulo)}">`
+        : `<div class="pase__hueco">${marcoIlustrado(d.foto.anio, d.foto.n)}</div>`;
     // La foto (o el logotipo de la portada) ya decodificada antes del fundido
     const img = capa.querySelector(".pase__img, .pase__logo img");
     if (img) { try { await Promise.race([img.decode(), espera(4000)]); } catch (e) { /* se muestra igual */ } }
@@ -506,7 +510,7 @@
     ui.paseProgreso.style.width = `${Math.min(1, hecho) * 100}%`;
 
     const siguiente = diapos[(pase.indice + 1) % diapos.length];
-    if (siguiente.tipo === "foto") new Image().src = siguiente.foto.src;
+    if (siguiente.tipo === "foto" && siguiente.foto.src) new Image().src = siguiente.foto.src;
     programar();
   }
 
@@ -831,6 +835,8 @@
       ui.estado.textContent = "Todavía no se ha subido ninguna foto: estos son los huecos que esperan la suya.";
     }
     ui.abrirPase.hidden = diapos.length < 3;
+    $("#pase-aviso").hidden = reales;
+    if (!reales) ui.abrirPase.title = "Vista previa: todavía no hay fotos, así que pasan los huecos de ejemplo";
     ui.imprimir.hidden = !reales;
     if (reales) ANIV.precargarImpresion();           // tipografías y logotipo, para imprimir
     pintarSelector();

@@ -183,7 +183,8 @@
 }
 .pase__capa--visible { opacity: 1; }
 .pase__capa[data-tipo="portada"],
-.pase__capa[data-tipo="cierre"] {
+.pase__capa[data-tipo="cierre"],
+.pase__capa:has(.pase__hueco) {
   background: radial-gradient(120% 90% at 30% 18%, #2b5e39 0%, #1c4428 55%, #0b1f13 100%);
 }
 /* La misma foto, ampliada y desenfocada, rellena los lados */
@@ -195,11 +196,24 @@
   position: relative; width: 100%; height: 100%; object-fit: contain;
   animation: acercar 9s ease-out forwards;
 }
+/* Vista previa sin fotos: el hueco ilustrado de cada una, como en el álbum */
+.pase__hueco {
+  height: min(70vh, 56vw); aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden;
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, .8);
+  animation: acercar 9s ease-out forwards;
+}
+.pase__hueco .marco { width: 100%; height: 100%; }
+.pase__aviso {
+  position: absolute; top: 1.1rem; left: 50%; translate: -50% 0; max-width: 92vw; margin: 0;
+  padding: .45rem 1.05rem; border-radius: 999px;
+  background: rgba(0, 0, 0, .5); color: #f3d58a; backdrop-filter: blur(8px);
+  font: 600 .85rem/1.3 var(--fuente-texto); letter-spacing: .03em; text-align: center;
+}
 .pase__capa[data-efecto="1"] .pase__img { transform-origin: 30% 35%; }
 .pase__capa[data-efecto="2"] .pase__img { transform-origin: 70% 40%; }
 .pase__capa[data-efecto="3"] .pase__img { transform-origin: 50% 70%; }
 @keyframes acercar { from { scale: 1; } to { scale: 1.08; } }
-.pase--pausado .pase__img { animation-play-state: paused; }
+.pase--pausado .pase__img, .pase--pausado .pase__hueco { animation-play-state: paused; }
 
 .pase__portada { display: grid; justify-items: center; gap: clamp(.4rem, 1.4vh, .9rem); padding: 2rem; text-align: center; }
 /* El logotipo del aniversario, sobre su papel crema, abre la presentación */
@@ -252,7 +266,7 @@
 .pase__btn[aria-pressed="false"] .icono-silencio { display: block; }
 
 @media (prefers-reduced-motion: reduce) {
-  .pase__img { animation: none; }
+  .pase__img, .pase__hueco { animation: none; }
 }
 
 /* ─────────────────────────── 6. EDICIÓN IMPRESA ─────────────────────────── */
