@@ -18,6 +18,7 @@ Para probarlo en tu ordenador:  python3 herramientas/preparar-galeria.py
 import json
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 from PIL import Image, ImageOps
@@ -40,16 +41,17 @@ CALIDAD = 82
 PESO_ACEPTABLE = 900_000  # si ya pesa menos, no se vuelve a comprimir
 
 EXTENSIONES = {".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif"}
-ANIO = re.compile(r"^(1[89]\d{2}|20\d{2})[-_ .]+(.*)$")
-
-
 # Palabras que ponen solos el móvil, la cámara o WhatsApp: no describen nada
 PALABRAS_DE_CAMARA = {
     "img", "dsc", "dscn", "dscf", "pxl", "mvimg", "vid", "photo", "foto", "fotos",
     "image", "imagen", "whatsapp", "wa", "at", "screenshot", "captura", "de",
     "pantalla", "p", "copia", "copy", "edited", "editada", "scan", "escaneo",
+    "sin", "titulo", "título", "untitled", "n",
 }
 TITULO_GENERICO = "Recuerdo del centro"
+
+# Cuatro cifras que son un año razonable para el colegio (1990-2039)
+_ANIO = r"(?:19[9]\d|20[0-3]\d)"
 
 
 def es_nombre_automatico(texto: str) -> bool:
@@ -58,24 +60,54 @@ def es_nombre_automatico(texto: str) -> bool:
     return not any(p not in PALABRAS_DE_CAMARA for p in palabras)
 
 
+def busca_anio(nombre: str) -> tuple[str, str]:
+    """Busca el año en cualquier parte del nombre y lo quita del texto.
+    Devuelve (año, resto del nombre). Entiende:
+      2004-el-patio · COMENIUS 2011 275 · Mural_2026 · 2010-2011 delantales
+      claustro26-27 (curso 2026/27) · 20160908_162421 (fecha de la cámara)
+    Pero no usa la fecha de WhatsApp o de una captura (IMG-20240312-WA0001):
+    es la del envío, no la del recuerdo."""
+    bajo = nombre.lower()
+    if re.search(r"(^|[^a-z])(wa\d|whatsapp|screenshot|captura)", bajo):
+        return "", nombre
+    # Curso con dos años: 2010-2011, 2010/11, 2010-11
+    m = re.search(rf"(?<!\d)({_ANIO})\s*[-/_]\s*(\d{{2}}|{_ANIO})(?!\d)", nombre)
+    if m and int(m.group(2)[-2:]) == (int(m.group(1)) + 1) % 100:
+        return m.group(1), nombre[:m.start()] + " " + nombre[m.end():]
+    # Fecha de cámara: 20160908_162421 o 20160908
+    m = re.search(rf"(?<!\d)({_ANIO})(0[1-9]|1[0-2])([0-2]\d|3[01])(?:[_-]?\d{{6}})?(?!\d)", nombre)
+    if m:
+        return m.group(1), nombre[:m.start()] + " " + nombre[m.end():]
+    # Un año suelto, como palabra propia
+    m = re.search(rf"(?<!\d)({_ANIO})(?!\d)", nombre)
+    if m:
+        return m.group(1), nombre[:m.start()] + " " + nombre[m.end():]
+    # Curso abreviado: 26-27 → 2026
+    m = re.search(r"(?<!\d)(\d{2})\s*[-/]\s*(\d{2})(?!\d)", nombre)
+    if m and int(m.group(2)) == (int(m.group(1)) + 1) % 100 and int(m.group(1)) <= 39:
+        return f"20{m.group(1)}", nombre[:m.start()] + " " + nombre[m.end():]
+    return "", nombre
+
+
 def titulo_desde_nombre(nombre: str) -> tuple[str, str]:
     """'2004-el-patio-en-obras' -> ('El patio en obras', '2004')
-       '2004'                   -> ('Recuerdo del centro', '2004')
-       'IMG_20240312_101512'    -> ('Recuerdo del centro', '')"""
-    nombre = nombre.strip()
-    if re.fullmatch(r"1[89]\d{2}|20\d{2}", nombre):          # solo el año
-        return TITULO_GENERICO, nombre
+       'Docentes 10'            -> ('Docentes', '')
+       'IMG_20240312_101512'    -> ('Recuerdo del centro', '2024')
+       '4b807b36-13a3-…'        -> ('Recuerdo del centro', '')"""
+    nombre = unicodedata.normalize("NFC", nombre).strip()
+    anio, resto = busca_anio(nombre)
 
-    # Un año seguido de más cifras es una fecha que puso el móvil o WhatsApp
-    # (2024-03-12...): es la del archivo, no la del recuerdo, así que no se usa.
-    anio, resto = "", nombre
-    coincide = ANIO.match(nombre)
-    if coincide and not coincide.group(2)[:1].isdigit():
-        anio, resto = coincide.group(1), coincide.group(2)
-
-    texto = re.sub(r"\s+", " ", re.sub(r"[-_]+", " ", resto)).strip()
+    texto = re.sub(r"\(\d+\)", " ", resto)                 # copias: «foto (1)»
+    texto = re.sub(r"[-_.]+", " ", texto)
+    # Identificadores sin sentido: códigos hexadecimales y números largos
+    texto = re.sub(r"\b(?=[0-9a-f]*\d)(?=[0-9a-f]*[a-f])[0-9a-f]{4,}\b", " ", texto, flags=re.I)
+    texto = re.sub(r"\b\d+\b", " ", texto)                   # contadores: «Docentes 10», «0067»
+    texto = re.sub(r"(?<=[a-záéíóúñ])\d+\b", "", texto, flags=re.I)  # «Huerto2»
+    texto = re.sub(r"\s+", " ", texto).strip()
     if not texto or es_nombre_automatico(texto):
         return TITULO_GENERICO, anio
+    if texto.isupper():                                       # «COMENIUS» → «Comenius»
+        texto = texto.lower()
     return texto[0].upper() + texto[1:], anio
 
 
@@ -110,10 +142,13 @@ def procesa(origen: Path) -> dict | None:
             elif origen.suffix.lower() == ".png" and not tiene_alfa:
                 destino = origen.with_suffix(".jpg")
 
+            # Una foto ya preparada (tiene miniatura) no se vuelve a comprimir por
+            # su peso: cada pasada le quitaría un poco de calidad
+            ya_preparada = (MINIATURAS / (destino.stem + destino.suffix)).exists()
             hay_que_tocarla = (
                 destino != origen
                 or ancho_original > ANCHO_GRANDE
-                or origen.stat().st_size > PESO_ACEPTABLE
+                or (origen.stat().st_size > PESO_ACEPTABLE and not ya_preparada)
                 or bool(img.getexif())
             )
             if hay_que_tocarla:

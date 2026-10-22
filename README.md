@@ -66,19 +66,26 @@ A partir de ahí se hace todo solo, en un par de minutos:
 
 ```
 2004-el-patio-en-obras.jpg   →   "El patio en obras", año 2004
-merienda-de-antiguos.jpg     →   "Merienda de antiguos", sin año
+COMENIUS 2011 275.jpg        →   "Comenius", año 2011
+2010-2011 delantales.jpg     →   "Delantales", año 2010 (el curso 2010/11)
+claustro26-27.jpg            →   "Claustro", año 2026 (el curso 2026/27)
+Docentes 10.jpg              →   "Docentes", sin año
 ```
 
-**¿Una foto sin ninguna información?** Súbela tal cual. Los nombres que ponen
-solos el móvil, la cámara o WhatsApp (`IMG_20240312_101512.jpg`,
-`WhatsApp Image 2024-03-12 at 10.15.32.jpg`…) se detectan y la foto aparece
-como **«Recuerdo del centro»**, sin año: la fecha de esos nombres es la del
-archivo o la del envío, no la del recuerdo, y mostrarla sería dar una fecha
-falsa. Si conoces el año, basta con renombrarla a `2004.jpg`.
+- **El año** se reconoce en cualquier parte del nombre: un año suelto (2004),
+  un curso (2010-2011, 2010-11, 26-27, que cuenta como su primer año) o la
+  fecha que pone la cámara (`20160908_162421` → 2016).
+- **No se usa** la fecha de WhatsApp ni la de una captura de pantalla
+  (`IMG-20240312-WA0001`, `WhatsApp Image 2024-03-12…`): es la del envío, no
+  la del recuerdo.
+- **Se limpian** los números de serie del final (`Docentes 10`, `Huerto2`), las
+  copias (`foto (1)`) y los códigos sin sentido (`4b807b36-13a3-…`,
+  `1176356_5621…_n`). Si no queda nada que diga algo, la foto sale como
+  **«Recuerdo del centro»**.
 
-Empieza por el año en cuatro cifras si lo conoces y separa las palabras con
-guiones. Para cambiar un título, renombra la foto. Las fotos se ordenan solas
-por año, y las que no lo llevan van al final.
+Las fotos sin año van al final del álbum, en *Otros recuerdos*. Para ponerles
+año, renombradlas en GitHub (abrir la foto → ⋯ → *Rename*) empezando por el
+año: `2009-docentes.jpg`. Las fotos se ordenan solas por año.
 
 Se admiten `.jpg`, `.png`, `.webp` y `.heic` (iPhone). Sube el original del
 tamaño que sea. La carpeta `mini/` se genera sola: no la toques.
