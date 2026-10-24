@@ -23,7 +23,9 @@
     posicion: $("#posicion"), progreso: $("#progreso"), paso: $("#paso"), ayuda: $("#ayuda"),
     buscar: $("#buscar"), estadoBusqueda: $("#estado-busqueda"),
     modoLista: $("#modo-lista"), lista: $("#lista"), escribir: $("#escribir"),
-    imprimir: $("#imprimir"), imprimirTexto: $("#imprimir-texto"), impresion: $("#impresion")
+    imprimir: $("#imprimir"), imprimirTexto: $("#imprimir-texto"), impresion: $("#impresion"),
+    abrirPase: $("#abrir-pase"), pase: $("#pase"), paseCapas: [...document.querySelectorAll(".pase__capa")],
+    paseQR: $("#pase-qr"), paseProgreso: $("#pase-progreso"), pasePlay: $("#pase-play"), paseMusica: $("#pase-musica")
   };
 
   const participar = (DATOS.participa || []).find((p) => p.icono === "voz") || {};
@@ -385,6 +387,266 @@
     else construir(posicionActual());
   }
 
+  /* ─── Presentación para las pantallas del acto ──────────────────────────── */
+
+  // Los recuerdos a pantalla completa, uno tras otro, con el himno de fondo y
+  // un QR fijo en una esquina para que los invitados dejen el suyo con el
+  // móvil. Mientras se proyecta se consulta la hoja cada minuto: lo que llega
+  // sale enseguida, con la etiqueta «Nuevo recuerdo», y se queda en la ronda.
+  const PAUSA_INVITA = 10000;            // la invitación con el QR grande: tiempo para escanearlo
+  const PAUSA_CIERRE = 5000;
+  const CADA_INVITA = 6;                 // la invitación vuelve cada tantos recuerdos
+  const REFRESCO = 60000;                // cada cuánto se buscan recuerdos nuevos
+  const pase = {
+    diapos: [], indice: 0, capa: 0, sonando: false, musica: true, temporizador: null, turno: 0,
+    bloqueo: null, quieto: null, refresco: null, vistos: new Set(), cola: [], llegados: [], qr: ""
+  };
+  const himno = DATOS.himno && DATOS.himno.archivo ? new Audio() : null;
+  const espera = (ms) => new Promise((ok) => setTimeout(ok, ms));
+  const huella = (r) => normalizar(`${r.texto}|${r.autor}`);
+  // El QR lleva al formulario; si los recuerdos llegan por correo, a esta página
+  const destinoQR = /^https?:/i.test(destinoEscribir || "") ? destinoEscribir : location.href.split("#")[0];
+  // Cuanto más largo el recuerdo, más tiempo en pantalla para leerlo
+  const pausaRecuerdo = (r) => Math.min(20000, 7000 + r.texto.length * 45);
+  const largo = (t) => (t.length <= 130 ? "corto" : t.length <= 280 ? "medio" : "largo");
+
+  function barajar(lista) {
+    const a = lista.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // Cada ronda empieza con la invitación, que vuelve cada pocos recuerdos, y
+  // termina con el agradecimiento. El orden se baraja al abrir.
+  function montarDiapos(lista) {
+    const diapos = [{ tipo: "invita" }];
+    lista.forEach((r, i) => {
+      if (i && i % CADA_INVITA === 0) diapos.push({ tipo: "invita" });
+      diapos.push({ tipo: "recuerdo", r });
+    });
+    diapos.push({ tipo: "cierre" });
+    return diapos;
+  }
+
+  function contenidoDiapo(d) {
+    if (d.tipo === "recuerdo") {
+      const r = d.r, meta = [r.relacion, fechaLegible(r.fecha)].filter(Boolean).join(" · ");
+      return `<figure class="pase__recuerdo" data-largo="${largo(r.texto)}">
+        ${d.nuevo ? `<p class="pase__nuevo">Nuevo recuerdo</p>` : ""}
+        <span class="pase__comillas" aria-hidden="true">“</span>
+        <blockquote class="pase__cita">${esc(r.texto)}</blockquote>
+        ${r.autor || meta ? `<figcaption>${r.autor ? `<span class="pase__firma">${esc(r.autor)}</span>` : ""}` +
+          `${meta ? `<span class="pase__meta">${esc(meta)}</span>` : ""}</figcaption>` : ""}
+      </figure>`;
+    }
+    if (d.tipo === "invita") {
+      const n = todos.length + pase.llegados.length;
+      return `<div class="pase__invita">
+        <div class="pase__logo"><img src="assets/logo-25.png" alt="" width="718" height="960"></div>
+        <div class="pase__invita-texto">
+          <p class="pase__invita-eti">${esc(DATOS.aniversario.numero)} aniversario</p>
+          <h2 class="pase__invita-titulo">Libro de visitas</h2>
+          <p class="pase__invita-llamada">¿Qué recuerdas del colegio? Escríbelo ahora y aparecerá en esta pantalla.</p>
+          <div class="pase__invita-qr">${pase.qr}<p><strong>Escanea con el móvil</strong>y deja tu recuerdo</p></div>
+          ${n ? `<p class="pase__invita-cuenta">Ya hay ${n} recuerdo${n === 1 ? "" : "s"} en el libro</p>` : ""}
+        </div>
+      </div>`;
+    }
+    return `<div class="pase__portada">
+      ${anillos(4, "pase__anillos")}
+      <p class="pase__lema">Gracias por compartir<br>vuestros recuerdos</p>
+      <p class="pase__fechas">${esc(DATOS.aniversario.hashtag || DATOS.centro.nombre)}</p>
+    </div>`;
+  }
+
+  // Un recuerdo largo en una pantalla pequeña: se reduce la letra hasta que quepa
+  function ajustar(capa) {
+    const fig = capa.querySelector(".pase__recuerdo");
+    if (!fig) return;
+    let escala = 1;
+    while (escala > .5 && fig.scrollHeight > fig.clientHeight + 1) {
+      escala -= .08;
+      fig.style.setProperty("--escala", escala.toFixed(2));
+    }
+  }
+
+  async function mostrarDiapo(k) {
+    const turno = ++pase.turno;
+    clearTimeout(pase.temporizador);
+    const { diapos } = pase;
+    pase.indice = (k + diapos.length) % diapos.length;
+    const d = diapos[pase.indice];
+    const capa = ui.paseCapas[pase.capa ^ 1];              // se prepara la capa oculta
+    capa.dataset.tipo = d.tipo;
+    capa.innerHTML = contenidoDiapo(d);
+    d.nuevo = false;                                       // la etiqueta, solo la primera vez
+    ajustar(capa);
+    const img = capa.querySelector(".pase__logo img");
+    if (img) { try { await Promise.race([img.decode(), espera(4000)]); } catch (e) { /* se muestra igual */ } }
+    if (turno !== pase.turno || !ui.pase.open) return;     // llegó otra orden mientras cargaba
+
+    capa.classList.add("pase__capa--visible");
+    ui.paseCapas[pase.capa].classList.remove("pase__capa--visible");
+    pase.capa ^= 1;
+    // En la invitación el QR ya está en grande: el de la esquina se aparta
+    ui.pase.classList.toggle("pase--sin-qr", d.tipo === "invita");
+    ui.paseProgreso.style.width = `${(pase.indice / Math.max(1, diapos.length - 1)) * 100}%`;
+    programar();
+  }
+
+  // Lo que acaba de llegar se cuela justo después del que se está viendo
+  function avanzar() {
+    const r = pase.cola.shift();
+    if (r) pase.diapos.splice(pase.indice + 1, 0, { tipo: "recuerdo", r, nuevo: true });
+    mostrarDiapo(pase.indice + 1);
+  }
+
+  function programar() {
+    clearTimeout(pase.temporizador);
+    if (!pase.sonando) return;
+    const d = pase.diapos[pase.indice];
+    const pausa = d.tipo === "recuerdo" ? pausaRecuerdo(d.r) : d.tipo === "invita" ? PAUSA_INVITA : PAUSA_CIERRE;
+    pase.temporizador = setTimeout(avanzar, pausa);
+  }
+
+  async function buscarNuevos() {
+    const { manuales, deHoja } = await ANIV.obtenerRecuerdos();
+    if (!ui.pase.open) return;
+    [...manuales, ...deHoja].forEach((r) => {
+      const h = huella(r);
+      if (pase.vistos.has(h)) return;
+      pase.vistos.add(h);
+      pase.cola.push(r);
+      pase.llegados.push(r);
+    });
+  }
+
+  // Al salir, el libro de la página también recoge los recuerdos que llegaron
+  function incorporarLlegados() {
+    if (!pase.llegados.length) return;
+    todos = [...todos, ...pase.llegados].map((r, id) => ({
+      ...r, id, busqueda: normalizar([r.texto, r.autor, r.relacion].join(" "))
+    }));
+    pase.llegados = [];
+    filtrar();
+    if (!ui.lista.hidden) pintarLista();
+    else construir(posicionActual());
+    pintarImpresion();
+  }
+
+  function sonarHimno() {
+    if (!himno || !pase.musica || !pase.sonando) return;
+    const promesa = himno.play();
+    if (promesa && promesa.catch) promesa.catch(() => { /* sin música, la presentación sigue */ });
+  }
+
+  function alternarPase(sonar = !pase.sonando) {
+    pase.sonando = sonar;
+    ui.pase.classList.toggle("pase--pausado", !sonar);
+    ui.pasePlay.setAttribute("aria-label", sonar ? "Pausar la presentación" : "Reanudar la presentación");
+    if (sonar) { sonarHimno(); programar(); }
+    else { clearTimeout(pase.temporizador); if (himno) himno.pause(); }
+  }
+
+  function alternarMusica() {
+    pase.musica = !pase.musica;
+    ui.paseMusica.setAttribute("aria-pressed", String(pase.musica));
+    ui.paseMusica.setAttribute("aria-label", pase.musica ? "Quitar la música" : "Poner la música");
+    if (pase.musica) sonarHimno(); else if (himno) himno.pause();
+  }
+
+  // Los mandos se ocultan solos cuando no se toca nada; el QR se queda
+  function despertarMandos() {
+    ui.pase.classList.remove("pase--quieto");
+    clearTimeout(pase.quieto);
+    pase.quieto = setTimeout(() => ui.pase.classList.add("pase--quieto"), 2800);
+  }
+
+  // Que la pantalla no se apague mientras se proyecta (el navegador lo suelta
+  // si se cambia de pestaña: se vuelve a pedir al regresar)
+  function mantenerPantalla() {
+    if (!navigator.wakeLock || !ui.pase.open) return;
+    navigator.wakeLock.request("screen").then((b) => { pase.bloqueo = b; }).catch(() => {});
+  }
+
+  function abrirPase() {
+    if (cargando) return;
+    if (himno && !himno.src) { himno.src = DATOS.himno.archivo; himno.loop = true; }
+    if (!pase.qr) {
+      pase.qr = ANIV.codigoQR(destinoQR);
+      ui.paseQR.innerHTML = `${pase.qr}<strong>Deja tu recuerdo</strong><span>Escanea con el móvil y aparecerá aquí</span>`;
+    }
+    pase.vistos = new Set(todos.map(huella));
+    pase.cola = [];
+    pase.diapos = montarDiapos(barajar(todos));
+    ui.paseCapas.forEach((c) => { c.classList.remove("pase__capa--visible"); c.replaceChildren(); });
+    ui.pase.showModal();
+    alternarPase(true);                  // dentro del clic: si no, el navegador no deja sonar el himno
+    mostrarDiapo(0);
+    despertarMandos();
+    if (ui.pase.requestFullscreen) ui.pase.requestFullscreen().catch(() => { /* se ve a toda ventana */ });
+    mantenerPantalla();
+    pase.refresco = setInterval(buscarNuevos, REFRESCO);
+  }
+
+  function cerrarPase() {
+    if (!ui.pase.open) return;
+    pase.turno++;
+    pase.sonando = false;
+    clearTimeout(pase.temporizador);
+    clearTimeout(pase.quieto);
+    clearInterval(pase.refresco);
+    if (himno) { himno.pause(); himno.currentTime = 0; }
+    if (pase.bloqueo) { pase.bloqueo.release().catch(() => {}); pase.bloqueo = null; }
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    ui.pase.close();
+    ui.paseCapas.forEach((c) => c.replaceChildren());
+    incorporarLlegados();
+  }
+
+  function escucharPase() {
+    ui.abrirPase.addEventListener("click", abrirPase);
+    ui.pasePlay.addEventListener("click", () => { alternarPase(); despertarMandos(); });
+    ui.paseMusica.addEventListener("click", () => { alternarMusica(); despertarMandos(); });
+    $("#pase-ant").addEventListener("click", () => { mostrarDiapo(pase.indice - 1); despertarMandos(); });
+    $("#pase-sig").addEventListener("click", () => { avanzar(); despertarMandos(); });
+    $("#pase-cerrar").addEventListener("click", cerrarPase);
+    ui.pase.addEventListener("cancel", (e) => { e.preventDefault(); cerrarPase(); });
+    ui.pase.addEventListener("pointermove", despertarMandos);
+    // Deslizar el dedo pasa de recuerdo
+    let toque = null;
+    ui.pase.addEventListener("pointerdown", (e) => {
+      despertarMandos();
+      toque = e.pointerType === "mouse" ? null : { x: e.clientX, y: e.clientY };
+    });
+    ui.pase.addEventListener("pointerup", (e) => {
+      if (!toque) return;
+      const dx = e.clientX - toque.x, dy = e.clientY - toque.y;
+      toque = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+        if (dx < 0) avanzar(); else mostrarDiapo(pase.indice - 1);
+      }
+    });
+    // Salir de la pantalla completa (tecla Esc) termina la presentación
+    document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement) cerrarPase(); });
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && ui.pase.open) mantenerPantalla();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (!ui.pase.open) return;
+      // Espacio pausa, salvo sobre un botón, que ya lo pulsa por sí mismo
+      const teclas = {
+        ArrowRight: avanzar, ArrowLeft: () => mostrarDiapo(pase.indice - 1),
+        k: () => alternarPase(), m: () => alternarMusica(),
+        " ": !e.target.closest("button") && (() => alternarPase())
+      };
+      if (teclas[e.key]) { e.preventDefault(); teclas[e.key](); despertarMandos(); }
+    });
+  }
+
   /* ─── Imprimir o guardar en PDF ─────────────────────────────────────────── */
 
   // Un libro maquetado para papel, no una foto de la pantalla: tapa, portadilla,
@@ -511,7 +773,7 @@
     });
 
     document.addEventListener("keydown", (e) => {
-      if (ui.escenario.hidden || e.target.closest("input, textarea, select")) return;
+      if (ui.pase.open || ui.escenario.hidden || e.target.closest("input, textarea, select")) return;
       const enLibro = ui.escenario.contains(document.activeElement) || ui.paso.contains(document.activeElement);
       const teclas = {
         ArrowRight: () => pasar(1), ArrowLeft: () => pasar(-1),
@@ -527,7 +789,7 @@
     ui.imprimir.addEventListener("click", imprimir);
     // Ctrl+P pasa por la misma preparación; el menú del navegador, al menos maqueta
     document.addEventListener("keydown", (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p" && !ui.imprimir.disabled) { e.preventDefault(); imprimir(); }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p" && !ui.imprimir.disabled && !ui.pase.open) { e.preventDefault(); imprimir(); }
     });
     // Desde el menú del navegador: se maqueta aquí, salvo que ya esté hecha y al día
     // (rehacerla ahora descartaría las imágenes ya cargadas justo antes de imprimir)
@@ -561,6 +823,7 @@
     });
     actualizarImprimir();
     escuchar();
+    escucharPase();
     ANIV.precargarImpresion();                       // tipografías y logotipo, para imprimir
 
     const [{ manuales, deHoja }] = await Promise.all([ANIV.obtenerRecuerdos(), tipografias()]);
@@ -569,6 +832,7 @@
     }));
     filtrar();
     cargando = false;
+    ui.abrirPase.disabled = false;
     actualizarImprimir();
     construir({ cara: 0 });
     pintarImpresion();               // lista de antemano: el menú Imprimir del navegador ya la encuentra

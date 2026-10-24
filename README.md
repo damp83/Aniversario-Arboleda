@@ -233,6 +233,34 @@ portada (los de `datos.js` y los de la hoja del formulario). Va en orden de
 llegada, como un libro de visitas de verdad: primero los escritos a mano y
 después los del formulario, del más antiguo al más reciente.
 
+### Presentación para las pantallas del acto
+
+El botón **Presentación con música** del libro pone los recuerdos a pantalla
+completa, uno tras otro, como citas grandes con la firma de cada persona, y con
+el **himno de fondo**. Está pensada para las **pantallas del acto**:
+
+- **Un QR siempre a la vista** en una esquina: lleva al formulario de
+  recuerdos, para que los invitados escriban el suyo con el móvil en ese
+  momento.
+- **La invitación**: abre la presentación y vuelve cada seis recuerdos. Muestra
+  el logotipo, un QR grande y «¿Qué recuerdas del colegio? Escríbelo ahora y
+  aparecerá en esta pantalla», con el número de recuerdos que ya hay.
+- **Los recuerdos nuevos salen solos.** Mientras se proyecta, la web consulta
+  la hoja cada minuto: lo que llega aparece justo después del recuerdo que se
+  está viendo, con la etiqueta **«Nuevo recuerdo»**, y se queda en la ronda.
+  Ojo: Google tarda **unos 5 minutos** en actualizar la hoja publicada, así que
+  un recuerdo recién enviado puede tardar ese rato en salir en pantalla.
+- Cada recuerdo dura según lo largo que es (entre 7 y 20 segundos). El orden
+  se baraja cada vez que se abre.
+- Las mismas teclas y botones que la del álbum (`Espacio`, `←` `→`, `M`, `Esc`),
+  y la pantalla tampoco se apaga.
+
+> ⚠️ **Solo salen los recuerdos aprobados**, es decir, con la casilla
+> **Publicar** marcada en la hoja de respuestas (ver *Recuerdos automáticos*
+> más abajo). Durante el acto, conviene que **una persona tenga la hoja abierta
+> en el móvil** y vaya marcando las casillas de lo que llega: unos minutos
+> después aparece en las pantallas.
+
 Dirección: `https://damp83.github.io/Aniversario-Arboleda/recuerdos.html`
 
 ## 🤖 Recuerdos automáticos con un formulario de Google
@@ -500,12 +528,12 @@ index.html                 La portada del aniversario
 recuerdos.html             El libro de visitas
 album.html                 El álbum de fotos
 css/estilos.css            Todo el diseño (colores, tipografías, responsive)
-css/libro.css              El diseño del libro de visitas (y del álbum)
-css/album.css              Lo propio del álbum: páginas de fotos y presentación
+css/libro.css              El diseño del libro de visitas (y del álbum) y la presentación
+css/album.css              Lo propio del álbum: páginas de fotos y visor
 js/datos.js                👈 EL CONTENIDO: aquí edita el equipo del centro
 js/comun.js                Lo que comparten portada y libro (recuerdos, tema…)
 js/app.js                  Funcionamiento de la portada (cuenta atrás, galería…)
-js/libro.js                Funcionamiento del libro (páginas, búsqueda…)
+js/libro.js                Funcionamiento del libro (páginas, búsqueda, presentación)
 js/album.js                Funcionamiento del álbum (páginas, visor, presentación)
 cartel.html · js/cartel.js Carteles con código QR para imprimir
 js/vendor/                 Librería del código QR (MIT)
