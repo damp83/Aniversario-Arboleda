@@ -453,8 +453,14 @@ html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
   position: absolute; inset: -6%; width: 112%; height: 112%; object-fit: cover;
   filter: blur(34px) brightness(.45) saturate(1.1);
 }
+/* La foto entera, lo más grande que quepa, pero sin ampliarla más de 2,2
+   veces su tamaño real: una foto pequeña se queda algo menor, centrada sobre
+   el fondo difuminado, en vez de ocupar la pizarra entera toda pixelada */
 .pase__img {
-  position: relative; width: 100%; height: 100%; object-fit: contain;
+  --nw: 4; --nh: 3; --ampliacion: 2.2;
+  position: relative; height: auto; aspect-ratio: var(--nw) / var(--nh);
+  width: min(100vw, 100dvh * var(--nw) / var(--nh), var(--nw) * var(--ampliacion) * 1px / var(--dpr, 1));
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8);
   animation: acercar 9s ease-out forwards;
 }
 /* Vista previa sin fotos: el hueco ilustrado de cada una, como en el álbum */
@@ -473,7 +479,9 @@ html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
 .pase__capa[data-efecto="1"] .pase__img { transform-origin: 30% 35%; }
 .pase__capa[data-efecto="2"] .pase__img { transform-origin: 70% 40%; }
 .pase__capa[data-efecto="3"] .pase__img { transform-origin: 50% 70%; }
-@keyframes acercar { from { scale: 1; } to { scale: 1.08; } }
+/* Se acerca despacio hasta su tamaño, sin pasarse: la foto se ve siempre
+   entera y no se corta ninguna cara por los bordes */
+@keyframes acercar { from { scale: .94; } to { scale: 1; } }
 .pase--pausado .pase__img, .pase--pausado .pase__hueco { animation-play-state: paused; }
 
 .pase__portada { display: grid; justify-items: center; gap: clamp(.4rem, 1.4vh, .9rem); padding: 2rem; text-align: center; }

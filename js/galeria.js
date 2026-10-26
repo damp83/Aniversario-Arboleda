@@ -8,7 +8,8 @@ const GALERIA_AUTO = [
     "titulo": "Delantales",
     "anio": "2010",
     "ancho": 1600,
-    "alto": 900
+    "alto": 900,
+    "hd": "assets/galeria/hd/2010-2011 delantales.JPG"
   },
   {
     "src": "assets/galeria/2010-2011.JPG",
@@ -16,7 +17,8 @@ const GALERIA_AUTO = [
     "titulo": "Recuerdo del centro",
     "anio": "2010",
     "ancho": 1600,
-    "alto": 900
+    "alto": 900,
+    "hd": "assets/galeria/hd/2010-2011.JPG"
   },
   {
     "src": "assets/galeria/COMENIUS 2011 275.jpg",
@@ -24,7 +26,8 @@ const GALERIA_AUTO = [
     "titulo": "Comenius",
     "anio": "2011",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/COMENIUS 2011 275.jpg"
   },
   {
     "src": "assets/galeria/20160908_162421.jpg",
@@ -32,7 +35,8 @@ const GALERIA_AUTO = [
     "titulo": "Recuerdo del centro",
     "anio": "2016",
     "ancho": 1600,
-    "alto": 900
+    "alto": 900,
+    "hd": "assets/galeria/hd/20160908_162421.jpg"
   },
   {
     "src": "assets/galeria/20180323_092615.jpg",
@@ -40,7 +44,8 @@ const GALERIA_AUTO = [
     "titulo": "Recuerdo del centro",
     "anio": "2018",
     "ancho": 1600,
-    "alto": 900
+    "alto": 900,
+    "hd": "assets/galeria/hd/20180323_092615.jpg"
   },
   {
     "src": "assets/galeria/claustro26-27.jpg",
@@ -64,7 +69,8 @@ const GALERIA_AUTO = [
     "titulo": "All",
     "anio": "",
     "ancho": 1600,
-    "alto": 2133
+    "alto": 2133,
+    "hd": "assets/galeria/hd/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_19523.jpg"
   },
   {
     "src": "assets/galeria/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_2476.jpg",
@@ -72,7 +78,8 @@ const GALERIA_AUTO = [
     "titulo": "All",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_2476.jpg"
   },
   {
     "src": "assets/galeria/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_6238.jpg",
@@ -80,7 +87,8 @@ const GALERIA_AUTO = [
     "titulo": "All",
     "anio": "",
     "ancho": 1600,
-    "alto": 2844
+    "alto": 2844,
+    "hd": "assets/galeria/hd/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_6238.jpg"
   },
   {
     "src": "assets/galeria/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_6378.jpg",
@@ -88,7 +96,8 @@ const GALERIA_AUTO = [
     "titulo": "All",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_6378.jpg"
   },
   {
     "src": "assets/galeria/carnaval maria 056.jpg",
@@ -96,7 +105,8 @@ const GALERIA_AUTO = [
     "titulo": "Carnaval maria",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/carnaval maria 056.jpg"
   },
   {
     "src": "assets/galeria/Cápsula tiempo.jpg",
@@ -104,7 +114,8 @@ const GALERIA_AUTO = [
     "titulo": "Cápsula tiempo",
     "anio": "",
     "ancho": 1600,
-    "alto": 900
+    "alto": 900,
+    "hd": "assets/galeria/hd/Cápsula tiempo.jpg"
   },
   {
     "src": "assets/galeria/Docentes 10.jpg",
@@ -120,7 +131,8 @@ const GALERIA_AUTO = [
     "titulo": "Docentes",
     "anio": "",
     "ancho": 1600,
-    "alto": 900
+    "alto": 900,
+    "hd": "assets/galeria/hd/Docentes 2.jpg"
   },
   {
     "src": "assets/galeria/Docentes 3.jpg",
@@ -128,7 +140,8 @@ const GALERIA_AUTO = [
     "titulo": "Docentes",
     "anio": "",
     "ancho": 1600,
-    "alto": 2133
+    "alto": 2133,
+    "hd": "assets/galeria/hd/Docentes 3.jpg"
   },
   {
     "src": "assets/galeria/Docentes 4.JPG",
@@ -136,7 +149,8 @@ const GALERIA_AUTO = [
     "titulo": "Docentes",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/Docentes 4.JPG"
   },
   {
     "src": "assets/galeria/Docentes 5.JPG",
@@ -144,7 +158,8 @@ const GALERIA_AUTO = [
     "titulo": "Docentes",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/Docentes 5.JPG"
   },
   {
     "src": "assets/galeria/Docentes 6.jpg",
@@ -160,7 +175,8 @@ const GALERIA_AUTO = [
     "titulo": "Docentes",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/Docentes 7.JPG"
   },
   {
     "src": "assets/galeria/Docentes 8.JPG",
@@ -168,7 +184,8 @@ const GALERIA_AUTO = [
     "titulo": "Docentes",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/Docentes 8.JPG"
   },
   {
     "src": "assets/galeria/Docentes 9.JPG",
@@ -176,7 +193,8 @@ const GALERIA_AUTO = [
     "titulo": "Docentes",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/Docentes 9.JPG"
   },
   {
     "src": "assets/galeria/Docentes.JPG",
@@ -184,7 +202,8 @@ const GALERIA_AUTO = [
     "titulo": "Docentes",
     "anio": "",
     "ancho": 1600,
-    "alto": 1064
+    "alto": 1064,
+    "hd": "assets/galeria/hd/Docentes.JPG"
   },
   {
     "src": "assets/galeria/Docentes.jpg",
@@ -200,7 +219,8 @@ const GALERIA_AUTO = [
     "titulo": "Festividades",
     "anio": "",
     "ancho": 1600,
-    "alto": 1064
+    "alto": 1064,
+    "hd": "assets/galeria/hd/Festividades .JPG"
   },
   {
     "src": "assets/galeria/Festividades .jpg",
@@ -224,7 +244,8 @@ const GALERIA_AUTO = [
     "titulo": "Festividades",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/Festividades 3.JPG"
   },
   {
     "src": "assets/galeria/Festividades.JPG",
@@ -232,7 +253,8 @@ const GALERIA_AUTO = [
     "titulo": "Festividades",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/Festividades.JPG"
   },
   {
     "src": "assets/galeria/Festividades.jpg",
@@ -256,7 +278,8 @@ const GALERIA_AUTO = [
     "titulo": "Huerto",
     "anio": "",
     "ancho": 1600,
-    "alto": 2133
+    "alto": 2133,
+    "hd": "assets/galeria/hd/Huerto 4.jpg"
   },
   {
     "src": "assets/galeria/Huerto 5.jpg",
@@ -264,7 +287,8 @@ const GALERIA_AUTO = [
     "titulo": "Huerto",
     "anio": "",
     "ancho": 1600,
-    "alto": 2133
+    "alto": 2133,
+    "hd": "assets/galeria/hd/Huerto 5.jpg"
   },
   {
     "src": "assets/galeria/Huerto 6.jpeg",
@@ -296,7 +320,8 @@ const GALERIA_AUTO = [
     "titulo": "Huerto Inicios",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/Huerto Inicios.jpg"
   },
   {
     "src": "assets/galeria/Huerto inicios 2.jpg",
@@ -304,7 +329,8 @@ const GALERIA_AUTO = [
     "titulo": "Huerto inicios",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/Huerto inicios 2.jpg"
   },
   {
     "src": "assets/galeria/Huerto inicios 3.jpg",
@@ -312,7 +338,8 @@ const GALERIA_AUTO = [
     "titulo": "Huerto inicios",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/Huerto inicios 3.jpg"
   },
   {
     "src": "assets/galeria/Instalaciones 2.jpeg",
@@ -336,7 +363,8 @@ const GALERIA_AUTO = [
     "titulo": "Recuerdo del centro",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/0067.JPG"
   },
   {
     "src": "assets/galeria/1000093608.jpg",
@@ -352,7 +380,8 @@ const GALERIA_AUTO = [
     "titulo": "Recuerdo del centro",
     "anio": "",
     "ancho": 1600,
-    "alto": 720
+    "alto": 720,
+    "hd": "assets/galeria/hd/1000093616.jpg"
   },
   {
     "src": "assets/galeria/1000093665.jpg",
@@ -440,7 +469,8 @@ const GALERIA_AUTO = [
     "titulo": "Recuerdo del centro",
     "anio": "",
     "ancho": 1600,
-    "alto": 2133
+    "alto": 2133,
+    "hd": "assets/galeria/hd/1000095182.jpg"
   },
   {
     "src": "assets/galeria/1000120716.jpg",
@@ -472,7 +502,8 @@ const GALERIA_AUTO = [
     "titulo": "Recuerdo del centro",
     "anio": "",
     "ancho": 1600,
-    "alto": 2133
+    "alto": 2133,
+    "hd": "assets/galeria/hd/1000148484.jpg"
   },
   {
     "src": "assets/galeria/1000149039.jpg",
@@ -480,7 +511,8 @@ const GALERIA_AUTO = [
     "titulo": "Recuerdo del centro",
     "anio": "",
     "ancho": 1600,
-    "alto": 720
+    "alto": 720,
+    "hd": "assets/galeria/hd/1000149039.jpg"
   },
   {
     "src": "assets/galeria/1000175868.jpg",
@@ -528,7 +560,8 @@ const GALERIA_AUTO = [
     "titulo": "Recuerdo del centro",
     "anio": "",
     "ancho": 1600,
-    "alto": 1200
+    "alto": 1200,
+    "hd": "assets/galeria/hd/6.jpg"
   },
   {
     "src": "assets/galeria/IMG_2417.jpg",
@@ -576,7 +609,8 @@ const GALERIA_AUTO = [
     "titulo": "Recuerdo del centro",
     "anio": "",
     "ancho": 1600,
-    "alto": 900
+    "alto": 900,
+    "hd": "assets/galeria/hd/d2bad973-1331-4f65-b072-e86fd020d281.jpg"
   },
   {
     "src": "assets/galeria/ff5e039f-c3d3-482b-842a-354a806758bc.jpg",

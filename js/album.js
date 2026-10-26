@@ -465,6 +465,9 @@
   const pase = { indice: 0, capa: 0, sonando: false, musica: true, temporizador: null, turno: 0, bloqueo: null, quieto: null };
   const himno = DATOS.himno && DATOS.himno.archivo ? new Audio() : null;
   const espera = (ms) => new Promise((ok) => setTimeout(ok, ms));
+  // En pizarras y pantallas grandes, la versión de más resolución si la hay
+  const pantallaGrande = () => Math.max(screen.width, screen.height) * (window.devicePixelRatio || 1) > 1900;
+  const fuente = (f) => (pantallaGrande() && f.hd) || f.src;
 
   function rotuloEspecial(d) {
     if (d.tipo === "portada") {
@@ -490,12 +493,17 @@
     capa.dataset.efecto = String(pase.indice % 4);
     capa.innerHTML = d.tipo !== "foto" ? rotuloEspecial(d)
       : d.foto.src
-        ? `<img class="pase__fondo" src="${esc(d.foto.src)}" alt="">
-           <img class="pase__img" src="${esc(d.foto.src)}" alt="${esc(d.foto.titulo)}">`
+        ? `<img class="pase__fondo" src="${esc(d.foto.mini || d.foto.src)}" alt="">
+           <img class="pase__img" src="${esc(fuente(d.foto))}" alt="${esc(d.foto.titulo)}">`
         : `<div class="pase__hueco">${marcoIlustrado(d.foto.anio, d.foto.n)}</div>`;
     // La foto (o el logotipo de la portada) ya decodificada antes del fundido
     const img = capa.querySelector(".pase__img, .pase__logo img");
     if (img) { try { await Promise.race([img.decode(), espera(4000)]); } catch (e) { /* se muestra igual */ } }
+    // Sus medidas reales: una foto pequeña no se estira sin límite (se pixelaría)
+    if (img && img.naturalWidth) {
+      img.style.setProperty("--nw", img.naturalWidth);
+      img.style.setProperty("--nh", img.naturalHeight);
+    }
     if (turno !== pase.turno || !ui.pase.open) return;     // llegó otra orden mientras cargaba
 
     capa.classList.add("pase__capa--visible");
@@ -510,7 +518,7 @@
     ui.paseProgreso.style.width = `${Math.min(1, hecho) * 100}%`;
 
     const siguiente = diapos[(pase.indice + 1) % diapos.length];
-    if (siguiente.tipo === "foto" && siguiente.foto.src) new Image().src = siguiente.foto.src;
+    if (siguiente.tipo === "foto" && siguiente.foto.src) new Image().src = fuente(siguiente.foto);
     programar();
   }
 
@@ -593,6 +601,7 @@
     if (himno && !himno.src) { himno.src = DATOS.himno.archivo; himno.loop = true; }
     ui.paseCapas.forEach((c) => { c.classList.remove("pase__capa--visible"); c.replaceChildren(); });
     ui.paseRotulo.replaceChildren();
+    ui.pase.style.setProperty("--dpr", window.devicePixelRatio || 1);
     ui.pase.showModal();
     if (esperarToque) {
       alternarPase(false);

@@ -33,10 +33,13 @@ except ImportError:
 RAIZ = Path(__file__).resolve().parent.parent
 GALERIA = RAIZ / "assets" / "galeria"
 MINIATURAS = GALERIA / "mini"
+ALTA = GALERIA / "hd"
 SALIDA = RAIZ / "js" / "galeria.js"
 
 ANCHO_GRANDE = 1600      # para el visor a pantalla completa
 ANCHO_MINI = 600         # para la rejilla de la galería
+LADO_HD = 2880           # para la presentación en pizarras y pantallas grandes (4K)
+CALIDAD_HD = 82
 CALIDAD = 82
 PESO_ACEPTABLE = 900_000  # si ya pesa menos, no se vuelve a comprimir
 
@@ -118,13 +121,22 @@ def redimensiona(img: Image.Image, ancho_max: int) -> Image.Image:
     return img.resize((ancho_max, alto), Image.LANCZOS)
 
 
-def guarda(img: Image.Image, destino: Path) -> None:
+def reduce_lado(img: Image.Image, lado_max: int) -> Image.Image:
+    """La reduce para que su lado mayor no pase de lado_max."""
+    lado = max(img.size)
+    if lado <= lado_max:
+        return img
+    escala = lado_max / lado
+    return img.resize((round(img.width * escala), round(img.height * escala)), Image.LANCZOS)
+
+
+def guarda(img: Image.Image, destino: Path, calidad: int = CALIDAD) -> None:
     """Guarda sin metadatos. JPEG progresivo salvo que haga falta transparencia."""
     destino.parent.mkdir(parents=True, exist_ok=True)
     if destino.suffix.lower() == ".png":
         img.save(destino, "PNG", optimize=True)
     else:
-        img.convert("RGB").save(destino, "JPEG", quality=CALIDAD,
+        img.convert("RGB").save(destino, "JPEG", quality=calidad,
                                 optimize=True, progressive=True)
 
 
@@ -151,6 +163,16 @@ def procesa(origen: Path) -> dict | None:
                 or (origen.stat().st_size > PESO_ACEPTABLE and not ya_preparada)
                 or bool(img.getexif())
             )
+            # Si la foto llega con más resolución de la que se publica, se guarda
+            # también una versión grande para la presentación en pizarras
+            alta = ALTA / (destino.stem + destino.suffix)
+            # (o se rehace, si llega un original mejor con el mismo nombre)
+            lado_hd = min(LADO_HD, max(img.size))
+            if ancho_original > ANCHO_GRANDE * 1.15 and (
+                    not alta.exists() or max(Image.open(alta).size) < lado_hd):
+                ALTA.mkdir(parents=True, exist_ok=True)
+                guarda(reduce_lado(img, LADO_HD), alta, CALIDAD_HD)
+                print(f"  · {destino.name}: versión grande para pizarras")
             if hay_que_tocarla:
                 guarda(redimensiona(img, ANCHO_GRANDE), destino)
                 if destino != origen:
@@ -168,7 +190,7 @@ def procesa(origen: Path) -> dict | None:
                 ancho, alto = ANCHO_GRANDE, round(alto * ANCHO_GRANDE / ancho)
 
             titulo, anio = titulo_desde_nombre(destino.stem)
-            return {
+            entrada = {
                 "src": f"assets/galeria/{destino.name}",
                 "mini": f"assets/galeria/mini/{mini.name}",
                 "titulo": titulo,
@@ -176,6 +198,9 @@ def procesa(origen: Path) -> dict | None:
                 "ancho": ancho,
                 "alto": alto,
             }
+            if alta.exists():
+                entrada["hd"] = f"assets/galeria/hd/{alta.name}"
+            return entrada
     except Exception as error:                      # una foto rota no tumba el resto
         print(f"  ! No se ha podido procesar {origen.name}: {error}", file=sys.stderr)
         return None
@@ -191,13 +216,15 @@ def main() -> int:
     # Orden cronológico; las que no traen año, al final
     entradas.sort(key=lambda e: (e["anio"] or "9999", e["titulo"]))
 
-    # Limpia miniaturas de fotos ya borradas
-    if MINIATURAS.exists():
-        vigentes = {Path(e["mini"]).name for e in entradas}
-        for m in MINIATURAS.iterdir():
+    # Limpia miniaturas y versiones grandes de fotos ya borradas
+    vigentes = {Path(e["src"]).name for e in entradas}
+    for carpeta, que in ((MINIATURAS, "miniatura"), (ALTA, "versión grande")):
+        if not carpeta.exists():
+            continue
+        for m in carpeta.iterdir():
             if m.is_file() and m.name not in vigentes:
                 m.unlink()
-                print(f"  · miniatura huérfana eliminada: {m.name}")
+                print(f"  · {que} huérfana eliminada: {m.name}")
 
     cuerpo = json.dumps(entradas, ensure_ascii=False, indent=2)
     SALIDA.write_text(

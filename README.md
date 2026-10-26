@@ -59,6 +59,7 @@ A partir de ahí se hace todo solo, en un par de minutos:
 | Endereza la foto | Las de móvil se publican giradas si no se corrige |
 | **Borra los metadatos** | Las fotos de móvil llevan **las coordenadas GPS** del lugar donde se tomaron |
 | Reduce el tamaño (máx. 1600 px) | Una foto de 8 MB haría la web inusable con datos móviles |
+| Guarda aparte una versión grande (máx. 2880 px) en `hd/` | Para que en la presentación se vea nítida en pizarras digitales y pantallas 4K |
 | Crea una miniatura (600 px) | La rejilla carga ligera; la foto grande solo al ampliarla |
 | Actualiza la galería y el álbum | Sin editar código, así que no se puede romper nada |
 
@@ -200,6 +201,24 @@ funciona como **vista previa**: pasan los huecos de ejemplo del álbum con su
 año y su título, con el himno de fondo y un aviso arriba («Vista previa»).
 En cuanto se suba la primera foto real, la presentación pasa a usar las fotos
 y el aviso desaparece.
+
+### Calidad de las fotos en pizarras y pantallas grandes
+
+- En pantallas grandes (pizarras digitales, 4K), la presentación usa la
+  **versión grande** de cada foto (`assets/galeria/hd/`), que el procesador
+  guarda sola al subirla si llega con más de 1600 px. En el móvil o el
+  portátil sigue usando la normal, que carga más rápido.
+- Una foto que llega pequeña **no se estira sin límite**: se amplía como mucho
+  2,2 veces y se queda centrada sobre el fondo difuminado, en vez de ocupar la
+  pizarra entera pixelada.
+- El efecto de acercamiento termina justo en el borde: **la foto se ve siempre
+  entera**, sin cortar caras.
+
+> 📌 **Para que una foto se vea bien en la pizarra, súbela en su tamaño
+> original.** WhatsApp y algunos correos las reducen mucho: mejor pasarlas
+> por Google Drive, por un cable o con «Enviar como documento» en WhatsApp.
+> Si ya subiste una foto pequeña y tienes el original, borra la pequeña y
+> sube el original (con el mismo nombre, para que conserve título y año).
 
 ---
 
