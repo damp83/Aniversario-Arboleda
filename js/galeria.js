@@ -59,6 +59,38 @@ const GALERIA_AUTO = [
     "alto": 809
   },
   {
+    "src": "assets/galeria/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_19523.jpg",
+    "mini": "assets/galeria/mini/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_19523.jpg",
+    "titulo": "All",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 2133
+  },
+  {
+    "src": "assets/galeria/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_2476.jpg",
+    "mini": "assets/galeria/mini/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_2476.jpg",
+    "titulo": "All",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_6238.jpg",
+    "mini": "assets/galeria/mini/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_6238.jpg",
+    "titulo": "All",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 2844
+  },
+  {
+    "src": "assets/galeria/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_6378.jpg",
+    "mini": "assets/galeria/mini/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_6378.jpg",
+    "titulo": "All",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
     "src": "assets/galeria/carnaval maria 056.jpg",
     "mini": "assets/galeria/mini/carnaval maria 056.jpg",
     "titulo": "Carnaval maria",
@@ -301,6 +333,158 @@ const GALERIA_AUTO = [
   {
     "src": "assets/galeria/0067.JPG",
     "mini": "assets/galeria/mini/0067.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/1000093608.jpg",
+    "mini": "assets/galeria/mini/1000093608.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 921,
+    "alto": 2048
+  },
+  {
+    "src": "assets/galeria/1000093616.jpg",
+    "mini": "assets/galeria/mini/1000093616.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 720
+  },
+  {
+    "src": "assets/galeria/1000093665.jpg",
+    "mini": "assets/galeria/mini/1000093665.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1024,
+    "alto": 768
+  },
+  {
+    "src": "assets/galeria/1000094224.jpg",
+    "mini": "assets/galeria/mini/1000094224.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/1000094257.jpg",
+    "mini": "assets/galeria/mini/1000094257.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1397,
+    "alto": 1062
+  },
+  {
+    "src": "assets/galeria/1000094862.jpg",
+    "mini": "assets/galeria/mini/1000094862.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1200,
+    "alto": 1600
+  },
+  {
+    "src": "assets/galeria/1000094875.jpg",
+    "mini": "assets/galeria/mini/1000094875.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 868,
+    "alto": 1600
+  },
+  {
+    "src": "assets/galeria/1000094938.jpg",
+    "mini": "assets/galeria/mini/1000094938.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1024,
+    "alto": 768
+  },
+  {
+    "src": "assets/galeria/1000094943.jpg",
+    "mini": "assets/galeria/mini/1000094943.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/1000094980.jpg",
+    "mini": "assets/galeria/mini/1000094980.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 943
+  },
+  {
+    "src": "assets/galeria/1000094981.jpg",
+    "mini": "assets/galeria/mini/1000094981.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 900
+  },
+  {
+    "src": "assets/galeria/1000094987.jpg",
+    "mini": "assets/galeria/mini/1000094987.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1599,
+    "alto": 899
+  },
+  {
+    "src": "assets/galeria/1000095182.jpg",
+    "mini": "assets/galeria/mini/1000095182.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 2133
+  },
+  {
+    "src": "assets/galeria/1000120716.jpg",
+    "mini": "assets/galeria/mini/1000120716.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1197
+  },
+  {
+    "src": "assets/galeria/1000125647.jpg",
+    "mini": "assets/galeria/mini/1000125647.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1032,
+    "alto": 581
+  },
+  {
+    "src": "assets/galeria/1000137185.jpg",
+    "mini": "assets/galeria/mini/1000137185.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/1000148484.jpg",
+    "mini": "assets/galeria/mini/1000148484.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 2133
+  },
+  {
+    "src": "assets/galeria/1000149039.jpg",
+    "mini": "assets/galeria/mini/1000149039.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 720
+  },
+  {
+    "src": "assets/galeria/1000175868.jpg",
+    "mini": "assets/galeria/mini/1000175868.jpg",
     "titulo": "Recuerdo del centro",
     "anio": "",
     "ancho": 1600,
