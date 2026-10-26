@@ -159,10 +159,21 @@
         <svg class="icono-musica" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
         <svg class="icono-silencio" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path d="M3 3l18 18"/></svg>
       </button>
+      <button class="pase__btn" id="pase-completa" type="button" aria-pressed="false" aria-label="Pantalla completa">
+        <svg class="icono-ampliar" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+        <svg class="icono-reducir" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
+      </button>
       <button class="pase__btn" id="pase-cerrar" type="button" aria-label="Salir de la presentación">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </div>
+    <!-- Al abrir con el enlace directo (…#presentacion): un toque para empezar,
+         que el navegador solo deja poner pantalla completa y música tras tocar -->
+    <button class="pase__empezar" id="pase-empezar" type="button" hidden>
+      <span class="pase__empezar-icono"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.1-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg></span>
+      <strong>Toca para empezar</strong>
+      <span>La presentación se pondrá a pantalla completa, con música</span>
+    </button>
   </dialog>
 
   <!-- Versión para imprimir o guardar en PDF: solo se ve en papel -->

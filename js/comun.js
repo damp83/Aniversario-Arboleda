@@ -294,8 +294,43 @@ const ANIV = (function () {
     });
   }
 
+  /* ─── Pantalla completa (presentaciones) ────────────────────────────────── */
+
+  // Las presentaciones se proyectan en pizarras digitales y pantallas: a
+  // pantalla completa siempre que el navegador lo permita (también Safari,
+  // que aún usa los nombres con «webkit»).
+  const raizPC = document.documentElement;
+  const puedePantallaCompleta = !!(raizPC.requestFullscreen || raizPC.webkitRequestFullscreen);
+  const enPantallaCompleta = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
+
+  // Se pide para la página entera: la norma no deja ponerla sobre un <dialog>,
+  // y la presentación, abierta como modal, ya la cubre por encima de todo
+  function pantallaCompleta() {
+    const el = raizPC;
+    try {
+      const promesa = el.requestFullscreen ? el.requestFullscreen({ navigationUI: "hide" })
+        : el.webkitRequestFullscreen ? el.webkitRequestFullscreen() : null;
+      if (promesa && promesa.catch) promesa.catch(() => { /* se ve a toda ventana */ });
+    } catch (e) { /* se ve a toda ventana */ }
+  }
+
+  function salirPantallaCompleta() {
+    if (!enPantallaCompleta()) return;
+    try {
+      const promesa = document.exitFullscreen ? document.exitFullscreen() : document.webkitExitFullscreen();
+      if (promesa && promesa.catch) promesa.catch(() => {});
+    } catch (e) { /* ya estaba fuera */ }
+  }
+
+  function alCambiarPantallaCompleta(fn) {
+    document.addEventListener("fullscreenchange", fn);
+    document.addEventListener("webkitfullscreenchange", fn);
+  }
+
   return { $, $$, esc, normalizar, leerCSV, recuerdosDesdeHoja, obtenerRecuerdos,
            fechaLegible, destinoParticipa, iniciarTema, pintarCompartir, direccionOficial,
            fotosGaleria, marcoIlustrado, anillosSVG, codigoQR, tapaImpresa, contratapaImpresa,
-           colofonImpreso, cabecerasImpresas, precargarImpresion, prepararImpresion };
+           colofonImpreso, cabecerasImpresas, precargarImpresion, prepararImpresion,
+           puedePantallaCompleta, enPantallaCompleta, pantallaCompleta, salirPantallaCompleta,
+           alCambiarPantallaCompleta };
 })();

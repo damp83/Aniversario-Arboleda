@@ -25,7 +25,8 @@
     modoLista: $("#modo-lista"), lista: $("#lista"), escribir: $("#escribir"),
     imprimir: $("#imprimir"), imprimirTexto: $("#imprimir-texto"), impresion: $("#impresion"),
     abrirPase: $("#abrir-pase"), pase: $("#pase"), paseCapas: [...document.querySelectorAll(".pase__capa")],
-    paseQR: $("#pase-qr"), paseProgreso: $("#pase-progreso"), pasePlay: $("#pase-play"), paseMusica: $("#pase-musica")
+    paseQR: $("#pase-qr"), paseProgreso: $("#pase-progreso"), pasePlay: $("#pase-play"), paseMusica: $("#pase-musica"),
+    paseCompleta: $("#pase-completa"), paseEmpezar: $("#pase-empezar")
   };
 
   const participar = (DATOS.participa || []).find((p) => p.icono === "voz") || {};
@@ -572,7 +573,32 @@
     navigator.wakeLock.request("screen").then((b) => { pase.bloqueo = b; }).catch(() => {});
   }
 
-  function abrirPase() {
+  // Lo que necesita un toque de quien la pone: música y pantalla completa
+  function empezarPase() {
+    ui.paseEmpezar.hidden = true;
+    alternarPase(true);
+    despertarMandos();
+    ANIV.pantallaCompleta();
+    mantenerPantalla();
+  }
+
+  // Salir de la pantalla completa (Esc, o un gesto en la pizarra) no la cierra:
+  // sigue a toda ventana y el botón permite volver; Esc otra vez, sí la cierra
+  function alCambiarCompleta() {
+    const completa = ANIV.enPantallaCompleta();
+    ui.paseCompleta.setAttribute("aria-pressed", String(completa));
+    ui.paseCompleta.setAttribute("aria-label", completa ? "Salir de la pantalla completa" : "Pantalla completa");
+    if (ui.pase.open) despertarMandos();
+  }
+
+  function alternarCompleta() {
+    if (ANIV.enPantallaCompleta()) ANIV.salirPantallaCompleta();
+    else ANIV.pantallaCompleta();
+  }
+
+  // Desde el botón empieza sin más (el clic ya cuenta como toque). Con el enlace
+  // directo, se abre parada, esperando el toque que pone pantalla completa.
+  function abrirPase(esperarToque = false) {
     if (cargando) return;
     if (himno && !himno.src) { himno.src = DATOS.himno.archivo; himno.loop = true; }
     if (!pase.qr) {
@@ -584,11 +610,14 @@
     pase.diapos = montarDiapos(barajar(todos));
     ui.paseCapas.forEach((c) => { c.classList.remove("pase__capa--visible"); c.replaceChildren(); });
     ui.pase.showModal();
-    alternarPase(true);                  // dentro del clic: si no, el navegador no deja sonar el himno
+    if (esperarToque) {
+      alternarPase(false);
+      ui.paseEmpezar.hidden = false;
+      ui.paseEmpezar.focus();
+    } else {
+      empezarPase();                     // dentro del clic: si no, el navegador no deja sonar el himno
+    }
     mostrarDiapo(0);
-    despertarMandos();
-    if (ui.pase.requestFullscreen) ui.pase.requestFullscreen().catch(() => { /* se ve a toda ventana */ });
-    mantenerPantalla();
     pase.refresco = setInterval(buscarNuevos, REFRESCO);
   }
 
@@ -601,14 +630,16 @@
     clearInterval(pase.refresco);
     if (himno) { himno.pause(); himno.currentTime = 0; }
     if (pase.bloqueo) { pase.bloqueo.release().catch(() => {}); pase.bloqueo = null; }
-    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    ANIV.salirPantallaCompleta();
     ui.pase.close();
     ui.paseCapas.forEach((c) => c.replaceChildren());
     incorporarLlegados();
   }
 
   function escucharPase() {
-    ui.abrirPase.addEventListener("click", abrirPase);
+    ui.abrirPase.addEventListener("click", () => abrirPase());
+    ui.paseEmpezar.addEventListener("click", empezarPase);
+    ui.paseCompleta.addEventListener("click", () => { alternarCompleta(); despertarMandos(); });
     ui.pasePlay.addEventListener("click", () => { alternarPase(); despertarMandos(); });
     ui.paseMusica.addEventListener("click", () => { alternarMusica(); despertarMandos(); });
     $("#pase-ant").addEventListener("click", () => { mostrarDiapo(pase.indice - 1); despertarMandos(); });
@@ -630,17 +661,16 @@
         if (dx < 0) avanzar(); else mostrarDiapo(pase.indice - 1);
       }
     });
-    // Salir de la pantalla completa (tecla Esc) termina la presentación
-    document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement) cerrarPase(); });
+    ANIV.alCambiarPantallaCompleta(alCambiarCompleta);
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "visible" && ui.pase.open) mantenerPantalla();
     });
     document.addEventListener("keydown", (e) => {
-      if (!ui.pase.open) return;
+      if (!ui.pase.open || !ui.paseEmpezar.hidden) return;   // hasta el primer toque, nada
       // Espacio pausa, salvo sobre un botón, que ya lo pulsa por sí mismo
       const teclas = {
         ArrowRight: avanzar, ArrowLeft: () => mostrarDiapo(pase.indice - 1),
-        k: () => alternarPase(), m: () => alternarMusica(),
+        k: () => alternarPase(), m: () => alternarMusica(), f: alternarCompleta,
         " ": !e.target.closest("button") && (() => alternarPase())
       };
       if (teclas[e.key]) { e.preventDefault(); teclas[e.key](); despertarMandos(); }
@@ -822,6 +852,7 @@
       texto: `📖 ¿Estudiaste, trabajaste o llevaste a tus hijos al ${DATOS.centro.nombre}? Deja tu recuerdo en el libro de visitas del ${DATOS.aniversario.numero} aniversario:`
     });
     actualizarImprimir();
+    ui.paseCompleta.hidden = !ANIV.puedePantallaCompleta;
     escuchar();
     escucharPase();
     ANIV.precargarImpresion();                       // tipografías y logotipo, para imprimir
@@ -836,6 +867,10 @@
     actualizarImprimir();
     construir({ cara: 0 });
     pintarImpresion();               // lista de antemano: el menú Imprimir del navegador ya la encuentra
+    // Enlace directo para las pizarras digitales: recuerdos.html#presentacion
+    const porEnlace = () => { if (location.hash === "#presentacion" && !ui.pase.open) abrirPase(true); };
+    porEnlace();
+    window.addEventListener("hashchange", porEnlace);
 
     // Si alguna tipografía llega tarde, se reparte de nuevo sin perder el sitio
     if (document.fonts && document.fonts.ready) {

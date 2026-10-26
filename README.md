@@ -171,9 +171,29 @@ pantalla no se apaga.
 | `Espacio` | Pausa / sigue |
 | `←` `→` | Foto anterior / siguiente |
 | `M` | Quita o pone la música |
+| `F` | Pone o quita la pantalla completa |
 | `Esc` | Sale de la presentación |
 
 En la pantalla táctil, los mismos botones aparecen al tocar y se esconden solos.
+
+### En las pizarras digitales: siempre a pantalla completa
+
+Las dos presentaciones (la del álbum y la del libro de visitas) se ponen
+**a pantalla completa** al empezar, sin barras del navegador.
+
+- **Enlace directo** para guardar en favoritos o en el escritorio de la
+  pizarra. Abre la presentación preparada y basta **un toque en cualquier
+  parte** para que arranque a pantalla completa y con el himno (el navegador
+  exige ese toque para poner música y pantalla completa):
+  - Álbum: `https://damp83.github.io/Aniversario-Arboleda/album.html#presentacion`
+  - Libro de visitas: `https://damp83.github.io/Aniversario-Arboleda/recuerdos.html#presentacion`
+- Si alguien **sale de la pantalla completa** sin querer (tecla `Esc` o un
+  gesto en la pizarra), la presentación **no se cierra**: sigue a toda
+  ventana y el botón de las cuatro esquinas (o la tecla `F`) la vuelve a poner
+  a pantalla completa. Pulsar `Esc` otra vez, o la ✕, la cierra.
+- En el iPhone, Safari no permite la pantalla completa de páginas web: allí
+  se ve a toda ventana y el botón no aparece. En iPad, ordenadores y pizarras
+  (Windows, Android o con Chrome/Edge) funciona.
 
 **Mientras no haya fotos subidas**, el botón ya está y la presentación
 funciona como **vista previa**: pasan los huecos de ejemplo del álbum con su

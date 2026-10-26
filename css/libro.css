@@ -523,6 +523,30 @@ html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
 .pase--pausado .icono-play { display: block; }
 .pase__btn .icono-silencio, .pase__btn[aria-pressed="false"] .icono-musica { display: none; }
 .pase__btn[aria-pressed="false"] .icono-silencio { display: block; }
+.pase__btn .icono-reducir, .pase__btn[aria-pressed="true"] .icono-ampliar { display: none; }
+.pase__btn[aria-pressed="true"] .icono-reducir { display: block; }
+/* A toda ventana pero sin pantalla completa: el botón para ponerla, resaltado */
+.pase__btn#pase-completa[aria-pressed="false"] { box-shadow: inset 0 0 0 2px var(--oro-300); }
+
+/* Enlace directo (…#presentacion): un toque en cualquier parte para empezar */
+.pase__empezar {
+  position: absolute; inset: 0; z-index: 2; width: 100%; padding: 2rem; border: 0;
+  display: grid; place-content: center; justify-items: center; gap: .8rem; text-align: center;
+  background: rgba(5, 10, 7, .72); backdrop-filter: blur(4px); color: #fbf6e9; cursor: pointer;
+}
+.pase__empezar[hidden] { display: none; }
+.pase__empezar-icono {
+  width: clamp(96px, 14vmin, 150px); aspect-ratio: 1; border-radius: 50%;
+  display: grid; place-items: center; margin-bottom: .6rem;
+  background: var(--oro-500); color: var(--verde-950);
+  box-shadow: 0 0 0 0 rgba(231, 200, 119, .6); animation: llamar 2s ease-out infinite;
+}
+.pase__empezar-icono svg { width: 44%; height: 44%; fill: currentColor; translate: 6% 0; }
+.pase__empezar strong { font: 900 clamp(2rem, 3vw + 2vh, 3.6rem)/1.05 var(--fuente-titulo); }
+.pase__empezar span:last-child { font: 500 clamp(1rem, .8vw + 1vh, 1.4rem)/1.35 var(--fuente-texto); color: rgba(251, 246, 233, .8); }
+.pase__empezar:focus-visible { outline: none; }
+.pase__empezar:focus-visible .pase__empezar-icono { outline: 4px solid #fff; outline-offset: 6px; }
+@keyframes llamar { to { box-shadow: 0 0 0 clamp(18px, 3vmin, 34px) rgba(231, 200, 119, 0); } }
 
 /* ─── Presentación del libro de visitas: los recuerdos y un QR para participar ─── */
 /* Cada recuerdo, como una cita grande; deja sitio a la derecha para el QR */
@@ -611,7 +635,7 @@ html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pase__img, .pase__hueco, .pase__recuerdo, .pase__nuevo { animation: none; }
+  .pase__img, .pase__hueco, .pase__recuerdo, .pase__nuevo, .pase__empezar-icono { animation: none; }
 }
 
 /* ─────────────────────────── 14. PIE ─────────────────────────── */
