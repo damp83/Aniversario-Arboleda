@@ -427,6 +427,8 @@ html[data-tema="oscuro"] .folio--guarda { background-color: #cfd8cc; }
   background: #050a07; color: #fff;
 }
 .pase::backdrop { background: #050a07; }
+/* Sin la barra de desplazamiento de la página asomando a pantalla completa */
+:root:has(.pase[open]) { overflow: hidden; }
 .pase--quieto { cursor: none; }
 
 .pase__lienzo { position: absolute; inset: 0; }

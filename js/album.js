@@ -569,6 +569,13 @@
   // sigue a toda ventana y el botón permite volver; Esc otra vez, sí la cierra
   function alCambiarCompleta() {
     const completa = ANIV.enPantallaCompleta();
+    // La página entra en la capa superior al ponerse a pantalla completa y
+    // taparía la presentación: se vuelve a abrir para que quede por encima
+    if (completa && ui.pase.open) {
+      ui.pase.close();
+      ui.pase.showModal();
+      (ui.paseEmpezar.hidden ? ui.pasePlay : ui.paseEmpezar).focus();
+    }
     ui.paseCompleta.setAttribute("aria-pressed", String(completa));
     ui.paseCompleta.setAttribute("aria-label", completa ? "Salir de la pantalla completa" : "Pantalla completa");
     if (ui.pase.open) despertarMandos();
