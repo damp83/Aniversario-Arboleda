@@ -39,6 +39,22 @@ const GALERIA_AUTO = [
     "hd": "assets/galeria/hd/20160908_162421.jpg"
   },
   {
+    "src": "assets/galeria/IMG_20171124_120915.jpg",
+    "mini": "assets/galeria/mini/IMG_20171124_120915.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "2017",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/IMG_20171124_120918.jpg",
+    "mini": "assets/galeria/mini/IMG_20171124_120918.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "2017",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
     "src": "assets/galeria/20180323_092615.jpg",
     "mini": "assets/galeria/mini/20180323_092615.jpg",
     "titulo": "Recuerdo del centro",
@@ -46,6 +62,30 @@ const GALERIA_AUTO = [
     "ancho": 1600,
     "alto": 900,
     "hd": "assets/galeria/hd/20180323_092615.jpg"
+  },
+  {
+    "src": "assets/galeria/20181031_115227.jpg",
+    "mini": "assets/galeria/mini/20181031_115227.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "2018",
+    "ancho": 1200,
+    "alto": 1600
+  },
+  {
+    "src": "assets/galeria/20181106_133353.jpg",
+    "mini": "assets/galeria/mini/20181106_133353.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "2018",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/20181106_135617.jpg",
+    "mini": "assets/galeria/mini/20181106_135617.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "2018",
+    "ancho": 1600,
+    "alto": 1200
   },
   {
     "src": "assets/galeria/claustro26-27.jpg",
@@ -543,8 +583,8 @@ const GALERIA_AUTO = [
     "mini": "assets/galeria/mini/2.jpg",
     "titulo": "Recuerdo del centro",
     "anio": "",
-    "ancho": 1600,
-    "alto": 900
+    "ancho": 1170,
+    "alto": 877
   },
   {
     "src": "assets/galeria/4b807b36-13a3-4ffb-be1f-b2285e1864a4.jpg",
@@ -588,6 +628,38 @@ const GALERIA_AUTO = [
     "alto": 2133
   },
   {
+    "src": "assets/galeria/IMG_7445.JPG",
+    "mini": "assets/galeria/mini/IMG_7445.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 899
+  },
+  {
+    "src": "assets/galeria/IMG_7452.JPG",
+    "mini": "assets/galeria/mini/IMG_7452.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 899
+  },
+  {
+    "src": "assets/galeria/IMG_8804.JPG",
+    "mini": "assets/galeria/mini/IMG_8804.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/IMG_8806.JPG",
+    "mini": "assets/galeria/mini/IMG_8806.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
     "src": "assets/galeria/IMG_8910.jpg",
     "mini": "assets/galeria/mini/IMG_8910.jpg",
     "titulo": "Recuerdo del centro",
@@ -602,6 +674,22 @@ const GALERIA_AUTO = [
     "anio": "",
     "ancho": 1600,
     "alto": 900
+  },
+  {
+    "src": "assets/galeria/WhatsApp Image 2026-09-20 at 13.25.35.jpeg",
+    "mini": "assets/galeria/mini/WhatsApp Image 2026-09-20 at 13.25.35.jpeg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1080
+  },
+  {
+    "src": "assets/galeria/WhatsApp Image 2026-09-20 at 13.25.36.jpeg",
+    "mini": "assets/galeria/mini/WhatsApp Image 2026-09-20 at 13.25.36.jpeg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1024
   },
   {
     "src": "assets/galeria/d2bad973-1331-4f65-b072-e86fd020d281.jpg",
