@@ -10,6 +10,12 @@ name: Publicar en GitHub Pages
 on:
   push:
   workflow_dispatch:
+  # Al subir fotos, el procesador guarda la galería preparada con un commit
+  # propio, y GitHub no deja que ese commit lance esta publicación por sí
+  # solo: por eso se publica también cada vez que el procesador termina.
+  workflow_run:
+    workflows: ["Preparar las fotos de la galería"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -18,7 +24,10 @@ permissions:
 
 jobs:
   publicar:
-    if: github.ref_name == github.event.repository.default_branch
+    if: >-
+      github.ref_name == github.event.repository.default_branch &&
+      (github.event_name != 'workflow_run' ||
+       github.event.workflow_run.head_branch == github.event.repository.default_branch)
     runs-on: ubuntu-latest
     # La concurrencia va dentro del trabajo: así una ejecución que se omite
     # (por venir de otra rama) no cancela un despliegue que ya está en marcha.
