@@ -112,6 +112,7 @@ Profes y alumnos, a una sola voz…
      4. PROGRAMA DE LA SEMANA  ·  Un bloque por día, con sus actividades
         (programa oficial del proyecto del 25 aniversario)
         fecha: "AAAA-MM-DD" del día: ese día la web abre su pestaña sola
+        enlace (opcional): un botón bajo el resumen, { texto: "…", url: "…" }
         hora: "09:00", o "Mañana" si la actividad no tiene hora fija
         lugar y publico son opcionales: si se dejan vacíos, no se muestran
      --------------------------------------------------------------------------- */
@@ -182,6 +183,7 @@ Profes y alumnos, a una sola voz…
       dia: "Viernes 6 nov.",
       fecha: "2026-11-06",
       lema: "Acto institucional",
+      enlace: { texto: "Ver la escaleta del acto", url: "escaleta.html" },
       resumen: "El viernes 6 de noviembre por la tarde, el acto institucional del 25 aniversario, con autoridades, claustro actual y antiguo, AMPA, Consejo Escolar y la primera promoción (2007).",
       actividades: [
         { hora: "18:30", titulo: "Acto oficial", lugar: "", publico: "Adultos y 1.ª promoción",

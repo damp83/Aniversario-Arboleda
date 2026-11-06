@@ -577,6 +577,8 @@ html:not(.js) .reproductor { grid-template-columns: minmax(0, 1fr); grid-templat
   font-family: var(--fuente-titulo); font-style: italic; font-size: 1.3rem;
   color: var(--texto); margin-bottom: 1.6rem;
 }
+.panel__enlace { margin: -.4rem 0 1.6rem; }
+.panel__enlace svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
 .actos { display: grid; gap: 1rem; }
 .acto {
   display: grid; grid-template-columns: 92px 1fr; gap: 1.4rem;
@@ -932,6 +934,7 @@ html[data-tema="oscuro"] .capsula { background: #0a1710; border: 1px solid var(-
   .cabecera, .portada__flecha, .btn, .visor, .btn-menu, .btn-icono, .difunde { display: none !important; }
   body { background: #fff; color: #000; }
   .panel { display: block !important; }
+  .panel__enlace { display: none; }
   .seccion { padding: 1.5rem 0; break-inside: avoid; }
   .js .reveal { opacity: 1 !important; translate: none !important; }
 

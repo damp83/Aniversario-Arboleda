@@ -342,6 +342,9 @@
       <div class="panel" id="panel-${i}" role="tabpanel" aria-labelledby="dia-${i}"
            data-activo="${i === 0}" ${i === 0 ? "" : "hidden"} tabindex="0">
         <p class="panel__resumen">${esc(d.resumen)}</p>
+        ${d.enlace && d.enlace.url ? `<p class="panel__enlace"><a class="btn btn--principal" href="${esc(d.enlace.url)}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+          <span>${esc(d.enlace.texto || "Más información")}</span></a></p>` : ""}
         <div class="actos">
           ${(d.actividades || []).map((a) => `
             <article class="acto">
