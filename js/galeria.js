@@ -105,6 +105,22 @@ const GALERIA_AUTO = [
     "alto": 1200
   },
   {
+    "src": "assets/galeria/PHOTO-2019-03-08-19-29-55.jpg",
+    "mini": "assets/galeria/mini/PHOTO-2019-03-08-19-29-55.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "2019",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/PHOTO-2020-01-30-12-01-04.jpg",
+    "mini": "assets/galeria/mini/PHOTO-2020-01-30-12-01-04.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "2020",
+    "ancho": 1200,
+    "alto": 1600
+  },
+  {
     "src": "assets/galeria/13. Encuentro de danzas 2024.jpg",
     "mini": "assets/galeria/mini/13. Encuentro de danzas 2024.jpg",
     "titulo": "Encuentro de danzas",
@@ -199,6 +215,15 @@ const GALERIA_AUTO = [
     "ancho": 1600,
     "alto": 900,
     "hd": "assets/galeria/hd/Cápsula tiempo.jpg"
+  },
+  {
+    "src": "assets/galeria/24 DE MAYO 015.jpg",
+    "mini": "assets/galeria/mini/24 DE MAYO 015.jpg",
+    "titulo": "De mayo",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/24 DE MAYO 015.jpg"
   },
   {
     "src": "assets/galeria/Docentes 10.jpg",
@@ -434,6 +459,15 @@ const GALERIA_AUTO = [
     "hd": "assets/galeria/hd/Huerto inicios 3.jpg"
   },
   {
+    "src": "assets/galeria/IMGP3498.JPG",
+    "mini": "assets/galeria/mini/IMGP3498.JPG",
+    "titulo": "Imgp",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/IMGP3498.JPG"
+  },
+  {
     "src": "assets/galeria/8. Inauguración biblioteca.JPG",
     "mini": "assets/galeria/mini/8. Inauguración biblioteca.JPG",
     "titulo": "Inauguración biblioteca",
@@ -457,6 +491,41 @@ const GALERIA_AUTO = [
     "anio": "",
     "ancho": 1200,
     "alto": 1600
+  },
+  {
+    "src": "assets/galeria/Jubilaciones 008.jpg",
+    "mini": "assets/galeria/mini/Jubilaciones 008.jpg",
+    "titulo": "Jubilaciones",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/Jubilaciones 008.jpg"
+  },
+  {
+    "src": "assets/galeria/1299016296229_murciamanifestacion_recortes_175[1].jpg",
+    "mini": "assets/galeria/mini/1299016296229_murciamanifestacion_recortes_175[1].jpg",
+    "titulo": "Murciamanifestacion recortes [ ]",
+    "anio": "",
+    "ancho": 600,
+    "alto": 400
+  },
+  {
+    "src": "assets/galeria/220189_1662240483911_1474196830_31337072_3801619_o.jpg",
+    "mini": "assets/galeria/mini/220189_1662240483911_1474196830_31337072_3801619_o.jpg",
+    "titulo": "O",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/220189_1662240483911_1474196830_31337072_3801619_o.jpg"
+  },
+  {
+    "src": "assets/galeria/PROFESORADO 001.jpg",
+    "mini": "assets/galeria/mini/PROFESORADO 001.jpg",
+    "titulo": "Profesorado",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/PROFESORADO 001.jpg"
   },
   {
     "src": "assets/galeria/0067.JPG",
@@ -663,6 +732,123 @@ const GALERIA_AUTO = [
     "ancho": 1600,
     "alto": 1200,
     "hd": "assets/galeria/hd/6.jpg"
+  },
+  {
+    "src": "assets/galeria/DSC01734.JPG",
+    "mini": "assets/galeria/mini/DSC01734.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSC01734.JPG"
+  },
+  {
+    "src": "assets/galeria/DSC02797.JPG",
+    "mini": "assets/galeria/mini/DSC02797.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 2133,
+    "hd": "assets/galeria/hd/DSC02797.JPG"
+  },
+  {
+    "src": "assets/galeria/DSC02799.JPG",
+    "mini": "assets/galeria/mini/DSC02799.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSC02799.JPG"
+  },
+  {
+    "src": "assets/galeria/DSCF5022.JPG",
+    "mini": "assets/galeria/mini/DSCF5022.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF5022.JPG"
+  },
+  {
+    "src": "assets/galeria/DSCF6948.JPG",
+    "mini": "assets/galeria/mini/DSCF6948.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF6948.JPG"
+  },
+  {
+    "src": "assets/galeria/DSCF6981.JPG",
+    "mini": "assets/galeria/mini/DSCF6981.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF6981.JPG"
+  },
+  {
+    "src": "assets/galeria/DSCF6992.JPG",
+    "mini": "assets/galeria/mini/DSCF6992.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF6992.JPG"
+  },
+  {
+    "src": "assets/galeria/DSCF6996.JPG",
+    "mini": "assets/galeria/mini/DSCF6996.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF6996.JPG"
+  },
+  {
+    "src": "assets/galeria/DSCF7441.JPG",
+    "mini": "assets/galeria/mini/DSCF7441.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF7441.JPG"
+  },
+  {
+    "src": "assets/galeria/DSCF7444.JPG",
+    "mini": "assets/galeria/mini/DSCF7444.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF7444.JPG"
+  },
+  {
+    "src": "assets/galeria/DSCF8004.jpg",
+    "mini": "assets/galeria/mini/DSCF8004.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF8004.jpg"
+  },
+  {
+    "src": "assets/galeria/DSCF8006.jpg",
+    "mini": "assets/galeria/mini/DSCF8006.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF8006.jpg"
+  },
+  {
+    "src": "assets/galeria/DSCF8012.jpg",
+    "mini": "assets/galeria/mini/DSCF8012.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF8012.jpg"
   },
   {
     "src": "assets/galeria/IMG_2417.jpg",
