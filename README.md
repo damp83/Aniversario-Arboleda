@@ -220,6 +220,27 @@ y el aviso desaparece.
 > Si ya subiste una foto pequeña y tienes el original, borra la pequeña y
 > sube el original (con el mismo nombre, para que conserve título y año).
 
+## 🎤 Escaleta del acto (para proyectar)
+
+`escaleta.html` muestra en pantalla el orden del acto institucional con el
+horario de cada momento, el logotipo, un reloj grande y el QR del libro de
+visitas.
+
+Dirección: `https://damp83.github.io/Aniversario-Arboleda/escaleta.html`
+
+- **Va sola con el reloj**: destaca el momento en curso («Ahora»), marca el
+  siguiente («A continuación») y apaga los que ya han pasado. Antes de
+  empezar avisa «Comenzamos a las 18:30».
+- **Si el acto se retrasa**, se lleva a mano: flechas `→` / `←` (o los botones
+  que aparecen al mover el ratón). El botón **Volver al horario**, o la
+  tecla `A`, devuelve el control al reloj.
+- **Pantalla completa**: un toque o clic en cualquier parte (o la tecla `F`).
+  La pantalla no se apaga mientras está abierta.
+- **Para ensayar a otra hora**: `escaleta.html?hora=19:10` hace como si
+  fueran las 19:10.
+- Los momentos, horas y textos se cambian en `js/datos.js`, en `escaleta`.
+  Los que van sin hora salen como «A continuación».
+
 ---
 
 ## 💬 Cómo publicar un recuerdo
@@ -575,6 +596,7 @@ js/app.js                  Funcionamiento de la portada (cuenta atrás, galería
 js/libro.js                Funcionamiento del libro (páginas, búsqueda, presentación)
 js/album.js                Funcionamiento del álbum (páginas, visor, presentación)
 cartel.html · js/cartel.js Carteles con código QR para imprimir
+escaleta.html · js/escaleta.js  Escaleta del acto para proyectar
 js/vendor/                 Librería del código QR (MIT)
 js/galeria.js              Lista de fotos (se genera sola, no editar)
 herramientas/              Procesador automático de las fotos

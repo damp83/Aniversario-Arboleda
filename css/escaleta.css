@@ -1,0 +1,116 @@
+/* =============================================================================
+   ESCALETA DEL ACTO · Estilos propios de escaleta.html
+   Para proyectar en pizarras y pantallas: siempre en oscuro, letra grande y
+   todo en una sola pantalla, sin desplazarse.
+   ============================================================================= */
+
+.escaleta {
+  margin: 0; min-height: 100vh; min-height: 100dvh; overflow: hidden;
+  background: radial-gradient(120% 90% at 20% 15%, #2b5e39 0%, #1c4428 50%, #0b1f13 100%) fixed;
+  color: #fbf6e9; font-family: var(--fuente-texto);
+}
+.escaleta--quieta { cursor: none; }
+
+.escaleta__marco {
+  height: 100vh; height: 100dvh; box-sizing: border-box;
+  display: grid; grid-template-columns: minmax(0, 30fr) minmax(0, 70fr);
+  gap: clamp(1.5rem, 3.5vw, 4rem); padding: clamp(1.2rem, 4vh, 3rem) clamp(1.5rem, 4vw, 4rem);
+}
+
+/* ─── Columna fija ─────────────────────────────────────────────────────────── */
+.escaleta__lado { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(.8rem, 2.4vh, 1.6rem); text-align: center; min-height: 0; }
+.escaleta__logo {
+  padding: clamp(.6rem, 1.6vh, 1.1rem); border-radius: clamp(14px, 2vh, 22px);
+  background: var(--crema); box-shadow: 0 24px 60px -24px rgba(0, 0, 0, .8);
+}
+.escaleta__logo img { display: block; width: auto; height: min(32vh, 340px); }
+.escaleta__cabecera { display: grid; gap: .35rem; }
+.escaleta__eti { margin: 0; font: 600 clamp(.7rem, .5vw + .7vh, 1rem)/1.3 var(--fuente-texto); letter-spacing: .22em; text-transform: uppercase; color: rgba(243, 205, 109, .8); }
+.escaleta__titulo { margin: 0; font: 900 clamp(1.8rem, 1.6vw + 2.4vh, 3.4rem)/1.02 var(--fuente-titulo); color: #fbf6e9; }
+.escaleta__fecha { margin: 0; font: italic 500 clamp(1rem, .7vw + 1.2vh, 1.6rem)/1.3 var(--fuente-titulo); color: #f1d58c; }
+.escaleta__reloj {
+  margin: 0; font: 700 clamp(2.4rem, 2vw + 4vh, 5rem)/1 var(--fuente-texto);
+  font-variant-numeric: tabular-nums; letter-spacing: .02em; color: var(--oro-300);
+}
+.escaleta__qr {
+  display: flex; align-items: center; gap: .8rem; padding: .6rem .9rem .6rem .6rem;
+  border-radius: 14px; background: var(--crema); color: var(--verde-950); text-align: left;
+}
+.escaleta__qr[hidden] { display: none; }
+.escaleta__qr svg { display: block; width: clamp(80px, 5vw + 6vh, 150px); height: auto; border-radius: 4px; }
+.escaleta__qr p { margin: 0; font: 500 clamp(.75rem, .4vw + .7vh, 1rem)/1.3 var(--fuente-texto); }
+.escaleta__qr strong { display: block; font: 700 clamp(.95rem, .6vw + .9vh, 1.35rem)/1.15 var(--fuente-titulo); }
+
+/* ─── Los momentos ─────────────────────────────────────────────────────────── */
+.escaleta__lista { display: flex; flex-direction: column; justify-content: center; gap: .8rem; min-height: 0; }
+.escaleta__aviso {
+  align-self: flex-start; margin: 0; padding: .4rem 1rem; border-radius: 999px;
+  background: rgba(0, 0, 0, .35); color: #f3d58a;
+  font: 600 clamp(.8rem, .5vw + .7vh, 1.05rem)/1.3 var(--fuente-texto); letter-spacing: .03em;
+}
+.escaleta__aviso[hidden] { display: none; }
+
+.momentos { margin: 0; padding: 0; list-style: none; display: grid; gap: clamp(.15rem, .6vh, .45rem); }
+.momento {
+  display: grid; grid-template-columns: clamp(5.5rem, 7vw, 9rem) 1fr auto; align-items: center;
+  gap: clamp(.8rem, 1.5vw, 1.6rem);
+  padding: clamp(.3rem, 1vh, .75rem) clamp(.8rem, 1.4vw, 1.4rem);
+  border-radius: 14px; border-left: 4px solid transparent;
+  transition: background .6s ease, opacity .6s ease, border-color .6s ease;
+}
+.momento__hora { font: 700 clamp(1rem, .7vw + 1.3vh, 1.9rem)/1.1 var(--fuente-texto); font-variant-numeric: tabular-nums; color: var(--oro-300); }
+/* Los que no tienen hora fija («A continuación»): más pequeño, para que quepa */
+.momento__hora--sigue { font-size: clamp(.68rem, .35vw + .75vh, 1.05rem); font-weight: 600; letter-spacing: .04em; line-height: 1.2; text-transform: uppercase; }
+.momento__texto { display: grid; gap: .1rem; min-width: 0; }
+.momento__titulo { font: 500 clamp(1.05rem, .8vw + 1.4vh, 2.1rem)/1.15 var(--fuente-titulo); }
+.momento__detalle { font: 400 clamp(.75rem, .45vw + .8vh, 1.15rem)/1.3 var(--fuente-texto); color: rgba(251, 246, 233, .68); }
+.momento__estado {
+  font: 700 clamp(.7rem, .4vw + .7vh, 1rem)/1 var(--fuente-texto); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--oro-300); white-space: nowrap;
+}
+
+/* Lo que ya pasó, apagado; lo de ahora, destacado; lo siguiente, a medias */
+.momento--hecho { opacity: .38; }
+.momento--ahora {
+  background: rgba(251, 246, 233, .1); border-left-color: var(--oro-500);
+  box-shadow: 0 18px 50px -30px rgba(0, 0, 0, .8);
+}
+.momento--ahora .momento__titulo { font-weight: 700; font-size: clamp(1.3rem, 1.1vw + 1.9vh, 2.8rem); color: #fff; }
+.momento--ahora .momento__estado {
+  padding: .45rem .8rem; border-radius: 999px; background: var(--oro-500); color: var(--verde-950);
+  animation: latido 2.4s ease-in-out infinite;
+}
+.momento--despues .momento__estado { opacity: .8; }
+@keyframes latido { 50% { opacity: .65; } }
+
+/* ─── Mandos (aparecen al mover el ratón o tocar) ──────────────────────────── */
+.escaleta__mandos {
+  position: fixed; right: 1rem; bottom: 1rem; display: flex; gap: .3rem; padding: .35rem;
+  border-radius: 999px; background: rgba(0, 0, 0, .5); backdrop-filter: blur(8px);
+  transition: opacity .5s;
+}
+.escaleta--quieta .escaleta__mandos { opacity: 0; pointer-events: none; }
+.escaleta__mandos button {
+  min-width: 44px; height: 44px; padding: 0 .9rem; border: 0; border-radius: 999px;
+  display: grid; place-items: center; cursor: pointer;
+  background: transparent; color: #fff; font: 600 .9rem/1 var(--fuente-texto);
+}
+.escaleta__mandos button:hover { background: rgba(255, 255, 255, .15); }
+.escaleta__mandos button[hidden] { display: none; }
+.escaleta__mandos #ant, .escaleta__mandos #sig, .escaleta__mandos #completa { padding: 0; width: 44px; }
+.escaleta__mandos svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.escaleta__mandos #auto[aria-pressed="false"] { background: var(--oro-500); color: var(--verde-950); }
+
+/* ─── Pantallas verticales o pequeñas: en columna, con desplazamiento ──────── */
+@media (max-aspect-ratio: 1/1), (max-width: 760px) {
+  .escaleta { overflow: auto; }
+  .escaleta__marco { height: auto; grid-template-columns: 1fr; }
+  .escaleta__lado { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+  .escaleta__logo img { height: min(18vh, 180px); }
+  .escaleta__lista { justify-content: flex-start; padding-bottom: 4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .momento { transition: none; }
+  .momento--ahora .momento__estado { animation: none; }
+}

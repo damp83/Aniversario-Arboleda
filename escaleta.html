@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Escaleta del acto · 25 Aniversario · CEIP La Arboleda</title>
+<meta name="description" content="La escaleta del acto institucional del 25 aniversario del CEIP La Arboleda, para proyectar en las pantallas.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b1f13">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css?v=20261106">
+<link rel="stylesheet" href="css/escaleta.css?v=20261106">
+</head>
+<body class="escaleta">
+
+<main class="escaleta__marco">
+  <!-- Columna fija: logotipo, título, reloj y QR del libro de visitas -->
+  <aside class="escaleta__lado">
+    <div class="escaleta__logo"><img src="assets/logo-25.png" alt="25 aniversario del CEIP La Arboleda" width="718" height="960"></div>
+    <div class="escaleta__cabecera">
+      <p class="escaleta__eti" id="eti">25 aniversario</p>
+      <h1 class="escaleta__titulo" id="titulo">Acto institucional</h1>
+      <p class="escaleta__fecha" id="fecha"></p>
+    </div>
+    <p class="escaleta__reloj" id="reloj" aria-hidden="true">--:--</p>
+    <div class="escaleta__qr" id="qr" hidden></div>
+  </aside>
+
+  <!-- Los momentos del acto: el que está en curso, destacado -->
+  <section class="escaleta__lista" aria-labelledby="titulo">
+    <p class="escaleta__aviso" id="aviso" hidden></p>
+    <ol class="momentos" id="momentos"></ol>
+  </section>
+</main>
+
+<div class="escaleta__mandos" id="mandos">
+  <button type="button" id="ant" aria-label="Momento anterior">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+  <button type="button" id="auto" aria-pressed="true">Automático</button>
+  <button type="button" id="sig" aria-label="Momento siguiente">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+  </button>
+  <button type="button" id="completa" aria-label="Pantalla completa">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+  </button>
+</div>
+
+<noscript><p class="escaleta__aviso">Activa JavaScript para ver la escaleta.</p></noscript>
+
+<script src="js/datos.js?v=20261106"></script>
+<script src="js/vendor/qrcode.js?v=20261106"></script>
+<script src="js/comun.js?v=20261106"></script>
+<script src="js/escaleta.js?v=20261106"></script>
+</body>
+</html>

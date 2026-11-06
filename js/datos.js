@@ -189,6 +189,32 @@ Profes y alumnos, a una sola voz…
   ],
 
   /* ---------------------------------------------------------------------------
+     4 bis. ESCALETA DEL ACTO  ·  Se proyecta en escaleta.html
+        Sale del guion de la presentadora. Durante el acto, la pantalla marca
+        sola el momento en curso según la hora; si el acto se retrasa, se
+        avanza a mano con las flechas del teclado.
+        hora: "18:30", o "" si va «a continuación» del anterior
+     --------------------------------------------------------------------------- */
+  escaleta: {
+    titulo: "Acto institucional",
+    fecha: "2026-11-06",
+    fechaTexto: "Viernes 6 de noviembre de 2026",
+    momentos: [
+      { hora: "18:30", titulo: "Bienvenida y apertura", detalle: "Presentación del acto" },
+      { hora: "18:35", titulo: "Actuación del coro escolar", detalle: "Dirigido por Andrés Alcaraz" },
+      { hora: "18:45", titulo: "Intervenciones institucionales", detalle: "Concejalía de Educación del Ayuntamiento de Murcia" },
+      { hora: "18:45", titulo: "Intervención de la directora", detalle: "Begoña Tornel Olivares" },
+      { hora: "18:53", titulo: "Las raíces de nuestro colegio", detalle: "Reconocimiento al primer equipo directivo" },
+      { hora: "19:00", titulo: "La primera generación", detalle: "Reconocimiento a la primera promoción" },
+      { hora: "19:09", titulo: "La huella de nuestros docentes", detalle: "Homenaje al profesorado de estos 25 años" },
+      { hora: "", titulo: "Proyectos que nacieron de una ilusión compartida", detalle: "Coro, biblioteca y huerto escolar" },
+      { hora: "19:22", titulo: "Las familias, parte de nuestra historia", detalle: "Reconocimiento a la AMPA" },
+      { hora: "19:47", titulo: "Descubrimiento de la placa conmemorativa", detalle: "Recuerdo permanente del 25 aniversario" },
+      { hora: "", titulo: "Clausura", detalle: "¡Feliz 25 aniversario, CEIP La Arboleda!" }
+    ]
+  },
+
+  /* ---------------------------------------------------------------------------
      5. LÍNEA DEL TIEMPO  ·  Los hitos del centro
         Confirmados: 2001 (la apertura) y 2007 (la primera promoción).
         ⚠️ Los demás son EJEMPLOS inventados: sustitúyelos por los hitos reales.
