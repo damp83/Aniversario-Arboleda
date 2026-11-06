@@ -216,7 +216,8 @@ Profes y alumnos, a una sola voz…
       { hora: "", titulo: "Proyectos que nacieron de una ilusión compartida", detalle: "Coro, biblioteca y huerto escolar" },
       { hora: "19:22", titulo: "Las familias, parte de nuestra historia", detalle: "Reconocimiento a la AMPA" },
       { hora: "19:47", titulo: "Descubrimiento de la placa conmemorativa", detalle: "Recuerdo permanente del 25 aniversario" },
-      { hora: "", titulo: "Clausura", detalle: "¡Feliz 25 aniversario, CEIP La Arboleda!" }
+      { hora: "", titulo: "Clausura", detalle: "¡Feliz 25 aniversario, CEIP La Arboleda!" },
+      { hora: "20:15", titulo: "Cóctel institucional", detalle: "Encuentro, libro de firmas y «Muro de los recuerdos»" }
     ]
   },
 

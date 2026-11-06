@@ -91,8 +91,19 @@
       : t.esElDia && manual === null && k < 0 ? `Comenzamos a las ${momentos[0].hora}` : "";
     ui.aviso.textContent = aviso;
     ui.aviso.hidden = !aviso;
+    ajustar();
     ui.auto.setAttribute("aria-pressed", String(manual === null));
     ui.auto.textContent = manual === null ? "Automático" : "Volver al horario";
+  }
+
+  // Si los momentos no caben en la pantalla, se reduce la letra hasta que
+  // quepan (en pantallas verticales o pequeñas se desplaza, sin reducir)
+  function ajustar() {
+    const ol = ui.lista;
+    ol.style.setProperty("--e", "1");
+    if (getComputedStyle(document.body).overflowY !== "hidden") return;
+    const cabe = () => document.documentElement.scrollHeight <= innerHeight + 1;
+    for (let e = 1; e > .55 && !cabe(); e -= .04) ol.style.setProperty("--e", (e - .04).toFixed(2));
   }
 
   function mover(dir) {
@@ -138,6 +149,8 @@
 
     actualizar();
     setInterval(actualizar, 15000);
+    window.addEventListener("resize", ajustar);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajustar);
     despertar();
     mantenerPantalla();
 
