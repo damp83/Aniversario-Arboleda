@@ -382,9 +382,15 @@
       });
     });
 
-    // Si la semana ya ha empezado, abre el día que toca
+    // Si hoy es uno de los días del programa, abre su pestaña; los días sin
+    // fecha se cuentan desde el inicio de la semana, uno tras otro
+    const d = new Date();
+    const hoy = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const porFecha = programa.findIndex((p) => p.fecha === hoy);
     const inicio = new Date(DATOS.semana.inicio);
-    if (!isNaN(inicio)) {
+    if (porFecha >= 0) {
+      activar(porFecha, false);
+    } else if (!isNaN(inicio) && !programa.some((p) => p.fecha)) {
       const transcurridos = Math.floor((Date.now() - inicio.getTime()) / 86400000);
       if (transcurridos >= 0 && transcurridos < programa.length) activar(transcurridos, false);
     }

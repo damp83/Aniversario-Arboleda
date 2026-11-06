@@ -100,23 +100,25 @@ Profes y alumnos, a una sola voz…
   semana: {
     titulo: "Semana del 25 Aniversario",
     inicio: "2026-10-26T09:00",
-    fin: "2026-10-30T22:30",
-    fechaTexto: "26 – 30 de octubre de 2026",
+    fin: "2026-11-06T22:30",
+    fechaTexto: "26 – 29 de octubre y 6 de noviembre de 2026",
     descripcion:
       "Cada día, una idea: las raíces, la comunidad educativa, el futuro y la " +
-      "solidaridad. La semana culmina el viernes 30 por la tarde con el acto " +
-      "institucional del 25 aniversario."
+      "solidaridad. La celebración culmina el viernes 6 de noviembre por la " +
+      "tarde con el acto institucional del 25 aniversario."
   },
 
   /* ---------------------------------------------------------------------------
      4. PROGRAMA DE LA SEMANA  ·  Un bloque por día, con sus actividades
         (programa oficial del proyecto del 25 aniversario)
+        fecha: "AAAA-MM-DD" del día: ese día la web abre su pestaña sola
         hora: "09:00", o "Mañana" si la actividad no tiene hora fija
         lugar y publico son opcionales: si se dejan vacíos, no se muestran
      --------------------------------------------------------------------------- */
   programa: [
     {
       dia: "Lunes 26",
+      fecha: "2026-10-26",
       lema: "Día de las Raíces",
       resumen: "Arrancamos la semana presentando el lema y volviendo a nuestros orígenes.",
       actividades: [
@@ -130,6 +132,7 @@ Profes y alumnos, a una sola voz…
     },
     {
       dia: "Martes 27",
+      fecha: "2026-10-27",
       lema: "Día de la Comunidad Educativa",
       resumen: "Mostramos lo que el colegio ha significado para el barrio y para Murcia, contado por su gente.",
       actividades: [
@@ -147,6 +150,7 @@ Profes y alumnos, a una sola voz…
     },
     {
       dia: "Miércoles 28",
+      fecha: "2026-10-28",
       lema: "Día del Futuro",
       resumen: "Miramos a 2051: escribimos al colegio del futuro, enterramos la cápsula del tiempo y plantamos un árbol.",
       actividades: [
@@ -160,6 +164,7 @@ Profes y alumnos, a una sola voz…
     },
     {
       dia: "Jueves 29",
+      fecha: "2026-10-29",
       lema: "Día Solidario",
       resumen: "Una jornada para poner en práctica nuestros valores y cerrar la semana en cada clase.",
       actividades: [
@@ -174,14 +179,15 @@ Profes y alumnos, a una sola voz…
       ]
     },
     {
-      dia: "Viernes 30",
+      dia: "Viernes 6 nov.",
+      fecha: "2026-11-06",
       lema: "Acto institucional",
-      resumen: "Por la tarde, el acto institucional del 25 aniversario, con autoridades, claustro actual y antiguo, AMPA, Consejo Escolar y la primera promoción (2007).",
+      resumen: "El viernes 6 de noviembre por la tarde, el acto institucional del 25 aniversario, con autoridades, claustro actual y antiguo, AMPA, Consejo Escolar y la primera promoción (2007).",
       actividades: [
-        { hora: "18:30", titulo: "Recepción", lugar: "", publico: "Adultos y 1.ª promoción",
-          texto: "Acreditaciones, proyección audiovisual histórica y photocall." },
-        { hora: "19:00", titulo: "Acto oficial", lugar: "", publico: "Adultos y 1.ª promoción",
-          texto: "Bienvenida, intervención de la dirección y del representante municipal, reconocimiento al equipo fundador, intervención de la primera promoción, descubrimiento de la placa conmemorativa y actuación del coro." },
+        { hora: "18:30", titulo: "Acto oficial", lugar: "", publico: "Adultos y 1.ª promoción",
+          texto: "Bienvenida, actuación del coro escolar, intervenciones institucionales y de la directora, reconocimiento al primer equipo directivo y a la primera promoción, homenaje al profesorado y a los proyectos del centro, y reconocimiento a la AMPA." },
+        { hora: "19:47", titulo: "Placa conmemorativa y clausura", lugar: "", publico: "Adultos y 1.ª promoción",
+          texto: "Descubrimiento de la placa del 25 aniversario y clausura del acto." },
         { hora: "20:15", titulo: "Cóctel institucional", lugar: "", publico: "Adultos y 1.ª promoción",
           texto: "Encuentro, libro de firmas y espacio «Muro de los recuerdos». Cierre previsto hacia las 22:30." }
       ]
