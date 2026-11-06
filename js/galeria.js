@@ -199,6 +199,15 @@ const GALERIA_AUTO = [
     "hd": "assets/galeria/hd/carnaval maria 056.jpg"
   },
   {
+    "src": "assets/galeria/ColeSalzillo 009.jpg",
+    "mini": "assets/galeria/mini/ColeSalzillo 009.jpg",
+    "titulo": "ColeSalzillo",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/ColeSalzillo 009.jpg"
+  },
+  {
     "src": "assets/galeria/4. colocación 1º árbol azulejos.JPG",
     "mini": "assets/galeria/mini/4. colocación 1º árbol azulejos.JPG",
     "titulo": "Colocación 1º árbol azulejos",
@@ -693,6 +702,30 @@ const GALERIA_AUTO = [
     "alto": 1200
   },
   {
+    "src": "assets/galeria/1000187760.jpg",
+    "mini": "assets/galeria/mini/1000187760.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/1000187761.jpg",
+    "mini": "assets/galeria/mini/1000187761.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/1000187763.jpg",
+    "mini": "assets/galeria/mini/1000187763.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 900
+  },
+  {
     "src": "assets/galeria/1176356_562165720530212_1673798866_n.jpg",
     "mini": "assets/galeria/mini/1176356_562165720530212_1673798866_n.jpg",
     "titulo": "Recuerdo del centro",
@@ -715,6 +748,14 @@ const GALERIA_AUTO = [
     "anio": "",
     "ancho": 1170,
     "alto": 877
+  },
+  {
+    "src": "assets/galeria/421591_2849252798477_1474196830_32056933_402890934_n.jpg",
+    "mini": "assets/galeria/mini/421591_2849252798477_1474196830_32056933_402890934_n.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 960,
+    "alto": 720
   },
   {
     "src": "assets/galeria/4b807b36-13a3-4ffb-be1f-b2285e1864a4.jpg",
@@ -743,6 +784,15 @@ const GALERIA_AUTO = [
     "hd": "assets/galeria/hd/DSC01734.JPG"
   },
   {
+    "src": "assets/galeria/DSC02672.JPG",
+    "mini": "assets/galeria/mini/DSC02672.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSC02672.JPG"
+  },
+  {
     "src": "assets/galeria/DSC02797.JPG",
     "mini": "assets/galeria/mini/DSC02797.JPG",
     "titulo": "Recuerdo del centro",
@@ -759,6 +809,33 @@ const GALERIA_AUTO = [
     "ancho": 1600,
     "alto": 1200,
     "hd": "assets/galeria/hd/DSC02799.JPG"
+  },
+  {
+    "src": "assets/galeria/DSC04615.JPG",
+    "mini": "assets/galeria/mini/DSC04615.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSC04615.JPG"
+  },
+  {
+    "src": "assets/galeria/DSCF4492.JPG",
+    "mini": "assets/galeria/mini/DSCF4492.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF4492.JPG"
+  },
+  {
+    "src": "assets/galeria/DSCF4518.JPG",
+    "mini": "assets/galeria/mini/DSCF4518.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF4518.JPG"
   },
   {
     "src": "assets/galeria/DSCF5022.JPG",
@@ -806,6 +883,15 @@ const GALERIA_AUTO = [
     "hd": "assets/galeria/hd/DSCF6996.JPG"
   },
   {
+    "src": "assets/galeria/DSCF7373.JPG",
+    "mini": "assets/galeria/mini/DSCF7373.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF7373.JPG"
+  },
+  {
     "src": "assets/galeria/DSCF7441.JPG",
     "mini": "assets/galeria/mini/DSCF7441.JPG",
     "titulo": "Recuerdo del centro",
@@ -822,6 +908,15 @@ const GALERIA_AUTO = [
     "ancho": 1600,
     "alto": 1200,
     "hd": "assets/galeria/hd/DSCF7444.JPG"
+  },
+  {
+    "src": "assets/galeria/DSCF7979.JPG",
+    "mini": "assets/galeria/mini/DSCF7979.JPG",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF7979.JPG"
   },
   {
     "src": "assets/galeria/DSCF8004.jpg",
@@ -849,6 +944,65 @@ const GALERIA_AUTO = [
     "ancho": 1600,
     "alto": 1200,
     "hd": "assets/galeria/hd/DSCF8012.jpg"
+  },
+  {
+    "src": "assets/galeria/DSCF8041.jpg",
+    "mini": "assets/galeria/mini/DSCF8041.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/DSCF8041.jpg"
+  },
+  {
+    "src": "assets/galeria/DSC_3265.jpg",
+    "mini": "assets/galeria/mini/DSC_3265.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1119,
+    "hd": "assets/galeria/hd/DSC_3265.jpg"
+  },
+  {
+    "src": "assets/galeria/IMG-20170322-WA0014.jpg",
+    "mini": "assets/galeria/mini/IMG-20170322-WA0014.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1065
+  },
+  {
+    "src": "assets/galeria/IMG-20171221-WA0007.jpg",
+    "mini": "assets/galeria/mini/IMG-20171221-WA0007.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/IMG-20180309-WA0003.jpg",
+    "mini": "assets/galeria/mini/IMG-20180309-WA0003.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 899,
+    "alto": 1599
+  },
+  {
+    "src": "assets/galeria/IMG_0014.jpg",
+    "mini": "assets/galeria/mini/IMG_0014.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 960,
+    "alto": 720
+  },
+  {
+    "src": "assets/galeria/IMG_0016.jpg",
+    "mini": "assets/galeria/mini/IMG_0016.jpg",
+    "titulo": "Recuerdo del centro",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/IMG_0016.jpg"
   },
   {
     "src": "assets/galeria/IMG_2417.jpg",
