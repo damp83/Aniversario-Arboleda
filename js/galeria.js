@@ -12,6 +12,15 @@ const GALERIA_AUTO = [
     "hd": "assets/galeria/hd/2010-2011 delantales.JPG"
   },
   {
+    "src": "assets/galeria/excursion al valle 2010.jpg",
+    "mini": "assets/galeria/mini/excursion al valle 2010.jpg",
+    "titulo": "Excursion al valle",
+    "anio": "2010",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/excursion al valle 2010.jpg"
+  },
+  {
     "src": "assets/galeria/2010-2011.JPG",
     "mini": "assets/galeria/mini/2010-2011.JPG",
     "titulo": "Recuerdo del centro",
@@ -55,6 +64,14 @@ const GALERIA_AUTO = [
     "alto": 1200
   },
   {
+    "src": "assets/galeria/2018 jubilacion compañera.jpg",
+    "mini": "assets/galeria/mini/2018 jubilacion compañera.jpg",
+    "titulo": "Jubilacion compañera",
+    "anio": "2018",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
     "src": "assets/galeria/20180323_092615.jpg",
     "mini": "assets/galeria/mini/20180323_092615.jpg",
     "titulo": "Recuerdo del centro",
@@ -84,6 +101,23 @@ const GALERIA_AUTO = [
     "mini": "assets/galeria/mini/20181106_135617.jpg",
     "titulo": "Recuerdo del centro",
     "anio": "2018",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/13. Encuentro de danzas 2024.jpg",
+    "mini": "assets/galeria/mini/13. Encuentro de danzas 2024.jpg",
+    "titulo": "Encuentro de danzas",
+    "anio": "2024",
+    "ancho": 1600,
+    "alto": 855,
+    "hd": "assets/galeria/hd/13. Encuentro de danzas 2024.jpg"
+  },
+  {
+    "src": "assets/galeria/2024 halloween.jpg",
+    "mini": "assets/galeria/mini/2024 halloween.jpg",
+    "titulo": "Halloween",
+    "anio": "2024",
     "ancho": 1600,
     "alto": 1200
   },
@@ -147,6 +181,15 @@ const GALERIA_AUTO = [
     "ancho": 1600,
     "alto": 1200,
     "hd": "assets/galeria/hd/carnaval maria 056.jpg"
+  },
+  {
+    "src": "assets/galeria/4. colocación 1º árbol azulejos.JPG",
+    "mini": "assets/galeria/mini/4. colocación 1º árbol azulejos.JPG",
+    "titulo": "Colocación 1º árbol azulejos",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/4. colocación 1º árbol azulejos.JPG"
   },
   {
     "src": "assets/galeria/Cápsula tiempo.jpg",
@@ -305,6 +348,15 @@ const GALERIA_AUTO = [
     "alto": 768
   },
   {
+    "src": "assets/galeria/14. graduación 1ª promoción.JPG",
+    "mini": "assets/galeria/mini/14. graduación 1ª promoción.JPG",
+    "titulo": "Graduación 1ª promoción",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/14. graduación 1ª promoción.JPG"
+  },
+  {
     "src": "assets/galeria/Huerto 3.jpg",
     "mini": "assets/galeria/mini/Huerto 3.jpg",
     "titulo": "Huerto",
@@ -380,6 +432,15 @@ const GALERIA_AUTO = [
     "ancho": 1600,
     "alto": 1200,
     "hd": "assets/galeria/hd/Huerto inicios 3.jpg"
+  },
+  {
+    "src": "assets/galeria/8. Inauguración biblioteca.JPG",
+    "mini": "assets/galeria/mini/8. Inauguración biblioteca.JPG",
+    "titulo": "Inauguración biblioteca",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/8. Inauguración biblioteca.JPG"
   },
   {
     "src": "assets/galeria/Instalaciones 2.jpeg",
@@ -707,5 +768,14 @@ const GALERIA_AUTO = [
     "anio": "",
     "ancho": 1600,
     "alto": 1200
+  },
+  {
+    "src": "assets/galeria/5. visita Asamblea REgional 1ª promoción.JPG",
+    "mini": "assets/galeria/mini/5. visita Asamblea REgional 1ª promoción.JPG",
+    "titulo": "Visita Asamblea REgional 1ª promoción",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200,
+    "hd": "assets/galeria/hd/5. visita Asamblea REgional 1ª promoción.JPG"
   }
 ];
