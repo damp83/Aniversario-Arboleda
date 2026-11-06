@@ -190,6 +190,54 @@ const GALERIA_AUTO = [
     "hd": "assets/galeria/hd/7ef521ff-09de-4925-9a50-16022c2751d9-1_all_6378.jpg"
   },
   {
+    "src": "assets/galeria/alumnos1.jpeg",
+    "mini": "assets/galeria/mini/alumnos1.jpeg",
+    "titulo": "Alumnos",
+    "anio": "",
+    "ancho": 640,
+    "alto": 480
+  },
+  {
+    "src": "assets/galeria/alumnos2.jpeg",
+    "mini": "assets/galeria/mini/alumnos2.jpeg",
+    "titulo": "Alumnos",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/alumnos3.jpeg",
+    "mini": "assets/galeria/mini/alumnos3.jpeg",
+    "titulo": "Alumnos",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/alumnos4.jpeg",
+    "mini": "assets/galeria/mini/alumnos4.jpeg",
+    "titulo": "Alumnos",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/alumnos5.jpeg",
+    "mini": "assets/galeria/mini/alumnos5.jpeg",
+    "titulo": "Alumnos",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
+    "src": "assets/galeria/alumnos6.jpeg",
+    "mini": "assets/galeria/mini/alumnos6.jpeg",
+    "titulo": "Alumnos",
+    "anio": "",
+    "ancho": 1600,
+    "alto": 1200
+  },
+  {
     "src": "assets/galeria/carnaval maria 056.jpg",
     "mini": "assets/galeria/mini/carnaval maria 056.jpg",
     "titulo": "Carnaval maria",
